@@ -10,7 +10,7 @@ public class Indexer {
     private CorpusReader corpusReader;              // Corpus reader to iterate over the collection
     private Tokenizer tokenizer;                    // Class that includes the two tokenizers
     private HashMap<Integer, String> docIDs;        // Mapping between the generated ID and the document hash
-    private HashMap<Term, HashSet<Integer>> index;  // Inverted Index
+    private HashMap<Term, HashSet<Posting>> index;  // Inverted Index
     private int lastID;                             // Last generated ID
 
     public Indexer() {
