@@ -38,6 +38,9 @@ public class Tokenizer {
         tokens.addAll(abstractTokens);
         //Remove tokens with less than 3 characters
         tokens.removeIf(str -> str.length() < 3);
+        //Update the doc title and abstract to make the counts in the indexer
+        doc.setTitle(title);
+        doc.setAbstrct(abs);
         return tokens;
     }
 }

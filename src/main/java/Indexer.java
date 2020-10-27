@@ -28,7 +28,7 @@ public class Indexer {
         /*
         ...... Método do corpus reader
          */
-        Document doc = new Document("124", "Este é um título, de um artigo!", "Agora já é o abstrato...");
+        Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
         addDocID(doc.getId());
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
         for (String token:terms) {
@@ -40,7 +40,10 @@ public class Indexer {
             Term term = new Term(token, 1);
             if(index.containsKey(term)){
                 //Increment frequency of the existing term, and add new posting to set
+                getTermOfIndex(term).incrementFrequency();
+                index.get(term).add(posting);
             } else {
+                //Insert the new term in the index with the only posting
                 index.put(term, new HashSet<>(Arrays.asList(posting)));
             }
         }
@@ -54,7 +57,7 @@ public class Indexer {
         docIDs.put(nextID(), id);
     }
 
-    //Count the number of occurrences of a word in a string     <----------- REFAZER MÉTODO
+    //Count the number of occurrences of a word in a string
     public int countWordOccurrencesOnString(String str, String word){
         int count = 0;
         List<String> strWords = tokenizer.splitOnWhitespace(str);
@@ -63,5 +66,14 @@ public class Indexer {
                 count++;
         }
         return count;
+    }
+
+    //Return term of the index
+    public Term getTermOfIndex(Term term){
+        for (Term t:index.keySet()) {
+            if(t.equals(term))
+                return t;
+        }
+        return null;
     }
 }

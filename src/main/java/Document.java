@@ -25,4 +25,12 @@ public class Document {
     public String getAbstrct() {
         return abstrct;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAbstrct(String abstrct) {
+        this.abstrct = abstrct;
+    }
 }
