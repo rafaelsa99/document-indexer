@@ -1,5 +1,7 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -22,5 +24,44 @@ public class Indexer {
     }
 
     public void makeIndex(String corpus) {
+        int numTermOccurOnDoc;
+        /*
+        ...... Método do corpus reader
+         */
+        Document doc = new Document("124", "Este é um título, de um artigo!", "Agora já é o abstrato...");
+        addDocID(doc.getId());
+        HashSet<String> terms = tokenizer.simpleTokenizer(doc);
+        for (String token:terms) {
+            //Number of occurrences of the term in the document
+            numTermOccurOnDoc = countWordOccurrencesOnString(doc.getTitle().toLowerCase(), token) + countWordOccurrencesOnString(doc.getAbstrct().toLowerCase(), token);
+            //Create the new posting
+            Posting posting = new Posting(lastID, numTermOccurOnDoc);
+            //Checks if the term already exists
+            Term term = new Term(token, 1);
+            if(index.containsKey(term)){
+                //Increment frequency of the existing term, and add new posting to set
+            } else {
+                index.put(term, new HashSet<>(Arrays.asList(posting)));
+            }
+        }
+    }
+
+    private int nextID(){
+        return ++lastID;
+    }
+
+    public void addDocID(String id){
+        docIDs.put(nextID(), id);
+    }
+
+    //Count the number of occurrences of a word in a string     <----------- REFAZER MÉTODO
+    public int countWordOccurrencesOnString(String str, String word){
+        int count = 0;
+        List<String> strWords = tokenizer.splitOnWhitespace(str);
+        for (String strWord:strWords) {
+            if(strWord.equals(word))
+                count++;
+        }
+        return count;
     }
 }

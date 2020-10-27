@@ -46,7 +46,8 @@ public class Term {
         return frequency;
     }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
+    public void incrementFrequency() {
+        this.frequency += 1;
     }
+
 }
