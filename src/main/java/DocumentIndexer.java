@@ -18,7 +18,8 @@ public class DocumentIndexer {
         long freeMemoryBefore = Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
         //indexer.makeIndex(args[0]);
-        indexer.makeIndex(corpusReader);
+        //indexer.makeIndex(corpusReader);
+        indexer.makeIndex("ola");
         long endTime = System.nanoTime();
         long freeMemoryAfter = Runtime.getRuntime().freeMemory();
         //Calculate indexing time
@@ -26,6 +27,20 @@ public class DocumentIndexer {
         System.out.println("Indexing Time: " + duration + " milliseconds");
         //Calculate Memory Usage
         System.out.println("Memory used: " + (freeMemoryBefore-freeMemoryAfter));
+        //Vocabulary Size
+        System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
+        //List the ten first terms (in alphabetic order) that appear in only one document
+        System.out.println("Ten first terms (in alphabetic order) that appear in only one document:");
+        int num = 1;
+        for (Term t:indexer.getTop10TermsDocFreqOne()) {
+            System.out.println("\t" + num++ + ": " + t.getTerm() + " (Doc. Frequency = " + t.getFrequency() + ")");
+        }
+        //List the ten terms with highest document frequency
+        System.out.println("Ten terms with highest document frequency:");
+        num = 1;
+        for (Term t:indexer.getTop10Terms()) {
+            System.out.println("\t" + num++ + ": " + t.getTerm() + " (Doc. Frequency = " + t.getFrequency() + ")");
+        }
 
     }
 }

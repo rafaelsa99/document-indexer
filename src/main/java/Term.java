@@ -3,7 +3,7 @@
  * @author Rafael Sá 104552 and António Ramos 101193
  */
 
-public class Term {
+public class Term implements Comparable{
     private String term;
     private int frequency;   // Number of occurrences of the term
 
@@ -29,7 +29,7 @@ public class Term {
         if (obj == null || getClass() != obj.getClass())
             return false;
         Term other = (Term) obj;
-        if(term != other.term)
+        if(!term.equals(other.term))
             return false;
         return true;
     }
@@ -50,4 +50,8 @@ public class Term {
         this.frequency += 1;
     }
 
+    @Override
+    public int compareTo(Object t) {
+        return term.compareTo(((Term)t).term);
+    }
 }

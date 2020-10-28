@@ -1,7 +1,5 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  *
@@ -23,20 +21,27 @@ public class Indexer {
         lastID = 0;
     }
 
-    public void makeIndex(CorpusReader corpus) {
-        int numTermOccurOnDoc;
+    public void makeIndex(String corpus) {
         /*
         ...... Método do corpus reader
          */
         Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
-        //Document doc = new Document();
+        Document doc2 = new Document("125", "Este é é um adadad, de um artigo!", "Agora já é o abstrato de um artigo...");
+        Document doc3 = new Document("126", "Este é é um títuadaddsdlo, de um artigo!", "Agora já é o abstrato de um artigo...");
 
-        //addDocID(doc.getId());
 
+        //Create and map the new ID for the document
+        addDocID(doc.getId());
+        addDocID(doc2.getId());
+        addDocID(doc3.getId());
         //Tokenizer
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
+        HashSet<String> terms2 = tokenizer.simpleTokenizer(doc2);
+        HashSet<String> terms3 = tokenizer.simpleTokenizer(doc3);
         //Indexer
         indexTerms(terms, doc);
+        indexTerms(terms2, doc2);
+        indexTerms(terms3, doc3);
     }
 
     private int nextID(){
@@ -93,7 +98,28 @@ public class Indexer {
     }
 
     //Ten terms with highest document frequency
-    //public ArrayList<Term> getTop10Terms(){
-        
-    //}
+    public ArrayList<Term> getTop10Terms(){
+        ArrayList<Term> orderedTerms = new ArrayList<>(index.keySet());
+        Collections.sort(orderedTerms, new Comparator<Term>() {
+            @Override
+            public int compare(Term t1, Term t2) {
+                return Integer.compare(t2.getFrequency(), t1.getFrequency());
+            }
+        });
+        ArrayList<Term> topTen = new ArrayList<>();
+        for (int i = 0; i < 10 && i < orderedTerms.size(); i++)
+            topTen.add(orderedTerms.get(i));
+        return topTen;
+    }
+
+    //Tem terms with document frequency = 1 and ordered alphabetically
+    public ArrayList<Term> getTop10TermsDocFreqOne(){
+        ArrayList<Term> orderedTerms = new ArrayList<>(index.keySet());
+        Collections.sort(orderedTerms);
+        ArrayList<Term> topTen = new ArrayList<>();
+        for (int i = 0; topTen.size() < 10 && i < orderedTerms.size(); i++)
+            if(orderedTerms.get(i).getFrequency() == 1)
+                topTen.add(orderedTerms.get(i));
+        return topTen;
+    }
 }
