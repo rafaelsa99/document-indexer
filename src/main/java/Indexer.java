@@ -1,4 +1,7 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -20,13 +23,16 @@ public class Indexer {
         lastID = 0;
     }
 
-    public void makeIndex(String corpus) {
+    public void makeIndex(CorpusReader corpus) {
+        int numTermOccurOnDoc;
         /*
         ...... Método do corpus reader
          */
         Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
-        //Create and map the new ID for the document
-        addDocID(doc.getId());
+        //Document doc = new Document();
+
+        //addDocID(doc.getId());
+
         //Tokenizer
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
         //Indexer

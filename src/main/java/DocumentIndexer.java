@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  *
@@ -5,27 +6,26 @@
  */
 
 public class DocumentIndexer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /*if (args.length != 1) {
             System.out.println("Error! Parameters: corpus");
             return;
         }*/
+        CorpusReader corpusReader = new CorpusReader();
+        corpusReader.loadFile("all_sources_metadata_2020-03-13.xlsx");
+
         Indexer indexer = new Indexer();
-        long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long freeMemoryBefore = Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
-        indexer.makeIndex(args[0]);
+        //indexer.makeIndex(args[0]);
+        indexer.makeIndex(corpusReader);
         long endTime = System.nanoTime();
-        long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long freeMemoryAfter = Runtime.getRuntime().freeMemory();
         //Calculate indexing time
         long duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
         System.out.println("Indexing Time: " + duration + " milliseconds");
         //Calculate Memory Usage
-        System.out.println("Memory used: " + (usedMemoryAfter-usedMemoryBefore));
-        //Vocabulary Size
-        System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
-        //List the ten first terms (in alphabetic order) that appear in only one document
-
-        //List the ten terms with highest document frequency
+        System.out.println("Memory used: " + (freeMemoryBefore-freeMemoryAfter));
 
     }
 }
