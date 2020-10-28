@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -24,29 +21,16 @@ public class Indexer {
     }
 
     public void makeIndex(String corpus) {
-        int numTermOccurOnDoc;
         /*
         ...... Método do corpus reader
          */
         Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
+        //Create and map the new ID for the document
         addDocID(doc.getId());
+        //Tokenizer
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
-        for (String token:terms) {
-            //Number of occurrences of the term in the document
-            numTermOccurOnDoc = countWordOccurrencesOnString(doc.getTitle().toLowerCase(), token) + countWordOccurrencesOnString(doc.getAbstrct().toLowerCase(), token);
-            //Create the new posting
-            Posting posting = new Posting(lastID, numTermOccurOnDoc);
-            //Checks if the term already exists
-            Term term = new Term(token, 1);
-            if(index.containsKey(term)){
-                //Increment frequency of the existing term, and add new posting to set
-                getTermOfIndex(term).incrementFrequency();
-                index.get(term).add(posting);
-            } else {
-                //Insert the new term in the index with the only posting
-                index.put(term, new HashSet<>(Arrays.asList(posting)));
-            }
-        }
+        //Indexer
+        indexTerms(terms, doc);
     }
 
     private int nextID(){
@@ -76,4 +60,34 @@ public class Indexer {
         }
         return null;
     }
+
+    //Insert terms and postings in index
+    public void indexTerms(HashSet<String> terms, Document doc){
+        int numTermOccurOnDoc;
+        for (String token:terms) {
+            //Number of occurrences of the term in the document
+            numTermOccurOnDoc = countWordOccurrencesOnString(doc.getTitle().toLowerCase(), token) + countWordOccurrencesOnString(doc.getAbstrct().toLowerCase(), token);
+            //Create the new posting
+            Posting posting = new Posting(lastID, numTermOccurOnDoc);
+            //Checks if the term already exists
+            Term term = new Term(token, 1);
+            if(index.containsKey(term)){
+                //Increment frequency of the existing term, and add new posting to set
+                getTermOfIndex(term).incrementFrequency();
+                index.get(term).add(posting);
+            } else {
+                //Insert the new term in the index with the only posting
+                index.put(term, new HashSet<>(Arrays.asList(posting)));
+            }
+        }
+    }
+
+    public int getVocabularySize(){
+        return index.keySet().size();
+    }
+
+    //Ten terms with highest document frequency
+    //public ArrayList<Term> getTop10Terms(){
+        //Use treeset
+    //}
 }
