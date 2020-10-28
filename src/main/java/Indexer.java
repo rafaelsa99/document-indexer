@@ -88,6 +88,6 @@ public class Indexer {
 
     //Ten terms with highest document frequency
     //public ArrayList<Term> getTop10Terms(){
-        //Use treeset
+        
     //}
 }
