@@ -23,13 +23,17 @@ public class Indexer {
         lastID = 0;
     }
 
-    public void makeIndex(String corpus) {
+    public void makeIndex(CorpusReader corpus) {
         int numTermOccurOnDoc;
         /*
         ...... Método do corpus reader
          */
         Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
-        addDocID(doc.getId());
+        //Document doc = new Document();
+
+        //addDocID(doc.getId());
+
+        //tens de adaptar isto para uma list de documenstos
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
         for (String token:terms) {
             //Number of occurrences of the term in the document

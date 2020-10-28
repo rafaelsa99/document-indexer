@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  *
@@ -5,16 +6,19 @@
  */
 
 public class DocumentIndexer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         /*if (args.length != 1) {
             System.out.println("Error! Parameters: corpus");
             return;
         }*/
+        CorpusReader corpusReader = new CorpusReader();
+        corpusReader.loadFile("all_sources_metadata_2020-03-13.xlsx");
+
         Indexer indexer = new Indexer();
         long freeMemoryBefore = Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
         //indexer.makeIndex(args[0]);
-        indexer.makeIndex("ola");
+        indexer.makeIndex(corpusReader);
         long endTime = System.nanoTime();
         long freeMemoryAfter = Runtime.getRuntime().freeMemory();
         //Calculate indexing time
@@ -22,5 +26,6 @@ public class DocumentIndexer {
         System.out.println("Indexing Time: " + duration + " milliseconds");
         //Calculate Memory Usage
         System.out.println("Memory used: " + (freeMemoryBefore-freeMemoryAfter));
+
     }
 }

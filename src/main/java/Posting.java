@@ -4,11 +4,15 @@
  */
 
 public class Posting {
-    private int docID;  // Generated ID of the document
-    private int nOccur; // Number of occurrences of the token in the document
+    private final int docID;  // Generated ID of the document
+    private final int nOccur; // Number of occurrences of the token in the document
 
     public Posting(int docID, int nOccur) {
         this.docID = docID;
         this.nOccur = nOccur;
     }
+
+    public int getDocID() { return docID; }
+
+    public int getnOccur() { return nOccur; }
 }

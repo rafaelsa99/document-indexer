@@ -4,7 +4,7 @@
  */
 
 public class Document {
-    private String id;      //DOI of the document
+    private final String id;      //DOI of the document
     private String title;   //Title of the document
     private String abstrct; //Abstract of the document
 
@@ -14,23 +14,13 @@ public class Document {
         this.abstrct = abstrct;
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
 
-    public String getAbstrct() {
-        return abstrct;
-    }
+    public String getAbstrct() { return abstrct; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setAbstrct(String abstrct) {
-        this.abstrct = abstrct;
-    }
+    public void setAbstrct(String abstrct) { this.abstrct = abstrct; }
 }
