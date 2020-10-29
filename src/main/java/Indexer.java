@@ -40,7 +40,7 @@ public class Indexer {
         //Get terms of the document using the simple tokenizer
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
         //Index the terms of the document
-        indexTerms(terms, doc);
+        indexTerms(terms);
     }
 
     private int nextID(){
@@ -52,7 +52,7 @@ public class Indexer {
     }
 
     //Insert terms and postings in index
-    public void indexTerms(HashSet<String> terms, Document doc){
+    public void indexTerms(HashSet<String> terms){
         for (String term:terms) {
             //Checks if the term already exists
             if(index.containsKey(term)){
