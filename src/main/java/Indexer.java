@@ -27,8 +27,10 @@ public class Indexer {
         CSVReader reader = new CSVReader(new FileReader(corpus));
         String[] line;
         while((line = reader.readNext()) != null){ //Iterate over the collection of documents (each line is a document)
-            Document doc = new Document(line[3], line[2], line[7]);
-            addDocToIndex(doc);
+            if(line[7].length() > 0) { //Verifies if the abstract is not empty
+                Document doc = new Document(line[3], line[2], line[7]);
+                addDocToIndex(doc);
+            }
         }
     }
 
