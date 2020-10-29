@@ -1,4 +1,6 @@
-import java.lang.reflect.Array;
+import com.opencsv.CSVReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -7,41 +9,36 @@ import java.util.*;
  */
 
 public class Indexer {
-    private CorpusReader corpusReader;              // Corpus reader to iterate over the collection
     private Tokenizer tokenizer;                    // Class that includes the two tokenizers
     private HashMap<Integer, String> docIDs;        // Mapping between the generated ID and the document hash
-    private HashMap<Term, HashSet<Posting>> index;  // Inverted Index
+    private HashMap<String, HashSet<Integer>> index;// Inverted Index
+    private HashMap<String, Integer> docFreq;       // Mapping of the document frequency for each term
     private int lastID;                             // Last generated ID
 
     public Indexer() {
-        corpusReader = new CorpusReader();
         tokenizer = new Tokenizer();
         this.docIDs = new HashMap<>();
         this.index = new HashMap<>();
+        this.docFreq = new HashMap<>();
         lastID = 0;
     }
 
-    public void makeIndex(String corpus) {
-        /*
-        ...... Método do corpus reader
-         */
-        Document doc = new Document("124", "Este é é um título, de um artigo!", "Agora já é o abstrato de um artigo...");
-        Document doc2 = new Document("125", "Este é é um adadad, de um artigo!", "Agora já é o abstrato de um artigo...");
-        Document doc3 = new Document("126", "Este é é um títuadaddsdlo, de um artigo!", "Agora já é o abstrato de um artigo...");
+    public void corpusReader(String corpus) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(corpus));
+        String[] line;
+        while((line = reader.readNext()) != null){ //Iterate over the collection of documents (each line is a document)
+            Document doc = new Document(line[3], line[2], line[7]);
+            addDocToIndex(doc);
+        }
+    }
 
-
+    public void addDocToIndex(Document doc){
         //Create and map the new ID for the document
         addDocID(doc.getId());
-        addDocID(doc2.getId());
-        addDocID(doc3.getId());
-        //Tokenizer
+        //Get terms of the document using the simple tokenizer
         HashSet<String> terms = tokenizer.simpleTokenizer(doc);
-        HashSet<String> terms2 = tokenizer.simpleTokenizer(doc2);
-        HashSet<String> terms3 = tokenizer.simpleTokenizer(doc3);
-        //Indexer
+        //Index the terms of the document
         indexTerms(terms, doc);
-        indexTerms(terms2, doc2);
-        indexTerms(terms3, doc3);
     }
 
     private int nextID(){
@@ -52,43 +49,18 @@ public class Indexer {
         docIDs.put(nextID(), id);
     }
 
-    //Count the number of occurrences of a word in a string
-    public int countWordOccurrencesOnString(String str, String word){
-        int count = 0;
-        List<String> strWords = tokenizer.splitOnWhitespace(str);
-        for (String strWord:strWords) {
-            if(strWord.equals(word))
-                count++;
-        }
-        return count;
-    }
-
-    //Return term of the index
-    public Term getTermOfIndex(Term term){
-        for (Term t:index.keySet()) {
-            if(t.equals(term))
-                return t;
-        }
-        return null;
-    }
-
     //Insert terms and postings in index
     public void indexTerms(HashSet<String> terms, Document doc){
-        int numTermOccurOnDoc;
-        for (String token:terms) {
-            //Number of occurrences of the term in the document
-            numTermOccurOnDoc = countWordOccurrencesOnString(doc.getTitle().toLowerCase(), token) + countWordOccurrencesOnString(doc.getAbstrct().toLowerCase(), token);
-            //Create the new posting
-            Posting posting = new Posting(lastID, numTermOccurOnDoc);
+        for (String term:terms) {
             //Checks if the term already exists
-            Term term = new Term(token, 1);
             if(index.containsKey(term)){
                 //Increment frequency of the existing term, and add new posting to set
-                getTermOfIndex(term).incrementFrequency();
-                index.get(term).add(posting);
+                index.get(term).add(lastID);
+                docFreq.replace(term, (docFreq.get(term) + 1));
             } else {
                 //Insert the new term in the index with the only posting
-                index.put(term, new HashSet<>(Arrays.asList(posting)));
+                index.put(term, new HashSet<>(Arrays.asList(lastID)));
+                docFreq.put(term, 1);
             }
         }
     }
@@ -98,28 +70,32 @@ public class Indexer {
     }
 
     //Ten terms with highest document frequency
-    public ArrayList<Term> getTop10Terms(){
-        ArrayList<Term> orderedTerms = new ArrayList<>(index.keySet());
-        Collections.sort(orderedTerms, new Comparator<Term>() {
+    public ArrayList<String> getTop10Terms(){
+        ArrayList<String> topTen = new ArrayList<>();
+        ArrayList<Map.Entry<String, Integer>> list = new ArrayList<>(docFreq.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             @Override
-            public int compare(Term t1, Term t2) {
-                return Integer.compare(t2.getFrequency(), t1.getFrequency());
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                return o2.getValue().compareTo(o1.getValue());
             }
         });
-        ArrayList<Term> topTen = new ArrayList<>();
-        for (int i = 0; i < 10 && i < orderedTerms.size(); i++)
-            topTen.add(orderedTerms.get(i));
+        for (int i = 0; topTen.size() < 10 && i < list.size(); i++)
+                topTen.add(list.get(i).getKey());
         return topTen;
     }
 
-    //Tem terms with document frequency = 1 and ordered alphabetically
-    public ArrayList<Term> getTop10TermsDocFreqOne(){
-        ArrayList<Term> orderedTerms = new ArrayList<>(index.keySet());
+    //Ten terms with document frequency = 1 and ordered alphabetically
+    public ArrayList<String> getTop10TermsDocFreqOne(){
+        ArrayList<String> orderedTerms = new ArrayList<>(docFreq.keySet());
         Collections.sort(orderedTerms);
-        ArrayList<Term> topTen = new ArrayList<>();
+        ArrayList<String> topTen = new ArrayList<>();
         for (int i = 0; topTen.size() < 10 && i < orderedTerms.size(); i++)
-            if(orderedTerms.get(i).getFrequency() == 1)
+            if(docFreq.get(orderedTerms.get(i)) == 1)
                 topTen.add(orderedTerms.get(i));
         return topTen;
+    }
+
+    public int getDocFreq(String term){
+        return docFreq.get(term);
     }
 }
