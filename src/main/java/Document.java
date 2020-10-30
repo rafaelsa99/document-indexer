@@ -3,8 +3,9 @@
  * @author Rafael Sá 104552 and António Ramos 101193
  */
 
+//Represents a line of the corpus: a document
 public class Document {
-    private final String id;      //DOI of the document
+    private String id;      //DOI of the document
     private String title;   //Title of the document
     private String abstrct; //Abstract of the document
 
@@ -20,7 +21,4 @@ public class Document {
 
     public String getAbstrct() { return abstrct; }
 
-    public void setTitle(String title) { this.title = title; }
-
-    public void setAbstrct(String abstrct) { this.abstrct = abstrct; }
 }

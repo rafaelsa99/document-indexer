@@ -1,0 +1,62 @@
+Assignment 1
+
+Authors:
+	Rafael Sá 104552
+	António Ramos 101193
+
+NOTE: The indexing time and the memory used differ slightly from the indicated value depending on the execution. 
+      The value of the memory used has a greater variation due to the GC.
+
+Using Simple Tokenizer:
+	Indexing Time: 7 seconds
+	Memory Used: 252 MB
+	Vocabulary Size: 60681 terms
+	Ten first terms (in alphabetic order) that appear in only one document:
+		1: aaaaaag (Doc. Frequency = 1)
+		2: aaaauga (Doc. Frequency = 1)
+		3: aaac (Doc. Frequency = 1)
+		4: aaag (Doc. Frequency = 1)
+		5: aaap (Doc. Frequency = 1)
+		6: aaars (Doc. Frequency = 1)
+		7: aabb (Doc. Frequency = 1)
+		8: aacaaaaaaggg (Doc. Frequency = 1)
+		9: aacetaminophen (Doc. Frequency = 1)
+		10: aacgaa (Doc. Frequency = 1)
+	Ten terms with highest document frequency:
+		1: the (Doc. Frequency = 25943)
+		2: and (Doc. Frequency = 25862)
+		3: for (Doc. Frequency = 20953)
+		4: with (Doc. Frequency = 20862)
+		5: that (Doc. Frequency = 19732)
+		6: this (Doc. Frequency = 16179)
+		7: from (Doc. Frequency = 14974)
+		8: was (Doc. Frequency = 14098)
+		9: are (Doc. Frequency = 13730)
+		10: were (Doc. Frequency = 13489)
+
+Using Improved Tokenizer:
+Indexing Time: 14 seconds
+Memory used: 273 MB
+Vocabulary Size: 45585 terms
+Ten first terms (in alphabetic order) that appear in only one document:
+	1: aaaaaag (Doc. Frequency = 1)
+	2: aaaauga (Doc. Frequency = 1)
+	3: aaac (Doc. Frequency = 1)
+	4: aaag (Doc. Frequency = 1)
+	5: aaap (Doc. Frequency = 1)
+	6: aaar (Doc. Frequency = 1)
+	7: aabb (Doc. Frequency = 1)
+	8: aacaaaaaaggg (Doc. Frequency = 1)
+	9: aacetaminophen (Doc. Frequency = 1)
+	10: aacgaa (Doc. Frequency = 1)
+Ten terms with highest document frequency:
+	1: virus (Doc. Frequency = 14259)
+	2: infect (Doc. Frequency = 13663)
+	3: use (Doc. Frequency = 13206)
+	4: studi (Doc. Frequency = 12404)
+	5: result (Doc. Frequency = 11917)
+	6: cell (Doc. Frequency = 9500)
+	7: diseas (Doc. Frequency = 9407)
+	8: viral (Doc. Frequency = 9332)
+	9: human (Doc. Frequency = 8430)
+	10: protein (Doc. Frequency = 8085)

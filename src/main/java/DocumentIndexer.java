@@ -7,20 +7,19 @@ import java.io.IOException;
 
 public class DocumentIndexer {
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Error! Parameters: corpus");
+        if (args.length != 2) {
+            System.out.println("Error! Parameters: corpusFile stopWordsList");
             return;
         }
-        Indexer indexer = new Indexer();
-        long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        long startTime = System.nanoTime();
         try {
-            indexer.corpusReader(args[0]);
+            Indexer indexer = new Indexer(args[1]);
+            long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            long startTime = System.nanoTime();
+            indexer.corpusReader(args[0]);  //Entry point
             long endTime = System.nanoTime();
             long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             //Calculate indexing time
-            long duration = (endTime - startTime) / 1000000;  //divide by 1000000 to get milliseconds.
-            System.out.println("Indexing Time: " + duration/1000 + " seconds");
+            System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
             //Calculate Memory Usage
             System.out.println("Memory used: " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
             //Vocabulary Size

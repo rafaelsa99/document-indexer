@@ -1,6 +1,7 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.englishStemmer;
+import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -9,7 +10,23 @@ import java.util.List;
 
 public class Tokenizer {
 
-    public Tokenizer() { }
+    SnowballStemmer stemmer;    //Snowball Stemmer
+    HashSet<String> stopWords;  //Stop Words
+
+    public Tokenizer(String stopWordsFilename) throws IOException {
+        stemmer = new englishStemmer();
+        stopWords = new HashSet<>();
+        loadStopWords(stopWordsFilename);
+    }
+
+    //Load stop words from file to data structure
+    public void loadStopWords(String filename) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(filename)));
+        String line;
+        while((line = reader.readLine()) != null)
+            stopWords.add(line);
+        reader.close();
+    }
 
     //Replace all non-alphabetic characters by a space
     public String replaceNonAlphaBySpace(String str){
@@ -38,9 +55,40 @@ public class Tokenizer {
         tokens.addAll(abstractTokens);
         //Remove tokens with less than 3 characters
         tokens.removeIf(str -> str.length() < 3);
-        //Update the doc title and abstract to make the counts in the indexer
-        doc.setTitle(title);
-        doc.setAbstrct(abs);
         return tokens;
+    }
+
+    public HashSet<String> improvedTokenizer(Document doc){
+        String title = doc.getTitle();
+        String abs = doc.getAbstrct();
+        //Set title and abstract with lowercase
+        title = title.toLowerCase();
+        abs = abs.toLowerCase();
+        //Tokenizer Decisions
+        title = replaceNonAlphaBySpace(title);
+        abs = replaceNonAlphaBySpace(abs);
+        //Split title and abstract on whitespace
+        List<String> titleTokens = splitOnWhitespace(title);
+        List<String> abstractTokens = splitOnWhitespace(abs);
+        //Stemming
+        titleTokens = applyStemming(titleTokens);
+        abstractTokens = applyStemming(abstractTokens);
+        //Add all tokens to Set
+        HashSet<String> tokens = new HashSet<>(titleTokens);
+        tokens.addAll(abstractTokens);
+        //Remove the stop words from the tokens set
+        tokens.removeIf(token -> stopWords.contains(token));
+        return tokens;
+    }
+
+    //Apply Stemming to the list of tokens
+    public List<String> applyStemming(List<String> tokens){
+        List<String> stemmedTokens = new ArrayList<>();
+        for (String token:tokens) {
+            stemmer.setCurrent(token);
+            stemmer.stem();
+            stemmedTokens.add(stemmer.getCurrent());
+        }
+        return stemmedTokens;
     }
 }
