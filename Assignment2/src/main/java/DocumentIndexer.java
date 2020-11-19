@@ -7,15 +7,19 @@ import java.io.IOException;
 
 public class DocumentIndexer {
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Error! Parameters: corpusFile stopWordsList");
+        if (args.length != 4) {
+            System.out.println("Error! Parameters: corpusFile stopWordsList queries.txt index Method(tf-idf or BM25)");
             return;
         }
         try {
-            Indexer indexer = new Indexer(args[1]);
+            Query query = new Query(args[1]);
+            query.readQueryFile(args[2]);
+            Indexer indexer = new Indexer(args[1],query);
+
             long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             long startTime = System.nanoTime();
             indexer.corpusReader(args[0]);  //Entry point
+
             long endTime = System.nanoTime();
             long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             //Calculate indexing time
