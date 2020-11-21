@@ -8,13 +8,13 @@ public class Query {
 
     Tokenizer tokenizer;
     Indexer index;
-    int numTopDocs;
     BufferedWriter writerTopDocs;
+    EfficiencyMetrics metrics;
 
-    public Query(String stopWords, Integer Top, Indexer indexer) throws IOException {
+    public Query(String stopWords, Indexer indexer) throws IOException {
         this.tokenizer = new Tokenizer(stopWords);
         this.index = indexer;
-        this.numTopDocs = Top;
+        this.metrics = new EfficiencyMetrics();
     }
 
     public HashMap <String, Double> getQueryWeights(HashMap<String, Integer> terms){
@@ -50,18 +50,20 @@ public class Query {
 
     public void readQueryFile(String file) throws IOException
     {
-        final String filePath = "query_score.txt";
+        final String filePath = "queries/querySortedResults.txt";
         File queryfile = new File(filePath);
         File myObj = new File(file);
         Scanner myReader = new Scanner(myObj);
         HashMap <String, Double> weightQuery;
         HashMap<String, Integer> terms;
+        LinkedHashMap<String, Double> topDocs;
         writerTopDocs = new BufferedWriter(new FileWriter(queryfile));
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
-            writeTopDocs(getCosineScores(weightQuery), data);
+            topDocs = getCosineScores(weightQuery, 50);
+            writeTopDocs(topDocs, data);
         }
         myReader.close();
         writerTopDocs.close();
@@ -86,7 +88,7 @@ public class Query {
         return temp;
     }
 
-    public LinkedHashMap<String, Double> getCosineScores(HashMap<String, Double> weightQuery)
+    public LinkedHashMap<String, Double> getCosineScores(HashMap<String, Double> weightQuery, int numTopDocs)
     {
         HashMap<Integer,Double> scores = new HashMap<>(); //save scores
         for(String q:weightQuery.keySet()) //iterate over terms on the query
