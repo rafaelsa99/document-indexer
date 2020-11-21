@@ -7,19 +7,15 @@ import java.io.IOException;
 
 public class DocumentIndexer {
     public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("Error! Parameters: corpusFile stopWordsList queries.txt index Method(tf-idf or BM25)");
+        if (args.length != 5) {
+            System.out.println("Error! Parameters: corpusFile stopWordsList queries.txt indexMethod(tf-idf or BM25) TOPDocumentos");
             return;
         }
         try {
-            Query query = new Query(args[1]);
-            query.readQueryFile(args[2]);
-            Indexer indexer = new Indexer(args[1],query);
-
+            Indexer indexer = new Indexer(args[1]);
             long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             long startTime = System.nanoTime();
             indexer.corpusReader(args[0]);  //Entry point
-
             long endTime = System.nanoTime();
             long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             //Calculate indexing time
@@ -28,6 +24,8 @@ public class DocumentIndexer {
             System.out.println("Memory used: " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
             //Vocabulary Size
             System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
+            Query query = new Query(args[1],Integer.parseInt(args[4]),indexer);
+            query.readQueryFile(args[2]);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

@@ -5,9 +5,9 @@
 
 //Represents a line of the corpus: a document
 public class Document {
-    private String id;      //DOI of the document
-    private String title;   //Title of the document
-    private String abstrct; //Abstract of the document
+    private final String id;      //DOI of the document
+    private final String title;   //Title of the document
+    private final String abstrct; //Abstract of the document
 
     public Document(String id, String title, String abstrct) {
         this.id = id;
@@ -20,5 +20,4 @@ public class Document {
     public String getTitle() { return title; }
 
     public String getAbstrct() { return abstrct; }
-
 }

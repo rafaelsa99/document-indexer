@@ -79,7 +79,7 @@ public class Tokenizer {
         return tokens;
     }
 
-    public List<String> improvedTokenizerforQuery(String query){
+    public HashMap<String, Integer> improvedTokenizerforQuery(String query){
         //Set queryterm with lowercase
         String termQuery = query.toLowerCase();
         //Tokenizer Decisions
@@ -89,9 +89,11 @@ public class Tokenizer {
         //Stemming
         queryTokens = applyStemming(queryTokens);
         //Add all tokens to Map
-        queryTokens.removeIf(entry -> stopWords.contains(entry));
+        HashMap<String, Integer> tokens = countTokensFrequenciesDoc(queryTokens);
+
+        tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
         //Remove the stop words from the tokens set
-        return queryTokens;
+        return tokens;
     }
 
     //Apply Stemming to the list of tokens
@@ -120,6 +122,19 @@ public class Tokenizer {
             else
                 tokens.put(abstractToken, 1);
         }
+        return tokens;
+    }
+
+    //Add tokens to HashMap while counting frequency
+    public HashMap<String, Integer> countTokensFrequenciesDoc(List<String> stringTerms){
+        HashMap<String, Integer> tokens = new HashMap<>();
+        for (String termToken:stringTerms) {
+            if(tokens.containsKey(termToken))
+                tokens.replace(termToken, (tokens.get(termToken) + 1));
+            else
+                tokens.put(termToken, 1);
+        }
+
         return tokens;
     }
 }
