@@ -1,20 +1,17 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Query {
-
     Tokenizer tokenizer;
     Indexer index;
     BufferedWriter writerTopDocs;
-    EfficiencyMetrics metrics;
+    LinkedHashMap<String, Double> topDocs; //retrie top x documents to a query
+    EfficiencyMetrics efficiencyMetrics;
 
-    public Query(String stopWords, Indexer indexer) throws IOException {
+    public Query(String stopWords, Indexer indexer, String relevanceFilename) throws IOException {
         this.tokenizer = new Tokenizer(stopWords);
         this.index = indexer;
-        this.metrics = new EfficiencyMetrics();
+        this.efficiencyMetrics = new EfficiencyMetrics(relevanceFilename);
     }
 
     public HashMap <String, Double> getQueryWeights(HashMap<String, Integer> terms){
@@ -46,6 +43,7 @@ public class Query {
             writerTopDocs.newLine();
         }
         writerTopDocs.flush();
+
     }
 
     public void readQueryFile(String file) throws IOException
@@ -56,14 +54,16 @@ public class Query {
         Scanner myReader = new Scanner(myObj);
         HashMap <String, Double> weightQuery;
         HashMap<String, Integer> terms;
-        LinkedHashMap<String, Double> topDocs;
         writerTopDocs = new BufferedWriter(new FileWriter(queryfile));
+        int idQ = 1;
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
             topDocs = getCosineScores(weightQuery, 50);
             writeTopDocs(topDocs, data);
+            efficiencyMetrics.calculateMetrics(topDocs, idQ);
+            idQ++;
         }
         myReader.close();
         writerTopDocs.close();
