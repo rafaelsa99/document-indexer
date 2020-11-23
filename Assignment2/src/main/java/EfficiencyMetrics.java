@@ -1,20 +1,30 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
+
+/**
+ *
+ * @author Rafael Sá 104552 and António Ramos 101193
+ */
+
 
 public class EfficiencyMetrics {
 
     HashMap<Integer, HashMap<String, Integer>> query_Filter; //<QueryID, HashMap<Cord_UI, Relevance>>
 
-    HashMap<Integer, ArrayList<Double>> precisions;
-    HashMap<Integer, ArrayList<Double>> recalls;
-    HashMap<Integer, ArrayList<Double>> fmeasures;
+    Metric precisions;
+    Metric recalls;
+    Metric fmeasures;
+    int numQueries;
 
     int tp; //Retrieved -> Relevant
     int fp; //Retrieved -> NonRelevant
     int tn; //Not Retrieved -> NonRelevant
     int fn; //Not Retrieved -> Relevant
     int countRelevants;
+
+    BufferedWriter writerMetrics;
 
     //a) Mean Precision
     //b) Mean Recall
@@ -41,27 +51,25 @@ O ficheiro queries.relevance.txt tem o seguinte formato: query_id, cord_ui, rele
 Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 0 (não relevante), 1 (pouco relevante), 2 (relevante).
      */
 
-    public EfficiencyMetrics(String filename) throws FileNotFoundException {
+    public EfficiencyMetrics(String filename) throws IOException {
         query_Filter = new HashMap<>();
         readFilterQueryfile(filename);
-        this.fmeasures = new HashMap<>();
-        this.precisions = new HashMap<>();
-        this.recalls = new HashMap<>();
-        initializeMetricCounters();
+        this.fmeasures = new Metric();
+        this.precisions = new Metric();
+        this.recalls = new Metric();
+        this.numQueries = 0;
+        initializeMetricsFile();
     }
 
-    private void initializeMetricCounters() {
-        this.precisions.put(10, new ArrayList<>());
-        this.precisions.put(20, new ArrayList<>());
-        this.precisions.put(50, new ArrayList<>());
-        this.fmeasures.put(10, new ArrayList<>());
-        this.fmeasures.put(20, new ArrayList<>());
-        this.fmeasures.put(50, new ArrayList<>());
-        this.recalls.put(10, new ArrayList<>());
-        this.recalls.put(20, new ArrayList<>());
-        this.recalls.put(50, new ArrayList<>());
+    private void initializeMetricsFile() throws IOException {
+        final String filePath = "queries/queryMetricsResults.txt";
+        File queryfile = new File(filePath);
+        writerMetrics = new BufferedWriter(new FileWriter(queryfile));
+        writerMetrics.write("Query \t Precision \t Recall \t F-Measure \t Average Precision \t NDCG \t Latency");
+        writerMetrics.newLine();
+        writerMetrics.write("# \t@10  @20  @50\t@10  @20  @50\t@10  @20  @50\t@10  @20  @50\t@10  @20  @50");
+        writerMetrics.flush();
     }
-
 
     public void readFilterQueryfile(String filterQuery) throws FileNotFoundException {
         //ler ficheiro queries.relevance.txt
@@ -81,9 +89,21 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
     }
 
 
-    public void writefile()
-    {
+    public void writeMetricsForQueryOnFile(int queryId) throws IOException {
+        writerMetrics.newLine();
+        writerMetrics.write(queryId + "\t" + round(precisions.getLastValue(10),2) + " " + round(precisions.getLastValue(20),2) + " " + round(precisions.getLastValue(50),2));
+        writerMetrics.write("\t" + round(recalls.getLastValue(10),2) + " " + round(recalls.getLastValue(20),2) + " " + round(recalls.getLastValue(50),2));
+        writerMetrics.write("\t" + round(fmeasures.getLastValue(10),2) + " " + round(fmeasures.getLastValue(20),2) + " " + round(fmeasures.getLastValue(50),2));
+        writerMetrics.flush();
+    }
 
+    public void calculateMeansAndWriteOnFile() throws IOException {
+        writerMetrics.newLine();
+        writerMetrics.write("Mean\t" + round(precisions.getSumMetric(10)/(double)numQueries,2) + " " + round(precisions.getSumMetric(20)/(double)numQueries,2) + " " + round(precisions.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write(" " + round(recalls.getSumMetric(10)/(double)numQueries,2) + " " + round(recalls.getSumMetric(20)/(double)numQueries,2) + " " + round(recalls.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write(" " + round(fmeasures.getSumMetric(10)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(20)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.flush();
+        writerMetrics.close();
     }
 
     public double calculatePrecision(int tp, int fp)
@@ -119,7 +139,7 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         return fmeasure;
     }
 
-    public void calculateMetrics(LinkedHashMap<String, Double> retrieved_Docs, int queryId){
+    public void calculateMetrics(LinkedHashMap<String, Double> retrieved_Docs, int queryId) throws IOException {
         ArrayList<LinkedHashMap<String, Double>> tops = new ArrayList<>();
         int counter = 0;
         LinkedHashMap<String, Double> top = new LinkedHashMap<>();
@@ -133,16 +153,18 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
             else if(counter == 50)
                 calculateTopMetrics(50, top, queryId);
         }
-        //Escrever para o ficheiro a linha com as metricas da query
+        numQueries++;
+        writeMetricsForQueryOnFile(queryId);
     }
 
     public void calculateTopMetrics(int numTop, LinkedHashMap<String, Double> retrieved_Docs, int queryId){
         calculateDatatoUseOnPrecisionAndRecall(retrieved_Docs, queryId);
         double precision = calculatePrecision(tp,fp);
         double recall = calculateRecall(tp,fn);
-        precisions.get(numTop).add(precision);
-        recalls.get(numTop).add(recall);
-        fmeasures.get(numTop).add(calculateFmeasure(precision, recall));
+        double fmeasure = calculateFmeasure(precision, recall);
+        precisions.addNewValue(numTop, precision);
+        recalls.addNewValue(numTop, recall);
+        fmeasures.addNewValue(numTop, fmeasure);
     }
 
     public void calculateDatatoUseOnPrecisionAndRecall(LinkedHashMap<String, Double> retrieved_Docs, int queryId) //dados query.relevance e linkedhashmap da query
@@ -185,4 +207,11 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         }
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
 }

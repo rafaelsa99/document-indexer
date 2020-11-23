@@ -1,6 +1,12 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ *
+ * @author Rafael Sá 104552 and António Ramos 101193
+ */
+
+
 public class Query {
     Tokenizer tokenizer;
     Indexer index;
@@ -33,9 +39,9 @@ public class Query {
         return weightQuery;
     }
 
-    public void writeTopDocs(LinkedHashMap<String, Double> topDocs, String query) throws IOException {
+    public void writeTopDocs(LinkedHashMap<String, Double> topDocs, String query, int queryID) throws IOException {
         int count = 0;
-        writerTopDocs.write("Query: " + query);
+        writerTopDocs.write("Query ID: " + queryID + " ; Query: " + query);
         writerTopDocs.newLine();
         for (Map.Entry<String, Double> entry: topDocs.entrySet()) {
             count++;
@@ -61,10 +67,11 @@ public class Query {
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
             topDocs = getCosineScores(weightQuery, 50);
-            writeTopDocs(topDocs, data);
+            writeTopDocs(topDocs, data, idQ);
             efficiencyMetrics.calculateMetrics(topDocs, idQ);
             idQ++;
         }
+        efficiencyMetrics.calculateMeansAndWriteOnFile();
         myReader.close();
         writerTopDocs.close();
     }
@@ -93,10 +100,10 @@ public class Query {
         HashMap<Integer,Double> scores = new HashMap<>(); //save scores
         for(String q:weightQuery.keySet()) //iterate over terms on the query
         {
-            for(PostingTf posting:index.getPostingList(q)){
+            for(Posting posting:index.getPostingList(q)){
                 if(scores.containsKey(posting.getDocID()))
-                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + (weightQuery.get(q)*posting.getTermFreq()));
-                else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermFreq());
+                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + (weightQuery.get(q)*posting.getTermWeight()));
+                else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermWeight());
             }
         }
         int count = 0;

@@ -1,4 +1,4 @@
-Query: coronavirus origin
+Query ID: 1 ; Query: coronavirus origin
 Top 1 -> Document ID: d2knbzhl ; Score: 0.6538503831405682
 Top 2 -> Document ID: ne5r4d4b ; Score: 0.6405865178311025
 Top 3 -> Document ID: wuegn0jg ; Score: 0.5913903139499382
@@ -49,7 +49,7 @@ Top 47 -> Document ID: 7ve9gs2a ; Score: 0.42072362921079837
 Top 48 -> Document ID: 79v0hdi9 ; Score: 0.41963621658492967
 Top 49 -> Document ID: stnjl8f8 ; Score: 0.41790708650641795
 Top 50 -> Document ID: gbyyehbu ; Score: 0.4158602213015996
-Query: coronavirus response to weather changes
+Query ID: 2 ; Query: coronavirus response to weather changes
 Top 1 -> Document ID: vj3wk150 ; Score: 0.32366937221599856
 Top 2 -> Document ID: a2x1hvkk ; Score: 0.26490164345508144
 Top 3 -> Document ID: fzq71ghi ; Score: 0.25179148472372936
@@ -100,7 +100,7 @@ Top 47 -> Document ID: 4pl3bhx6 ; Score: 0.20263714617691778
 Top 48 -> Document ID: dmpoy0b1 ; Score: 0.2019551005329897
 Top 49 -> Document ID: pgiqxd7v ; Score: 0.20123634981576613
 Top 50 -> Document ID: ssa59gng ; Score: 0.20088704768076251
-Query: coronavirus immunity
+Query ID: 3 ; Query: coronavirus immunity
 Top 1 -> Document ID: 3eatplc2 ; Score: 0.945925215244253
 Top 2 -> Document ID: sp212tai ; Score: 0.8809367550362632
 Top 3 -> Document ID: 1oruu33o ; Score: 0.8499748941625564
@@ -151,7 +151,7 @@ Top 47 -> Document ID: gnxbfcod ; Score: 0.6260652343783096
 Top 48 -> Document ID: fv9q0ff7 ; Score: 0.6256212278028176
 Top 49 -> Document ID: k3v132dq ; Score: 0.6191542234630459
 Top 50 -> Document ID: lb68547c ; Score: 0.6183529028917807
-Query: how do people die from the coronavirus
+Query ID: 4 ; Query: how do people die from the coronavirus
 Top 1 -> Document ID: 1r1rjw66 ; Score: 0.713570215052244
 Top 2 -> Document ID: ndi53z0t ; Score: 0.6921490471357687
 Top 3 -> Document ID: 5tb29n9s ; Score: 0.6665919844255879
@@ -202,7 +202,7 @@ Top 47 -> Document ID: dopa8hxy ; Score: 0.5501007939845042
 Top 48 -> Document ID: gl65i3s0 ; Score: 0.5499824433593704
 Top 49 -> Document ID: klesewbt ; Score: 0.5491297747288085
 Top 50 -> Document ID: utn21ce1 ; Score: 0.5485673158325786
-Query: animal models of COVID-19
+Query ID: 5 ; Query: animal models of COVID-19
 Top 1 -> Document ID: uurvoa1o ; Score: 0.8457297136022358
 Top 2 -> Document ID: jlmuo37x ; Score: 0.7738637404088916
 Top 3 -> Document ID: lmkfxme5 ; Score: 0.7566118449373024
@@ -253,7 +253,7 @@ Top 47 -> Document ID: 7h1wg0oa ; Score: 0.5307106647039637
 Top 48 -> Document ID: x12cqydo ; Score: 0.5303179854962867
 Top 49 -> Document ID: jadzias9 ; Score: 0.5298457357153415
 Top 50 -> Document ID: f3ikyl9d ; Score: 0.5291152746827645
-Query: coronavirus test rapid testing
+Query ID: 6 ; Query: coronavirus test rapid testing
 Top 1 -> Document ID: i7soyabu ; Score: 0.5576587676201512
 Top 2 -> Document ID: 0y8lfjkx ; Score: 0.5364900131808712
 Top 3 -> Document ID: ehht4sff ; Score: 0.5360493756644744
@@ -304,7 +304,7 @@ Top 47 -> Document ID: 1gt0n6uo ; Score: 0.3833113417887898
 Top 48 -> Document ID: 06boh550 ; Score: 0.38294736704260157
 Top 49 -> Document ID: aeogp8c7 ; Score: 0.3827357554157105
 Top 50 -> Document ID: tjp33y35 ; Score: 0.38253118610405246
-Query: serological tests for coronavirus
+Query ID: 7 ; Query: serological tests for coronavirus
 Top 1 -> Document ID: 0y8lfjkx ; Score: 0.46516836374558285
 Top 2 -> Document ID: j0z20rx5 ; Score: 0.4411453828877073
 Top 3 -> Document ID: zkz55pmg ; Score: 0.4243719809863237
@@ -355,7 +355,7 @@ Top 47 -> Document ID: jaue41mv ; Score: 0.34900224575991134
 Top 48 -> Document ID: uxeb72ud ; Score: 0.3489095275206749
 Top 49 -> Document ID: yo5ojr0s ; Score: 0.34725524610507835
 Top 50 -> Document ID: 9q5ya4kt ; Score: 0.3469155291770438
-Query: coronavirus under reporting
+Query ID: 8 ; Query: coronavirus under reporting
 Top 1 -> Document ID: wzcaugst ; Score: 1.026436930026573
 Top 2 -> Document ID: 63aoc5vp ; Score: 0.8149756115045497
 Top 3 -> Document ID: uwj62cuv ; Score: 0.8087740232620145
@@ -406,7 +406,7 @@ Top 47 -> Document ID: 5gt5r2uu ; Score: 0.6316781741029337
 Top 48 -> Document ID: 0y8lfjkx ; Score: 0.6280557098889732
 Top 49 -> Document ID: 57zdu3o2 ; Score: 0.6242337052422995
 Top 50 -> Document ID: xdg5mkum ; Score: 0.6242211492554028
-Query: coronavirus in Canada
+Query ID: 9 ; Query: coronavirus in Canada
 Top 1 -> Document ID: jkzxjk54 ; Score: 0.4224286573012346
 Top 2 -> Document ID: 5tb29n9s ; Score: 0.32789208671511405
 Top 3 -> Document ID: lwpzlhw2 ; Score: 0.32212963596033733
@@ -457,7 +457,7 @@ Top 47 -> Document ID: nc05llre ; Score: 0.2658870209337011
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.26585625132919677
 Top 49 -> Document ID: i98p6e8q ; Score: 0.2653536756138376
 Top 50 -> Document ID: 80dfqjql ; Score: 0.2645559569758886
-Query: coronavirus social distancing impact
+Query ID: 10 ; Query: coronavirus social distancing impact
 Top 1 -> Document ID: qtc4lrk6 ; Score: 0.37381479046106497
 Top 2 -> Document ID: utlponna ; Score: 0.3017175916780289
 Top 3 -> Document ID: y8o5j2be ; Score: 0.2954316423549668
@@ -508,7 +508,7 @@ Top 47 -> Document ID: 0dac26xk ; Score: 0.21597715261335648
 Top 48 -> Document ID: hlsvu1cg ; Score: 0.21551411490800326
 Top 49 -> Document ID: t1iuhx3a ; Score: 0.21426586789491817
 Top 50 -> Document ID: ne5r4d4b ; Score: 0.21404360792449406
-Query: coronavirus hospital rationing
+Query ID: 11 ; Query: coronavirus hospital rationing
 Top 1 -> Document ID: ueai8tno ; Score: 0.34120000842314935
 Top 2 -> Document ID: k8ik6gk0 ; Score: 0.3283910998050834
 Top 3 -> Document ID: 74asiiup ; Score: 0.3208992137450781
@@ -559,7 +559,7 @@ Top 47 -> Document ID: ecqpltrn ; Score: 0.26235701276654194
 Top 48 -> Document ID: jp8y1owf ; Score: 0.262233419175712
 Top 49 -> Document ID: 8kg6wi88 ; Score: 0.26159823836496
 Top 50 -> Document ID: v08cs51n ; Score: 0.26159308556365757
-Query: coronavirus quarantine
+Query ID: 12 ; Query: coronavirus quarantine
 Top 1 -> Document ID: 64igat2s ; Score: 1.0878861579920172
 Top 2 -> Document ID: 5tb29n9s ; Score: 1.0159547900863146
 Top 3 -> Document ID: lwpzlhw2 ; Score: 0.9981001675316737
@@ -610,7 +610,7 @@ Top 47 -> Document ID: paikguqy ; Score: 0.8418655103136506
 Top 48 -> Document ID: fjsrg656 ; Score: 0.8385100018432222
 Top 49 -> Document ID: dopa8hxy ; Score: 0.8384102265502561
 Top 50 -> Document ID: gl65i3s0 ; Score: 0.838229848016875
-Query: how does coronavirus spread
+Query ID: 13 ; Query: how does coronavirus spread
 Top 1 -> Document ID: 9fkrf3tf ; Score: 0.783478811844586
 Top 2 -> Document ID: 80dfqjql ; Score: 0.6171093907773049
 Top 3 -> Document ID: 5tb29n9s ; Score: 0.5873037849156101
@@ -661,7 +661,7 @@ Top 47 -> Document ID: v13k3mm2 ; Score: 0.4910115634388562
 Top 48 -> Document ID: gbyyehbu ; Score: 0.4889288195671679
 Top 49 -> Document ID: 9le7uk7m ; Score: 0.4868635437642474
 Top 50 -> Document ID: paikguqy ; Score: 0.48666614442076916
-Query: coronavirus super spreaders
+Query ID: 14 ; Query: coronavirus super spreaders
 Top 1 -> Document ID: v5egtgdo ; Score: 0.2432694006665995
 Top 2 -> Document ID: 414grqif ; Score: 0.22223062033490792
 Top 3 -> Document ID: 5tb29n9s ; Score: 0.1762128345615148
@@ -712,7 +712,7 @@ Top 47 -> Document ID: ipoj13va ; Score: 0.14368231104464232
 Top 48 -> Document ID: a3groawt ; Score: 0.14326128494653967
 Top 49 -> Document ID: 944w4qgq ; Score: 0.14321598967367613
 Top 50 -> Document ID: nc05llre ; Score: 0.14289062630703808
-Query: coronavirus outside body
+Query ID: 15 ; Query: coronavirus outside body
 Top 1 -> Document ID: 5tb29n9s ; Score: 0.6469047319021092
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.6355358797350339
 Top 3 -> Document ID: x6bryq9d ; Score: 0.631951815596467
@@ -763,7 +763,7 @@ Top 47 -> Document ID: nc05llre ; Score: 0.5245737209352359
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.5245130149787365
 Top 49 -> Document ID: i98p6e8q ; Score: 0.5235214734881747
 Top 50 -> Document ID: 80dfqjql ; Score: 0.5219476387342299
-Query: how long does coronavirus survive on surfaces
+Query ID: 16 ; Query: how long does coronavirus survive on surfaces
 Top 1 -> Document ID: tjplc5j6 ; Score: 0.7521591165523815
 Top 2 -> Document ID: 0y8lfjkx ; Score: 0.6699375995499992
 Top 3 -> Document ID: 80dfqjql ; Score: 0.6695362544320582
@@ -814,7 +814,7 @@ Top 47 -> Document ID: hrb0shhg ; Score: 0.42626602145067305
 Top 48 -> Document ID: 08ds967z ; Score: 0.4255785416347534
 Top 49 -> Document ID: 9ai2bmqp ; Score: 0.42473332884197823
 Top 50 -> Document ID: m7eonmga ; Score: 0.4244411290889592
-Query: coronavirus clinical trials
+Query ID: 17 ; Query: coronavirus clinical trials
 Top 1 -> Document ID: iwsa760n ; Score: 1.6895723482237663
 Top 2 -> Document ID: 61ytvjrb ; Score: 1.618054016265485
 Top 3 -> Document ID: wm0forsu ; Score: 1.601925790849948
@@ -865,7 +865,7 @@ Top 47 -> Document ID: epkw6222 ; Score: 0.8597063919098251
 Top 48 -> Document ID: 9p2n8tjx ; Score: 0.8592903245854964
 Top 49 -> Document ID: 39m02myb ; Score: 0.85578007667909
 Top 50 -> Document ID: msohf5oa ; Score: 0.8507031565922769
-Query: masks prevent coronavirus
+Query ID: 18 ; Query: masks prevent coronavirus
 Top 1 -> Document ID: wzmfmcpt ; Score: 1.093136299466242
 Top 2 -> Document ID: iinq30l8 ; Score: 1.028755688745157
 Top 3 -> Document ID: iu1d9i57 ; Score: 1.0284601934242756
@@ -916,7 +916,7 @@ Top 47 -> Document ID: 0y8lfjkx ; Score: 0.8112407087806758
 Top 48 -> Document ID: 4yvfdqbq ; Score: 0.8080951336550781
 Top 49 -> Document ID: zglari8b ; Score: 0.8063677886926635
 Top 50 -> Document ID: 57zdu3o2 ; Score: 0.806303940099632
-Query: what alcohol sanitizer kills coronavirus
+Query ID: 19 ; Query: what alcohol sanitizer kills coronavirus
 Top 1 -> Document ID: qlm83r6n ; Score: 0.5201960872082133
 Top 2 -> Document ID: 5tb29n9s ; Score: 0.5132381576836672
 Top 3 -> Document ID: 6rcezxjx ; Score: 0.5053221770071111
@@ -967,7 +967,7 @@ Top 47 -> Document ID: a3groawt ; Score: 0.41726335165268025
 Top 48 -> Document ID: 944w4qgq ; Score: 0.4171314244723809
 Top 49 -> Document ID: nc05llre ; Score: 0.4161837699199381
 Top 50 -> Document ID: ubg3mj4u ; Score: 0.41613560732081384
-Query: coronavirus and ACE inhibitors
+Query ID: 20 ; Query: coronavirus and ACE inhibitors
 Top 1 -> Document ID: 6xlb7bfa ; Score: 0.4791148005384158
 Top 2 -> Document ID: nthxicak ; Score: 0.4183167055300773
 Top 3 -> Document ID: nc05llre ; Score: 0.40009044135824007
@@ -1018,7 +1018,7 @@ Top 47 -> Document ID: qxlbzt8v ; Score: 0.29430889650095715
 Top 48 -> Document ID: 4wsfxjey ; Score: 0.29424793663873483
 Top 49 -> Document ID: k7myxo6p ; Score: 0.2916000805617468
 Top 50 -> Document ID: lwpzlhw2 ; Score: 0.28937693586886754
-Query: coronavirus mortality
+Query ID: 21 ; Query: coronavirus mortality
 Top 1 -> Document ID: wit4v3n6 ; Score: 0.9733100804144534
 Top 2 -> Document ID: 5tb29n9s ; Score: 0.9312681576920044
 Top 3 -> Document ID: lwpzlhw2 ; Score: 0.9149018374433112
@@ -1069,7 +1069,7 @@ Top 47 -> Document ID: gl65i3s0 ; Score: 0.7683577792066943
 Top 48 -> Document ID: klesewbt ; Score: 0.7671665510442535
 Top 49 -> Document ID: utn21ce1 ; Score: 0.7663807629275227
 Top 50 -> Document ID: a5x8bmfr ; Score: 0.7651959747320372
-Query: coronavirus heart impacts
+Query ID: 22 ; Query: coronavirus heart impacts
 Top 1 -> Document ID: h6ezeyzd ; Score: 0.9619097277597591
 Top 2 -> Document ID: 5tb29n9s ; Score: 0.8882815087721004
 Top 3 -> Document ID: lwpzlhw2 ; Score: 0.8726706457532398
@@ -1120,7 +1120,7 @@ Top 47 -> Document ID: klesewbt ; Score: 0.7317547108342722
 Top 48 -> Document ID: utn21ce1 ; Score: 0.7310051941154415
 Top 49 -> Document ID: ipoj13va ; Score: 0.7242965040326967
 Top 50 -> Document ID: a3groawt ; Score: 0.722174129129724
-Query: coronavirus hypertension
+Query ID: 23 ; Query: coronavirus hypertension
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.0267071968755146
 Top 2 -> Document ID: lwpzlhw2 ; Score: 1.0086636090572139
 Top 3 -> Document ID: x6bryq9d ; Score: 1.0029753148406753
@@ -1171,7 +1171,7 @@ Top 47 -> Document ID: ubg3mj4u ; Score: 0.8324584143172311
 Top 48 -> Document ID: i98p6e8q ; Score: 0.83088473161844
 Top 49 -> Document ID: 80dfqjql ; Score: 0.8283868870535737
 Top 50 -> Document ID: v5sya5to ; Score: 0.8279495603867959
-Query: coronavirus diabetes
+Query ID: 24 ; Query: coronavirus diabetes
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.0179639699189102
 Top 2 -> Document ID: 3bj567gr ; Score: 1.0177612615664213
 Top 3 -> Document ID: lwpzlhw2 ; Score: 1.0000740375769586
@@ -1222,7 +1222,7 @@ Top 47 -> Document ID: fjsrg656 ; Score: 0.8401682620350857
 Top 48 -> Document ID: dopa8hxy ; Score: 0.8400682894237856
 Top 49 -> Document ID: gl65i3s0 ; Score: 0.8398875541689096
 Top 50 -> Document ID: klesewbt ; Score: 0.8385854293842259
-Query: coronavirus biomarkers
+Query ID: 25 ; Query: coronavirus biomarkers
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.0153024924432001
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.9974593335169852
 Top 3 -> Document ID: x6bryq9d ; Score: 0.9918342250991449
@@ -1273,7 +1273,7 @@ Top 47 -> Document ID: nc05llre ; Score: 0.8233067097371966
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.8232114330976846
 Top 49 -> Document ID: i98p6e8q ; Score: 0.8216552309289848
 Top 50 -> Document ID: 80dfqjql ; Score: 0.8191851325210237
-Query: coronavirus early symptoms
+Query ID: 26 ; Query: coronavirus early symptoms
 Top 1 -> Document ID: rzmomxli ; Score: 0.8143657324533192
 Top 2 -> Document ID: bfw8ys04 ; Score: 0.7319473202110658
 Top 3 -> Document ID: 168onmwf ; Score: 0.7267319984235379
@@ -1324,7 +1324,7 @@ Top 47 -> Document ID: psog34u3 ; Score: 0.5620741066898995
 Top 48 -> Document ID: owhx6k4t ; Score: 0.560307732875877
 Top 49 -> Document ID: t1iuhx3a ; Score: 0.5600283146381444
 Top 50 -> Document ID: ne5r4d4b ; Score: 0.5594473920774443
-Query: coronavirus asymptomatic
+Query ID: 27 ; Query: coronavirus asymptomatic
 Top 1 -> Document ID: pgn7tm8f ; Score: 0.45364849064206636
 Top 2 -> Document ID: 90tccg03 ; Score: 0.4030958359361225
 Top 3 -> Document ID: 5tb29n9s ; Score: 0.39645394603223466
@@ -1375,7 +1375,7 @@ Top 47 -> Document ID: klesewbt ; Score: 0.3068700815640287
 Top 48 -> Document ID: utn21ce1 ; Score: 0.30655576277217705
 Top 49 -> Document ID: ipoj13va ; Score: 0.30374239342531956
 Top 50 -> Document ID: a3groawt ; Score: 0.30285235014996825
-Query: coronavirus hydroxychloroquine
+Query ID: 28 ; Query: coronavirus hydroxychloroquine
 Top 1 -> Document ID: 5tb29n9s ; Score: 0.20625409148972892
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.20262933476843173
 Top 3 -> Document ID: x6bryq9d ; Score: 0.20148661953342722
@@ -1426,7 +1426,7 @@ Top 47 -> Document ID: nc05llre ; Score: 0.16725101996510983
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.1672316649483843
 Top 49 -> Document ID: i98p6e8q ; Score: 0.1669155295435483
 Top 50 -> Document ID: 80dfqjql ; Score: 0.16641374026713443
-Query: coronavirus drug repurposing
+Query ID: 29 ; Query: coronavirus drug repurposing
 Top 1 -> Document ID: b4mdiont ; Score: 0.7155638313273397
 Top 2 -> Document ID: 4yuw7jo3 ; Score: 0.6706246357469434
 Top 3 -> Document ID: r5p5helx ; Score: 0.6278538831636096
@@ -1477,7 +1477,7 @@ Top 47 -> Document ID: 08ds967z ; Score: 0.37339960929455057
 Top 48 -> Document ID: 9ai2bmqp ; Score: 0.37265802555449473
 Top 49 -> Document ID: 1qniriu0 ; Score: 0.37245695877660934
 Top 50 -> Document ID: m7eonmga ; Score: 0.3724016515531314
-Query: coronavirus remdesivir
+Query ID: 30 ; Query: coronavirus remdesivir
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.0473781002499383
 Top 2 -> Document ID: lwpzlhw2 ; Score: 1.0289712372335529
 Top 3 -> Document ID: x6bryq9d ; Score: 1.0231684194406012
@@ -1528,7 +1528,7 @@ Top 47 -> Document ID: 944w4qgq ; Score: 0.8512506569858577
 Top 48 -> Document ID: nc05llre ; Score: 0.8493167543522142
 Top 49 -> Document ID: ubg3mj4u ; Score: 0.8492184677170165
 Top 50 -> Document ID: i98p6e8q ; Score: 0.8476131017465899
-Query: difference between coronavirus and flu
+Query ID: 31 ; Query: difference between coronavirus and flu
 Top 1 -> Document ID: knv0zd26 ; Score: 1.3450904874306748
 Top 2 -> Document ID: 602a2xdn ; Score: 1.2253599603824725
 Top 3 -> Document ID: gnxbfcod ; Score: 1.1841920386325449
@@ -1579,7 +1579,7 @@ Top 47 -> Document ID: a3groawt ; Score: 0.8643831399777033
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.8620469578452209
 Top 49 -> Document ID: nx6awlth ; Score: 0.85970256200697
 Top 50 -> Document ID: m45lbfub ; Score: 0.8581693988122135
-Query: coronavirus subtypes
+Query ID: 32 ; Query: coronavirus subtypes
 Top 1 -> Document ID: 5tb29n9s ; Score: 0.38091411825935595
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.37421984615825504
 Top 3 -> Document ID: x6bryq9d ; Score: 0.37210945715690547
@@ -1630,7 +1630,7 @@ Top 47 -> Document ID: a3groawt ; Score: 0.3096837195310162
 Top 48 -> Document ID: 944w4qgq ; Score: 0.309585806067635
 Top 49 -> Document ID: nc05llre ; Score: 0.30888247761698484
 Top 50 -> Document ID: ubg3mj4u ; Score: 0.30884673239090643
-Query: coronavirus vaccine candidates
+Query ID: 33 ; Query: coronavirus vaccine candidates
 Top 1 -> Document ID: gysf0vbv ; Score: 0.5861719806336657
 Top 2 -> Document ID: bb5dnbbt ; Score: 0.5601051101652332
 Top 3 -> Document ID: xdg5mkum ; Score: 0.5551497166853658
@@ -1681,7 +1681,7 @@ Top 47 -> Document ID: n7yj9lkt ; Score: 0.42083055154450755
 Top 48 -> Document ID: 43pomco2 ; Score: 0.41912183650009116
 Top 49 -> Document ID: 0fx1b7ph ; Score: 0.4141583851722062
 Top 50 -> Document ID: 9w0b806e ; Score: 0.41387758402521185
-Query: coronavirus recovery
+Query ID: 34 ; Query: coronavirus recovery
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.0043471325673003
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.986696505648851
 Top 3 -> Document ID: x6bryq9d ; Score: 0.9811320935136625
@@ -1732,7 +1732,7 @@ Top 47 -> Document ID: nc05llre ; Score: 0.8144230308724777
 Top 48 -> Document ID: ubg3mj4u ; Score: 0.8143287822909893
 Top 49 -> Document ID: i98p6e8q ; Score: 0.8127893719207187
 Top 50 -> Document ID: 80dfqjql ; Score: 0.8103459264730225
-Query: coronavirus public datasets
+Query ID: 35 ; Query: coronavirus public datasets
 Top 1 -> Document ID: aeogp8c7 ; Score: 0.9852466986589201
 Top 2 -> Document ID: ebbt95mb ; Score: 0.9323037492065237
 Top 3 -> Document ID: 5tb29n9s ; Score: 0.9182735003543196
@@ -1783,7 +1783,7 @@ Top 47 -> Document ID: y4n1gqeb ; Score: 0.7903678249777943
 Top 48 -> Document ID: a2x1hvkk ; Score: 0.7895284933719583
 Top 49 -> Document ID: iusv19qd ; Score: 0.7883110141725785
 Top 50 -> Document ID: 0dac26xk ; Score: 0.7882012230214976
-Query: SARS-CoV-2 spike structure
+Query ID: 36 ; Query: SARS-CoV-2 spike structure
 Top 1 -> Document ID: 4jky78sl ; Score: 1.792342529594173
 Top 2 -> Document ID: trlni6iq ; Score: 1.641415539817037
 Top 3 -> Document ID: ebbzx8yr ; Score: 1.6356518166362668
@@ -1834,7 +1834,7 @@ Top 47 -> Document ID: m7nij17v ; Score: 1.1987898998751292
 Top 48 -> Document ID: qqe99lx5 ; Score: 1.1976886631871506
 Top 49 -> Document ID: 9xnb2n0q ; Score: 1.1961759375444259
 Top 50 -> Document ID: ql30rv83 ; Score: 1.1956219403258999
-Query: SARS-CoV-2 phylogenetic analysis
+Query ID: 37 ; Query: SARS-CoV-2 phylogenetic analysis
 Top 1 -> Document ID: d5gcu6rf ; Score: 0.8084233603973853
 Top 2 -> Document ID: yn8nzezq ; Score: 0.7375158172038839
 Top 3 -> Document ID: b5mvqb4p ; Score: 0.7373188862357011
@@ -1885,7 +1885,7 @@ Top 47 -> Document ID: 8zwfkken ; Score: 0.5828603594033114
 Top 48 -> Document ID: uadfehr6 ; Score: 0.5798142655888661
 Top 49 -> Document ID: 7cb88t8n ; Score: 0.5787632080662504
 Top 50 -> Document ID: 25uy4lrw ; Score: 0.5781783625944035
-Query: COVID inflammatory response
+Query ID: 38 ; Query: COVID inflammatory response
 Top 1 -> Document ID: 00gotrnv ; Score: 0.42927018824297114
 Top 2 -> Document ID: 3bi75xn8 ; Score: 0.41465816998391714
 Top 3 -> Document ID: y353snxw ; Score: 0.38458282148566525
@@ -1936,7 +1936,7 @@ Top 47 -> Document ID: f6q2467c ; Score: 0.27898234828855073
 Top 48 -> Document ID: az7zexr7 ; Score: 0.2768221246060973
 Top 49 -> Document ID: rmia5w3x ; Score: 0.276727642939604
 Top 50 -> Document ID: 5l7lgnfm ; Score: 0.2763150580158833
-Query: COVID-19 cytokine storm
+Query ID: 39 ; Query: COVID-19 cytokine storm
 Top 1 -> Document ID: urr5iuy2 ; Score: 0.8015687173424361
 Top 2 -> Document ID: 44babp7t ; Score: 0.7922514235365374
 Top 3 -> Document ID: insu3eav ; Score: 0.571533702996897
@@ -1987,7 +1987,7 @@ Top 47 -> Document ID: h6jt1fj1 ; Score: 0.33881547151190733
 Top 48 -> Document ID: x7fj0fbn ; Score: 0.33618967304201713
 Top 49 -> Document ID: 0te4f3cm ; Score: 0.3360704110665111
 Top 50 -> Document ID: l0zv0xuw ; Score: 0.3324153537122779
-Query: coronavirus mutations
+Query ID: 40 ; Query: coronavirus mutations
 Top 1 -> Document ID: l57zckk9 ; Score: 1.1118529029506545
 Top 2 -> Document ID: ehprox1q ; Score: 1.1102924664827558
 Top 3 -> Document ID: g68g6xxu ; Score: 1.0475948987760233
@@ -2038,7 +2038,7 @@ Top 47 -> Document ID: 7ve9gs2a ; Score: 0.7968125159350526
 Top 48 -> Document ID: 79v0hdi9 ; Score: 0.7947530547350642
 Top 49 -> Document ID: stnjl8f8 ; Score: 0.7914782386976993
 Top 50 -> Document ID: gbyyehbu ; Score: 0.7876016610576685
-Query: COVID-19 in African-Americans
+Query ID: 41 ; Query: COVID-19 in African-Americans
 Top 1 -> Document ID: awitk3se ; Score: 0.661629580169683
 Top 2 -> Document ID: nxfr24sp ; Score: 0.6415567490018337
 Top 3 -> Document ID: 3aozpdr3 ; Score: 0.6238743243895997
@@ -2089,7 +2089,7 @@ Top 47 -> Document ID: z7a3g6e8 ; Score: 0.48461477447937185
 Top 48 -> Document ID: ocxxzf49 ; Score: 0.4837997732656462
 Top 49 -> Document ID: sy64kkn2 ; Score: 0.4836618423959001
 Top 50 -> Document ID: rk1cxwz6 ; Score: 0.4836618423959001
-Query: Vitamin D and COVID-19
+Query ID: 42 ; Query: Vitamin D and COVID-19
 Top 1 -> Document ID: 86j5nx7c ; Score: 1.5359974657885518
 Top 2 -> Document ID: o3cvhzr3 ; Score: 1.1504162115795786
 Top 3 -> Document ID: z3teb4al ; Score: 1.1206295155787418
@@ -2140,7 +2140,7 @@ Top 47 -> Document ID: obpd4j1x ; Score: 0.6808915053172937
 Top 48 -> Document ID: c4wnr5xe ; Score: 0.6749102973394456
 Top 49 -> Document ID: vnnnevrl ; Score: 0.6727835952423932
 Top 50 -> Document ID: y353snxw ; Score: 0.6697829040770852
-Query: violence during pandemic
+Query ID: 43 ; Query: violence during pandemic
 Top 1 -> Document ID: sswimukk ; Score: 0.2953145593375732
 Top 2 -> Document ID: bn2loscc ; Score: 0.2443788499531737
 Top 3 -> Document ID: onyoh6lo ; Score: 0.23779879500522375
@@ -2191,7 +2191,7 @@ Top 47 -> Document ID: pmean8on ; Score: 0.17636929000196355
 Top 48 -> Document ID: nhs1lp2l ; Score: 0.17636132072723076
 Top 49 -> Document ID: dtua8dvb ; Score: 0.17531017765522547
 Top 50 -> Document ID: 2uo59hbm ; Score: 0.17519937737622246
-Query: impact of masks on coronavirus transmission
+Query ID: 44 ; Query: impact of masks on coronavirus transmission
 Top 1 -> Document ID: iu1d9i57 ; Score: 1.1113754749730838
 Top 2 -> Document ID: qz9rzie2 ; Score: 1.0504212365272645
 Top 3 -> Document ID: rlsdznmv ; Score: 0.9535547116764762
@@ -2242,7 +2242,7 @@ Top 47 -> Document ID: ne5r4d4b ; Score: 0.7935417769168293
 Top 48 -> Document ID: r0sk55fj ; Score: 0.7913564602190329
 Top 49 -> Document ID: 5g2hnk1x ; Score: 0.7873670535161108
 Top 50 -> Document ID: awp1nck0 ; Score: 0.785061510262548
-Query: coronavirus mental health impact
+Query ID: 45 ; Query: coronavirus mental health impact
 Top 1 -> Document ID: ff42gdzz ; Score: 1.4920764005824085
 Top 2 -> Document ID: sozs02x0 ; Score: 1.4580924582819623
 Top 3 -> Document ID: 616sbeao ; Score: 1.412087203615096
@@ -2293,7 +2293,7 @@ Top 47 -> Document ID: xttzg46i ; Score: 0.9364955398589896
 Top 48 -> Document ID: 7dqsfj8k ; Score: 0.9347568023172667
 Top 49 -> Document ID: ub5p6ltm ; Score: 0.9287980141934521
 Top 50 -> Document ID: us29j281 ; Score: 0.9275482808339133
-Query: dexamethasone coronavirus
+Query ID: 46 ; Query: dexamethasone coronavirus
 Top 1 -> Document ID: 5tb29n9s ; Score: 1.042295698827025
 Top 2 -> Document ID: lwpzlhw2 ; Score: 1.023978155099217
 Top 3 -> Document ID: x6bryq9d ; Score: 1.018203495475126
@@ -2344,7 +2344,7 @@ Top 47 -> Document ID: ubg3mj4u ; Score: 0.8450976357579949
 Top 48 -> Document ID: i98p6e8q ; Score: 0.8435000598247006
 Top 49 -> Document ID: 80dfqjql ; Score: 0.8409642904697943
 Top 50 -> Document ID: v5sya5to ; Score: 0.8405203238694315
-Query: COVID-19 outcomes in children
+Query ID: 47 ; Query: COVID-19 outcomes in children
 Top 1 -> Document ID: ufcvecwo ; Score: 0.8848410550653962
 Top 2 -> Document ID: ce8hrh5e ; Score: 0.8506479820531491
 Top 3 -> Document ID: 6fbnyntq ; Score: 0.7318560101254544
@@ -2395,7 +2395,7 @@ Top 47 -> Document ID: d5aja7ab ; Score: 0.47967503223853725
 Top 48 -> Document ID: xsgxd5sy ; Score: 0.47862394034095335
 Top 49 -> Document ID: 91ap7fr7 ; Score: 0.4776514766168256
 Top 50 -> Document ID: eqmlblfx ; Score: 0.4763147445550523
-Query: school reopening coronavirus
+Query ID: 48 ; Query: school reopening coronavirus
 Top 1 -> Document ID: 5tb29n9s ; Score: 0.15362601274727042
 Top 2 -> Document ID: lwpzlhw2 ; Score: 0.15092615395538075
 Top 3 -> Document ID: x6bryq9d ; Score: 0.15007501551739227
@@ -2446,7 +2446,7 @@ Top 47 -> Document ID: ipoj13va ; Score: 0.12526522601505416
 Top 48 -> Document ID: a3groawt ; Score: 0.12489816670932878
 Top 49 -> Document ID: 944w4qgq ; Score: 0.12485867734872891
 Top 50 -> Document ID: nc05llre ; Score: 0.1245750188011832
-Query: post-infection COVID-19 immunity
+Query ID: 49 ; Query: post-infection COVID-19 immunity
 Top 1 -> Document ID: qs90rv05 ; Score: 0.29401058894984583
 Top 2 -> Document ID: cgcb3qsp ; Score: 0.2509356384594891
 Top 3 -> Document ID: pq2a9u3w ; Score: 0.22710199960423194
@@ -2497,7 +2497,7 @@ Top 47 -> Document ID: q7srb25q ; Score: 0.185502635495482
 Top 48 -> Document ID: daon3ft2 ; Score: 0.1850755932759631
 Top 49 -> Document ID: 61cyzp8p ; Score: 0.1848029316351687
 Top 50 -> Document ID: 8l1vfsbc ; Score: 0.18477444020732986
-Query: mRNA vaccine coronavirus
+Query ID: 50 ; Query: mRNA vaccine coronavirus
 Top 1 -> Document ID: 0fx1b7ph ; Score: 1.435869037296484
 Top 2 -> Document ID: xdg5mkum ; Score: 1.1988804191871372
 Top 3 -> Document ID: 1v5xisvl ; Score: 1.1374587352388752

@@ -11,7 +11,7 @@ import java.util.*;
 public class Indexer {
     private final Tokenizer tokenizer;                    // Class that includes the two tokenizers
     private final HashMap<Integer, String> docIDs;        // Mapping between the generated ID and the document hash
-    private final HashMap<String, HashSet<PostingTf>> index;// Inverted Index
+    private final HashMap<String, HashSet<Posting>> index;// Inverted Index
     private final HashMap<String, Double> idfs;       // Mapping of the idf for each term
     private int lastID;                             // Last generated ID
 
@@ -81,7 +81,7 @@ public class Indexer {
     //Insert terms and postings in index
     public void indexTerms(HashMap<String, Double> terms){
         for (Map.Entry<String, Double> term:terms.entrySet()) {
-            PostingTf posting = new PostingTf(lastID, term.getValue());
+            Posting posting = new Posting(lastID, term.getValue());
             //Checks if the term already exists
             if(index.containsKey(term.getKey())){
                 //Increment frequency of the existing term, and add new posting to set
@@ -100,12 +100,12 @@ public class Indexer {
         File file = new File(filePath);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         double idf;
-        for(Map.Entry<String, HashSet<PostingTf>> entry:index.entrySet()){
+        for(Map.Entry<String, HashSet<Posting>> entry:index.entrySet()){
             idf = calculateIdf(entry.getKey());
             writer.write(entry.getKey() + ":" + idf + ";" );
             idfs.replace(entry.getKey(), idf);
-            for(PostingTf posting:entry.getValue()){
-                writer.write(posting.getDocID() + ":" + posting.getTermFreq() + ";");
+            for(Posting posting:entry.getValue()){
+                writer.write(posting.getDocID() + ":" + posting.getTermWeight() + ";");
             }
             writer.newLine();
         }
@@ -141,11 +141,11 @@ public class Indexer {
             return 0;
     }
 
-    public HashSet<PostingTf> getPostingList(String term){
+    public HashSet<Posting> getPostingList(String term){
         if(index.containsKey(term))
             return index.get(term);
         else
-            return new HashSet<PostingTf>();
+            return new HashSet<Posting>();
     }
 
     public String getDocID(int id){

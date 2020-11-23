@@ -90,9 +90,8 @@ public class Tokenizer {
         queryTokens = applyStemming(queryTokens);
         //Add all tokens to Map
         HashMap<String, Integer> tokens = countTokensFrequenciesDoc(queryTokens);
-
-        tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
         //Remove the stop words from the tokens set
+        tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
         return tokens;
     }
 
