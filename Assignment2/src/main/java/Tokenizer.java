@@ -133,7 +133,6 @@ public class Tokenizer {
             else
                 tokens.put(termToken, 1);
         }
-
         return tokens;
     }
 }

@@ -51,19 +51,18 @@ O ficheiro queries.relevance.txt tem o seguinte formato: query_id, cord_ui, rele
 Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 0 (não relevante), 1 (pouco relevante), 2 (relevante).
      */
 
-    public EfficiencyMetrics(String filename) throws IOException {
+    public EfficiencyMetrics(String relevancesFilename, String metricsFilename) throws IOException {
         query_Filter = new HashMap<>();
-        readFilterQueryfile(filename);
+        readFilterQueryfile(relevancesFilename);
         this.fmeasures = new Metric();
         this.precisions = new Metric();
         this.recalls = new Metric();
         this.numQueries = 0;
-        initializeMetricsFile();
+        initializeMetricsFile(metricsFilename);
     }
 
-    private void initializeMetricsFile() throws IOException {
-        final String filePath = "queries/queryMetricsResults.txt";
-        File queryfile = new File(filePath);
+    private void initializeMetricsFile(String metricsFilename) throws IOException {
+        File queryfile = new File(metricsFilename);
         writerMetrics = new BufferedWriter(new FileWriter(queryfile));
         writerMetrics.write("Query \t Precision \t Recall \t F-Measure \t Average Precision \t NDCG \t Latency");
         writerMetrics.newLine();
@@ -72,8 +71,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
     }
 
     public void readFilterQueryfile(String filterQuery) throws FileNotFoundException {
-        //ler ficheiro queries.relevance.txt
-        //mapear para uma estrutura
         File fileQuery = new File(filterQuery);
         Scanner myReader = new Scanner(fileQuery);
         int queryID;
@@ -112,7 +109,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         double prec = 0;
         if (sum!=0) {
             prec = (float)tp/(float)sum;
-            System.out.println("Precision:" + prec + " tp:" + tp + " sum:" + sum);
         }
         return prec;
     }
@@ -123,7 +119,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         double rec = 0;
         if (sum!=0) {
             rec = (float)tp/(float)sum;
-            System.out.println("Recall:" + rec);
         }
         return rec;
     }
@@ -135,7 +130,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         double secondparcel = precision+recall;
         if (secondparcel!=0)
             fmeasure = firstparcel/secondparcel;
-        System.out.println("F-measure:" + fmeasure + " first:" + firstparcel + " second:" + secondparcel);
         return fmeasure;
     }
 
@@ -169,9 +163,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
 
     public void calculateDatatoUseOnPrecisionAndRecall(LinkedHashMap<String, Double> retrieved_Docs, int queryId) //dados query.relevance e linkedhashmap da query
     {
-        System.out.println("----------------------");
-        System.out.println("Query ID: " + queryId + " Top: " + retrieved_Docs.size());
-        System.out.println("----------------------");
         tp = 0; //Retrieved -> Relevant
         fp = 0; //Retrieved -> NonRelevant
         tn = 0; //Not Retrieved -> NonRelevant

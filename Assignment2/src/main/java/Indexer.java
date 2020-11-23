@@ -1,6 +1,8 @@
 import com.opencsv.CSVReader;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -23,7 +25,37 @@ public class Indexer {
         this.lastID = 0;
     }
 
-    public void corpusReader(String corpus) throws IOException {
+    public void readIndexFromFile(String filename) throws FileNotFoundException {
+        File file = new File(filename);
+        Scanner sc = new Scanner(file);
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String[] fields = line.split(";");
+            String[] data = fields[0].split(":");
+            String term = data[0];
+            index.put(term, new HashSet<>());
+            idfs.put(term, Double.parseDouble(data[1]));
+            for (int i = 1; i < fields.length; i++) {
+                data = fields[i].split(":");
+                index.get(term).add(new Posting(Integer.parseInt(data[0]), Double.parseDouble(data[1])));
+            }
+        }
+        sc.close();
+    }
+
+    public void readDocIDsFromFile(String filename) throws FileNotFoundException {
+        File file = new File(filename);
+        Scanner sc = new Scanner(file);
+        while(sc.hasNextLine()){
+            String line = sc.nextLine();
+            String[] fields = line.split(";");
+            String[] data = fields[0].split(":");
+            docIDs.put(Integer.parseInt(data[0]), data[1]);
+        }
+        sc.close();
+    }
+
+    public void corpusReader(String corpus, String indexFilename, String docsIDsFilename) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(corpus));
         String[] line; //Ignores the first line
         //Iterate over the collection of documents (each line is a document)
@@ -35,8 +67,8 @@ public class Indexer {
             }
         }
         reader.close();
-        writeIndexToFile();
-        writeDocIDsToFile();
+        writeIndexToFile(indexFilename);
+        writeDocIDsToFile(docsIDsFilename);
     }
 
     public void addDocToIndex(Document doc){
@@ -56,7 +88,7 @@ public class Indexer {
         double sumDocLength = 0;
         for (Map.Entry<String, Integer> term:terms.entrySet())
         {
-            doclength.put(term.getKey(),(Math.pow(1+Math.log(term.getValue()),2)));
+            doclength.put(term.getKey(),(1+Math.log(term.getValue())));
             sumDocLength += Math.pow((1+Math.log(term.getValue())),2);
         }
 
@@ -64,7 +96,7 @@ public class Indexer {
 
         for (String s:doclength.keySet())
         {
-            double normalizeWeight = doclength.get(s)/squareDocLength;
+            double normalizeWeight = round(doclength.get(s)/squareDocLength, 3);
             doclength.replace(s,normalizeWeight);
         }
         return doclength;
@@ -95,9 +127,8 @@ public class Indexer {
         }
     }
 
-    public void writeIndexToFile() throws IOException {
-        final String filePath = "indexFiles/tf_idf_index.txt";
-        File file = new File(filePath);
+    public void writeIndexToFile(String filename) throws IOException {
+        File file = new File(filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         double idf;
         for(Map.Entry<String, HashSet<Posting>> entry:index.entrySet()){
@@ -113,9 +144,8 @@ public class Indexer {
         writer.close();
     }
 
-    public void writeDocIDsToFile() throws IOException {
-        final String filePath = "indexFiles/tf_idf_index_doc_ids.txt";
-        File file = new File(filePath);
+    public void writeDocIDsToFile(String filename) throws IOException {
+        File file = new File(filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         for(Map.Entry<Integer, String> entry:docIDs.entrySet()){
             writer.write(entry.getKey() + ":" + entry.getValue() + ";" );
@@ -150,6 +180,14 @@ public class Indexer {
 
     public String getDocID(int id){
         return docIDs.get(id);
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

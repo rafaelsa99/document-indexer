@@ -1,0 +1,43 @@
+import java.io.IOException;
+
+/**
+ *
+ * @author Rafael Sá 104552 and António Ramos 101193
+ */
+
+public class RetrievalEngine {
+
+    private static final String results_tf_idf_filename = "queries/queries_tf_idf_results.txt";
+    private static final String metrics_tf_idf_filename = "queries/metrics_tf_idf_results.txt";
+    private static final String results_bm25_filename = "queries/queries_bm25_results.txt";
+    private static final String metrics_bm25_filename = "queries/metrics_bm25_results.txt";
+    private static final String index_tf_idf_filename = "indexFiles/tf_idf_index.txt";
+    private static final String index_docIDs_tf_idf_filename = "indexFiles/tf_idf_index_doc_ids.txt";
+    private static final String index_bm25_filename = "indexFiles/bm25_index.txt";
+    private static final String index_docIDs_bm25_filename = "indexFiles/bm25_index_doc_ids.txt";
+
+    public static void main(String[] args) {
+        if (args.length != 5) {
+            System.out.println("Error! Parameters: corpusFile stopWordsList queries.txt queries.relevance.filtered.txt indexMethod(0:tf-idf or 2:BM25)");
+            return;
+        }
+        try {
+            Indexer indexer = new Indexer(args[1]);
+            long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            long startTime = System.nanoTime();
+            indexer.corpusReader(args[0], index_tf_idf_filename, index_docIDs_tf_idf_filename);  //Entry point
+            long endTime = System.nanoTime();
+            long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+            //Calculate indexing time
+            System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
+            //Calculate Memory Usage
+            System.out.println("Memory used: " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+            //Vocabulary Size
+            System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
+            Query query = new Query(args[1],indexer,args[3], metrics_tf_idf_filename);
+            query.readQueryFile(args[2], results_tf_idf_filename);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}

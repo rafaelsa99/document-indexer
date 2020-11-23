@@ -1,4 +1,6 @@
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -11,13 +13,13 @@ public class Query {
     Tokenizer tokenizer;
     Indexer index;
     BufferedWriter writerTopDocs;
-    LinkedHashMap<String, Double> topDocs; //retrie top x documents to a query
+    LinkedHashMap<String, Double> topDocs; //top x documents to a query
     EfficiencyMetrics efficiencyMetrics;
 
-    public Query(String stopWords, Indexer indexer, String relevanceFilename) throws IOException {
+    public Query(String stopWords, Indexer indexer, String relevanceFilename, String metricsFilename) throws IOException {
         this.tokenizer = new Tokenizer(stopWords);
         this.index = indexer;
-        this.efficiencyMetrics = new EfficiencyMetrics(relevanceFilename);
+        this.efficiencyMetrics = new EfficiencyMetrics(relevanceFilename, metricsFilename);
     }
 
     public HashMap <String, Double> getQueryWeights(HashMap<String, Integer> terms){
@@ -52,11 +54,10 @@ public class Query {
 
     }
 
-    public void readQueryFile(String file) throws IOException
+    public void readQueryFile(String queryFilename, String resultsFilename) throws IOException
     {
-        final String filePath = "queries/querySortedResults.txt";
-        File queryfile = new File(filePath);
-        File myObj = new File(file);
+        File queryfile = new File(resultsFilename);
+        File myObj = new File(queryFilename);
         Scanner myReader = new Scanner(myObj);
         HashMap <String, Double> weightQuery;
         HashMap<String, Integer> terms;
@@ -110,11 +111,19 @@ public class Query {
         LinkedHashMap<Integer, Double> orderedScores = ordenateHashMap(scores);
         LinkedHashMap<String, Double> topDocs = new LinkedHashMap<>();
         for (Map.Entry<Integer, Double> entry:orderedScores.entrySet()) {
-            topDocs.put(index.getDocID(entry.getKey()), entry.getValue());
+            topDocs.put(index.getDocID(entry.getKey()), round(entry.getValue(), 3));
             count++;
             if(count == numTopDocs)
                 break;
         }
         return topDocs;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
