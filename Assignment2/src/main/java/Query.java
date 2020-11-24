@@ -103,8 +103,8 @@ public class Query {
         {
             for(Posting posting:index.getPostingList(q)){
                 if(scores.containsKey(posting.getDocID()))
-                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + (weightQuery.get(q)*posting.getTermWeight()));
-                else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermWeight());
+                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + (weightQuery.get(q)*posting.getTermValue()));
+                else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermValue());
             }
         }
         int count = 0;

@@ -25,14 +25,28 @@ public class Indexer {
         this.lastID = 0;
     }
 
+    public Indexer() {
+        tokenizer = null;
+        this.docIDs = new HashMap<>();
+        this.index = new HashMap<>();
+        this.idfs = new HashMap<>();
+    }
+
+    public void loadIndexFromFiles(String indexFilename, String indexDocIDsFilename) throws FileNotFoundException {
+        readIndexFromFile(indexFilename);
+        readDocIDsFromFile(indexDocIDsFilename);
+    }
+
     public void readIndexFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
+        String line, term;
+        String[] fields, data;
         while(sc.hasNextLine()){
-            String line = sc.nextLine();
-            String[] fields = line.split(";");
-            String[] data = fields[0].split(":");
-            String term = data[0];
+            line = sc.nextLine();
+            fields = line.split(";");
+            data = fields[0].split(":");
+            term = data[0];
             index.put(term, new HashSet<>());
             idfs.put(term, Double.parseDouble(data[1]));
             for (int i = 1; i < fields.length; i++) {
@@ -46,16 +60,18 @@ public class Indexer {
     public void readDocIDsFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
+        String line;
+        String[] fields, data;
         while(sc.hasNextLine()){
-            String line = sc.nextLine();
-            String[] fields = line.split(";");
-            String[] data = fields[0].split(":");
+            line = sc.nextLine();
+            fields = line.split(";");
+            data = fields[0].split(":");
             docIDs.put(Integer.parseInt(data[0]), data[1]);
         }
         sc.close();
     }
 
-    public void corpusReader(String corpus, String indexFilename, String docsIDsFilename) throws IOException {
+    public void corpusReader(String corpus, String rankingMethod, String indexFilename, String docsIDsFilename) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(corpus));
         String[] line; //Ignores the first line
         //Iterate over the collection of documents (each line is a document)
@@ -63,7 +79,7 @@ public class Indexer {
             //Verifies if the abstract is not empty
             if(line[8].length() > 0) {
                 Document doc = new Document(line[0], line[3], line[8]);
-                addDocToIndex(doc);
+                addDocToIndex(doc); // --------------------------------------------> Passar método de ranking e fazer o index bm25 (meter os tfraws e verificar se é preciso IDF ou DF)!!
             }
         }
         reader.close();
@@ -136,7 +152,7 @@ public class Indexer {
             writer.write(entry.getKey() + ":" + idf + ";" );
             idfs.replace(entry.getKey(), idf);
             for(Posting posting:entry.getValue()){
-                writer.write(posting.getDocID() + ":" + posting.getTermWeight() + ";");
+                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ";");
             }
             writer.newLine();
         }

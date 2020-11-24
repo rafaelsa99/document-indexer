@@ -3,22 +3,22 @@
  * @author Rafael Sá 104552 and António Ramos 101193
  */
 
-//Posting with term weight
+//Posting with term weight/term frequency
 public class Posting {
 
     private int docID; //Document ID
-    private double termWeight; //Term Weight
+    private double termValue; //Term Weight OR Term Frequency
 
-    public Posting(int docID, double termFreq) {
+    public Posting(int docID, double termValue) {
         this.docID = docID;
-        this.termWeight = termFreq;
+        this.termValue = termValue;
     }
 
     public int getDocID() {
         return docID;
     }
 
-    public double getTermWeight() {
-        return termWeight;
+    public double getTermValue() {
+        return termValue;
     }
 }

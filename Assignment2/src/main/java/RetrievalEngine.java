@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -7,37 +8,107 @@ import java.io.IOException;
 
 public class RetrievalEngine {
 
-    private static final String results_tf_idf_filename = "queries/queries_tf_idf_results.txt";
-    private static final String metrics_tf_idf_filename = "queries/metrics_tf_idf_results.txt";
+    private static final String results_vsm_filename = "queries/queries_vsm_results.txt";
+    private static final String metrics_vsm_filename = "queries/metrics_vsm_results.txt";
     private static final String results_bm25_filename = "queries/queries_bm25_results.txt";
     private static final String metrics_bm25_filename = "queries/metrics_bm25_results.txt";
-    private static final String index_tf_idf_filename = "indexFiles/tf_idf_index.txt";
-    private static final String index_docIDs_tf_idf_filename = "indexFiles/tf_idf_index_doc_ids.txt";
-    private static final String index_bm25_filename = "indexFiles/bm25_index.txt";
-    private static final String index_docIDs_bm25_filename = "indexFiles/bm25_index_doc_ids.txt";
+    private static final String index_vsm_filename = "indexFiles/index_vsm.txt";
+    private static final String index_docIDs_vsm_filename = "indexFiles/index_doc_ids_vsm.txt";
+    private static final String index_bm25_filename = "indexFiles/index_bm25.txt";
+    private static final String index_docIDs_bm25_filename = "indexFiles/index_doc_ids_bm25.txt";
+
+    private static Indexer index;
 
     public static void main(String[] args) {
-        if (args.length != 5) {
-            System.out.println("Error! Parameters: corpusFile stopWordsList queries.txt queries.relevance.filtered.txt indexMethod(0:tf-idf or 2:BM25)");
+        if (((args.length) != 5 && (args.length) != 4) || !(args[3].toLowerCase().equals("vsm") || args[3].toLowerCase().equals("bm25"))) {
+            System.out.println("Error! Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] (Optional: corpusFilename)");
             return;
         }
         try {
-            Indexer indexer = new Indexer(args[1]);
-            long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            long startTime = System.nanoTime();
-            indexer.corpusReader(args[0], index_tf_idf_filename, index_docIDs_tf_idf_filename);  //Entry point
-            long endTime = System.nanoTime();
-            long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            //Calculate indexing time
-            System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
-            //Calculate Memory Usage
-            System.out.println("Memory used: " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
-            //Vocabulary Size
-            System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
-            Query query = new Query(args[1],indexer,args[3], metrics_tf_idf_filename);
-            query.readQueryFile(args[2], results_tf_idf_filename);
+            String rankingMethod = args[3].toLowerCase();
+            if(((args.length) == 4) && !indexExists(rankingMethod)){ //No index and corpus
+                System.out.println("Error! There is no index already created, and no corpus was indicated to create the index.");
+                System.out.println("Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] (Optional: corpusFilename)");
+                return;
+            }
+
+            if(!indexExists(rankingMethod))
+                createIndex(args[0], args[4], rankingMethod);
+            else
+                loadIndex(rankingMethod);
+
+            if(rankingMethod.equals("vsm")){
+                Query query = new Query(args[0], index, args[2], metrics_vsm_filename);
+                query.readQueryFile(args[1], results_vsm_filename);
+                System.out.println("Queries results saved on file \"" + results_vsm_filename + "\"");
+                System.out.println("Metrics saved on file \"" + metrics_vsm_filename + "\"");
+            } else {
+                Query query = new Query(args[0], index, args[2], metrics_bm25_filename);
+                query.readQueryFile(args[1], results_bm25_filename);
+                System.out.println("Queries results saved on file \"" + results_bm25_filename + "\"");
+                System.out.println("Metrics saved on file \"" + metrics_bm25_filename + "\"");
+            }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static boolean indexExists(String rankingMethod){
+        File indexFile, indexDocsFile;
+        if(rankingMethod.equals("vsm")) {
+            indexFile = new File(index_vsm_filename);
+            indexDocsFile = new File(index_docIDs_vsm_filename);
+        } else {
+            indexFile = new File(index_bm25_filename);
+            indexDocsFile = new File(index_docIDs_bm25_filename);
+        }
+        if (indexFile.exists() && indexFile.isFile() && indexDocsFile.exists() && indexDocsFile.isFile())
+            return true;
+        else
+            return false;
+    }
+
+    public static void createIndex(String stopWordsList, String corpusFile, String rankingMethod) throws IOException {
+        index = new Indexer(stopWordsList);
+        long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long startTime = System.nanoTime();
+        if(rankingMethod.equals("vsm")) //Vector Space Model
+            index.corpusReader(corpusFile, rankingMethod, index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
+        else //BM25
+            index.corpusReader(corpusFile, rankingMethod, index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
+        long endTime = System.nanoTime();
+        long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        if(rankingMethod.equals("vsm")) //Vector Space Model
+            System.out.println("Index saved on files \"" + index_vsm_filename + "\" and \"" + index_docIDs_vsm_filename + "\"");
+        else //BM25
+            System.out.println("Index saved on files \"" + index_bm25_filename + "\" and \"" + index_docIDs_bm25_filename + "\"");
+        //Calculate indexing time
+        System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
+        //Calculate Memory Usage
+        System.out.println("Memory used (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+        //Vocabulary Size
+        System.out.println("Vocabulary Size: " + index.getVocabularySize() + " terms");
+    }
+
+    public static void loadIndex(String rankingMethod) throws IOException {
+        index = new Indexer();
+        long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long startTime = System.nanoTime();
+        if(rankingMethod.equals("vsm")) //Vector Space Model
+            index.loadIndexFromFiles(index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
+        else //BM25
+            index.loadIndexFromFiles(index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
+        long endTime = System.nanoTime();
+        long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        if(rankingMethod.equals("vsm")) //Vector Space Model
+            System.out.println("Index loaded from files \"" + index_vsm_filename + "\" and \"" + index_docIDs_vsm_filename + "\"");
+        else //BM25
+            System.out.println("Index loaded from files \"" + index_bm25_filename + "\" and \"" + index_docIDs_bm25_filename + "\"");
+        //Calculate indexing time
+        System.out.println("Index loading time: " + (endTime - startTime) / 1000000000 + " seconds");
+        //Calculate Memory Usage
+        System.out.println("Memory used (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+        //Vocabulary Size
+        System.out.println("Vocabulary Size: " + index.getVocabularySize() + " terms");
     }
 }
