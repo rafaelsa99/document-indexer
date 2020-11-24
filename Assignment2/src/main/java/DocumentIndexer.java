@@ -21,6 +21,7 @@ public class DocumentIndexer {
         }
         try {
             Indexer indexer = new Indexer(args[1]);
+            System.out.println("Indexing corpus...");
             long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             long startTime = System.nanoTime();
             if(args[2].toLowerCase().equals("vsm")) //Vector Space Model
@@ -36,7 +37,7 @@ public class DocumentIndexer {
             //Calculate indexing time
             System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
             //Calculate Memory Usage
-            System.out.println("Memory used (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+            System.out.println("Memory used for indexing (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
             //Vocabulary Size
             System.out.println("Vocabulary Size: " + indexer.getVocabularySize() + " terms");
         } catch (IOException e) {

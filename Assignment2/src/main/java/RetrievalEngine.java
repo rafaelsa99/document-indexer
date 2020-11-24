@@ -32,10 +32,14 @@ public class RetrievalEngine {
                 return;
             }
 
-            if(!indexExists(rankingMethod))
+            if(!indexExists(rankingMethod)) {
+                System.out.println("Indexing corpus...");
                 createIndex(args[0], args[4], rankingMethod);
-            else
+            }
+            else {
+                System.out.println("Loading index...");
                 loadIndex(rankingMethod);
+            }
 
             if(rankingMethod.equals("vsm")){
                 Query query = new Query(args[0], index, args[2], metrics_vsm_filename);
@@ -85,7 +89,7 @@ public class RetrievalEngine {
         //Calculate indexing time
         System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
         //Calculate Memory Usage
-        System.out.println("Memory used (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+        System.out.println("Memory used for indexing (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
         //Vocabulary Size
         System.out.println("Vocabulary Size: " + index.getVocabularySize() + " terms");
     }
@@ -107,7 +111,7 @@ public class RetrievalEngine {
         //Calculate indexing time
         System.out.println("Index loading time: " + (endTime - startTime) / 1000000000 + " seconds");
         //Calculate Memory Usage
-        System.out.println("Memory used (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
+        System.out.println("Memory used to load index (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
         //Vocabulary Size
         System.out.println("Vocabulary Size: " + index.getVocabularySize() + " terms");
     }
