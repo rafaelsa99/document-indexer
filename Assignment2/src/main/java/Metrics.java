@@ -9,10 +9,10 @@ import java.util.*;
  */
 
 
-public class EfficiencyMetrics {
+public class Metrics {
 
     HashMap<Integer, HashMap<String, Integer>> query_Filter; //<QueryID, HashMap<Cord_UI, Relevance>>
-
+    ArrayList<Integer> latencies;
     Metric precisions;
     Metric recalls;
     Metric fmeasures;
@@ -27,7 +27,7 @@ public class EfficiencyMetrics {
 
     BufferedWriter writerMetrics;
 
-    public EfficiencyMetrics(String relevancesFilename, String metricsFilename) throws IOException {
+    public Metrics(String relevancesFilename, String metricsFilename) throws IOException {
         query_Filter = new HashMap<>();
         readFilterQueryfile(relevancesFilename);
         this.fmeasures = new Metric();
@@ -35,6 +35,7 @@ public class EfficiencyMetrics {
         this.recalls = new Metric();
         this.averagePrecisions = new Metric();
         this.ndcgs = new Metric();
+        this.latencies = new ArrayList<>();
         this.numQueries = 0;
         initializeMetricsFile(metricsFilename);
     }
@@ -64,25 +65,39 @@ public class EfficiencyMetrics {
     }
 
 
-    public void writeMetricsForQueryOnFile(int queryId) throws IOException {
+    public void writeMetricsForQueryOnFile(int queryId, int latency) throws IOException {
         writerMetrics.newLine();
         writerMetrics.write(queryId + "\t" + round(precisions.getLastValue(10),2) + " " + round(precisions.getLastValue(20),2) + " " + round(precisions.getLastValue(50),2));
         writerMetrics.write("\t" + round(recalls.getLastValue(10),2) + " " + round(recalls.getLastValue(20),2) + " " + round(recalls.getLastValue(50),2));
         writerMetrics.write("\t" + round(fmeasures.getLastValue(10),2) + " " + round(fmeasures.getLastValue(20),2) + " " + round(fmeasures.getLastValue(50),2));
         writerMetrics.write("\t" + round(averagePrecisions.getLastValue(10),2) + " " + round(averagePrecisions.getLastValue(20),2) + " " + round(averagePrecisions.getLastValue(50),2));
         writerMetrics.write("\t" + round(ndcgs.getLastValue(10),2) + " " + round(ndcgs.getLastValue(20),2) + " " + round(ndcgs.getLastValue(50),2));
+        writerMetrics.write("\t" + latency);
         writerMetrics.flush();
     }
 
-    public void calculateMeansAndWriteOnFile() throws IOException {
+    public void calculateMeansAndWriteOnFile(double queryThroughput) throws IOException {
         writerMetrics.newLine();
         writerMetrics.write("Mean\t" + round(precisions.getSumMetric(10)/(double)numQueries,2) + " " + round(precisions.getSumMetric(20)/(double)numQueries,2) + " " + round(precisions.getSumMetric(50)/(double)numQueries,2));
-        writerMetrics.write(" " + round(recalls.getSumMetric(10)/(double)numQueries,2) + " " + round(recalls.getSumMetric(20)/(double)numQueries,2) + " " + round(recalls.getSumMetric(50)/(double)numQueries,2));
-        writerMetrics.write(" " + round(fmeasures.getSumMetric(10)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(20)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(50)/(double)numQueries,2));
-        writerMetrics.write(" " + round(averagePrecisions.getSumMetric(10)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(20)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(50)/(double)numQueries,2));
-        writerMetrics.write(" " + round(ndcgs.getSumMetric(10)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(20)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write("\t" + round(recalls.getSumMetric(10)/(double)numQueries,2) + " " + round(recalls.getSumMetric(20)/(double)numQueries,2) + " " + round(recalls.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write("\t" + round(fmeasures.getSumMetric(10)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(20)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write("\t" + round(averagePrecisions.getSumMetric(10)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(20)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write("\t" + round(ndcgs.getSumMetric(10)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(20)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write("\t" + getLatencyMedian());
+        writerMetrics.newLine();
+        writerMetrics.write("Query Throughput: " + round(queryThroughput, 2));
         writerMetrics.flush();
         writerMetrics.close();
+    }
+
+    public int getLatencyMedian(){
+        Collections.sort(latencies);
+        int middle;
+        if (latencies.size()%2 == 1)
+            middle = (latencies.get(latencies.size()/2) + latencies.get(latencies.size()/2 - 1))/2;
+        else
+            middle = latencies.get(latencies.size() / 2);
+        return middle;
     }
 
     public double calculatePrecision(int tp, int fp)
@@ -115,7 +130,7 @@ public class EfficiencyMetrics {
         return fmeasure;
     }
 
-    public void calculateMetrics(LinkedHashMap<String, Double> retrieved_Docs, int queryId) throws IOException {
+    public void calculateMetrics(LinkedHashMap<String, Double> retrieved_Docs, int queryId, int latency) throws IOException {
         int counter = 0;
         LinkedHashMap<String, Double> top = new LinkedHashMap<>();
         for (Map.Entry<String,Double> entry:retrieved_Docs.entrySet()) {
@@ -129,7 +144,8 @@ public class EfficiencyMetrics {
                 calculateTopMetrics(50, top, queryId);
         }
         numQueries++;
-        writeMetricsForQueryOnFile(queryId);
+        latencies.add(latency);
+        writeMetricsForQueryOnFile(queryId, latency);
     }
 
     public void calculateTopMetrics(int numTop, LinkedHashMap<String, Double> retrieved_Docs, int queryId){

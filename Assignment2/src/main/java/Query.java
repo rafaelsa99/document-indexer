@@ -14,12 +14,15 @@ public class Query {
     Indexer index;
     BufferedWriter writerTopDocs;
     LinkedHashMap<String, Double> topDocs; //top x documents to a query
-    EfficiencyMetrics efficiencyMetrics;
+    Metrics metrics;
+    double totalTimeToProcessQueries; //In seconds
+
 
     public Query(String stopWords, Indexer indexer, String relevanceFilename, String metricsFilename) throws IOException {
         this.tokenizer = new Tokenizer(stopWords);
         this.index = indexer;
-        this.efficiencyMetrics = new EfficiencyMetrics(relevanceFilename, metricsFilename);
+        this.metrics = new Metrics(relevanceFilename, metricsFilename);
+        totalTimeToProcessQueries = 0;
     }
 
     public HashMap <String, Double> getQueryWeights(HashMap<String, Integer> terms){
@@ -51,7 +54,6 @@ public class Query {
             writerTopDocs.newLine();
         }
         writerTopDocs.flush();
-
     }
 
     public void readQueryFileVSM(String queryFilename, String resultsFilename) throws IOException
@@ -61,18 +63,24 @@ public class Query {
         Scanner myReader = new Scanner(myObj);
         HashMap <String, Double> weightQuery;
         HashMap<String, Integer> terms;
+        long startTime, endTime;
+        int latency;
         writerTopDocs = new BufferedWriter(new FileWriter(queryfile));
         int idQ = 1;
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
+            startTime = System.nanoTime();
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
             topDocs = getCosineScores(weightQuery, 50);
+            endTime = System.nanoTime();
+            latency = (int)((endTime - startTime) / 1000000); //In milliseconds
             writeTopDocs(topDocs, data, idQ);
-            efficiencyMetrics.calculateMetrics(topDocs, idQ);
+            metrics.calculateMetrics(topDocs, idQ, latency);
             idQ++;
+            totalTimeToProcessQueries += (double) latency / 1000.0;
         }
-        efficiencyMetrics.calculateMeansAndWriteOnFile();
+        metrics.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
         myReader.close();
         writerTopDocs.close();
     }
@@ -83,19 +91,29 @@ public class Query {
         File myObj = new File(queryFilename);
         Scanner myReader = new Scanner(myObj);
         List<String> terms;
+        long startTime, endTime;
+        int latency;
         writerTopDocs = new BufferedWriter(new FileWriter(queryfile));
         int idQ = 1;
         while (myReader.hasNextLine()) {
             String data = myReader.nextLine();
+            startTime = System.nanoTime();
             terms = tokenizer.improvedTokenizerforQueryBM25(data);
             topDocs = getRSVBM25(terms, 50, k1, b);
+            endTime = System.nanoTime();
+            latency = (int)((endTime - startTime) / 1000000); //In milliseconds
             writeTopDocs(topDocs, data, idQ);
-            efficiencyMetrics.calculateMetrics(topDocs, idQ);
+            metrics.calculateMetrics(topDocs, idQ, latency);
             idQ++;
+            totalTimeToProcessQueries += (double) latency / 1000.0;
         }
-        efficiencyMetrics.calculateMeansAndWriteOnFile();
+        metrics.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
         myReader.close();
         writerTopDocs.close();
+    }
+
+    public double getQueryThroughput(int numQueries){
+        return (double)numQueries / totalTimeToProcessQueries;
     }
 
     public LinkedHashMap<Integer,Double> ordenateHashMap(HashMap<Integer,Double> scores)
