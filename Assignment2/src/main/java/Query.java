@@ -90,10 +90,10 @@ public class Query {
             terms = tokenizer.improvedTokenizerforQueryBM25(data);
             topDocs = getRSVBM25(terms, 50, k1, b);
             writeTopDocs(topDocs, data, idQ);
-            efficiencyMetrics.calculateMetrics(topDocs, idQ); //Método Diferente consoante o ranking method!
+            efficiencyMetrics.calculateMetrics(topDocs, idQ);
             idQ++;
         }
-        efficiencyMetrics.calculateMeansAndWriteOnFile(); //Método Diferente consoante o ranking method! (???)
+        efficiencyMetrics.calculateMeansAndWriteOnFile();
         myReader.close();
         writerTopDocs.close();
     }
