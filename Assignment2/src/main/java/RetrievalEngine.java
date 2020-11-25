@@ -9,9 +9,11 @@ import java.io.IOException;
 public class RetrievalEngine {
 
     private static final String results_vsm_filename = "queries/queries_vsm_results.txt";
-    private static final String metrics_vsm_filename = "queries/metrics_vsm_results.txt";
+    private static final String metrics_rel_1_2_vsm_filename = "queries/metrics_rel_1_2_vsm_results_.txt";
+    private static final String metrics_rel_2_vsm_filename = "queries/metrics_rel_2_vsm_results_.txt";
     private static final String results_bm25_filename = "queries/queries_bm25_results.txt";
-    private static final String metrics_bm25_filename = "queries/metrics_bm25_results.txt";
+    private static final String metrics_rel_1_2_bm25_filename = "queries/metrics_rel_1_2_bm25_results.txt";
+    private static final String metrics_rel_2_bm25_filename = "queries/metrics_rel_2_bm25_results.txt";
     private static final String index_vsm_filename = "indexFiles/index_vsm.txt";
     private static final String index_docIDs_vsm_filename = "indexFiles/index_doc_ids_vsm.txt";
     private static final String index_bm25_filename = "indexFiles/index_bm25.txt";
@@ -44,15 +46,17 @@ public class RetrievalEngine {
             }
 
             if(rankingMethod.equals("vsm")){
-                Query query = new Query(args[0], index, args[2], metrics_vsm_filename);
+                Query query = new Query(args[0], index, args[2], metrics_rel_1_2_vsm_filename, metrics_rel_2_vsm_filename);
                 query.readQueryFileVSM(args[1], results_vsm_filename);
                 System.out.println("Queries results saved on file \"" + results_vsm_filename + "\"");
-                System.out.println("Metrics saved on file \"" + metrics_vsm_filename + "\"");
+                System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_vsm_filename + "\"");
+                System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_vsm_filename + "\"");
             } else {
-                Query query = new Query(args[0], index, args[2], metrics_bm25_filename);
+                Query query = new Query(args[0], index, args[2], metrics_rel_1_2_bm25_filename, metrics_rel_2_bm25_filename);
                 query.readQueryFileBM25(args[1], results_bm25_filename, bm25_k1, bm25_b);
                 System.out.println("Queries results saved on file \"" + results_bm25_filename + "\"");
-                System.out.println("Metrics saved on file \"" + metrics_bm25_filename + "\"");
+                System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_bm25_filename + "\"");
+                System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_bm25_filename + "\"");
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

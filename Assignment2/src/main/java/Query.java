@@ -14,14 +14,16 @@ public class Query {
     Indexer index;
     BufferedWriter writerTopDocs;
     LinkedHashMap<String, Double> topDocs; //top x documents to a query
-    Metrics metrics;
+    Metrics metrics_rel_1_2;
+    Metrics metrics_rel_2;
     double totalTimeToProcessQueries; //In seconds
 
 
-    public Query(String stopWords, Indexer indexer, String relevanceFilename, String metricsFilename) throws IOException {
+    public Query(String stopWords, Indexer indexer, String relevanceFilename, String metricsRel1Filename, String metricsRel2Filename) throws IOException {
         this.tokenizer = new Tokenizer(stopWords);
         this.index = indexer;
-        this.metrics = new Metrics(relevanceFilename, metricsFilename);
+        this.metrics_rel_1_2 = new Metrics(relevanceFilename, metricsRel1Filename, 1);
+        this.metrics_rel_2 = new Metrics(relevanceFilename, metricsRel2Filename, 2);
         totalTimeToProcessQueries = 0;
     }
 
@@ -76,11 +78,13 @@ public class Query {
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
             writeTopDocs(topDocs, data, idQ);
-            metrics.calculateMetrics(topDocs, idQ, latency);
+            metrics_rel_1_2.calculateMetrics(topDocs, idQ, latency);
+            metrics_rel_2.calculateMetrics(topDocs, idQ, latency);
             idQ++;
             totalTimeToProcessQueries += (double) latency / 1000.0;
         }
-        metrics.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
+        metrics_rel_1_2.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
+        metrics_rel_2.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
         myReader.close();
         writerTopDocs.close();
     }
@@ -103,11 +107,13 @@ public class Query {
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
             writeTopDocs(topDocs, data, idQ);
-            metrics.calculateMetrics(topDocs, idQ, latency);
+            metrics_rel_1_2.calculateMetrics(topDocs, idQ, latency);
+            metrics_rel_2.calculateMetrics(topDocs, idQ, latency);
             idQ++;
             totalTimeToProcessQueries += (double) latency / 1000.0;
         }
-        metrics.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
+        metrics_rel_1_2.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
+        metrics_rel_2.calculateMeansAndWriteOnFile(getQueryThroughput(idQ - 1));
         myReader.close();
         writerTopDocs.close();
     }

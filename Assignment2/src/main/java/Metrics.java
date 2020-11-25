@@ -18,7 +18,7 @@ public class Metrics {
     Metric fmeasures;
     Metric averagePrecisions;
     Metric ndcgs;
-
+    int minimumRelevance;
     int numQueries;
     int tp; //Retrieved -> Relevant
     int fp; //Retrieved -> NonRelevant
@@ -27,7 +27,7 @@ public class Metrics {
 
     BufferedWriter writerMetrics;
 
-    public Metrics(String relevancesFilename, String metricsFilename) throws IOException {
+    public Metrics(String relevancesFilename, String metricsFilename, int numMinRel) throws IOException {
         query_Filter = new HashMap<>();
         readFilterQueryfile(relevancesFilename);
         this.fmeasures = new Metric();
@@ -37,12 +37,16 @@ public class Metrics {
         this.ndcgs = new Metric();
         this.latencies = new ArrayList<>();
         this.numQueries = 0;
+        this.minimumRelevance = numMinRel;
         initializeMetricsFile(metricsFilename);
     }
 
     private void initializeMetricsFile(String metricsFilename) throws IOException {
         File queryfile = new File(metricsFilename);
         writerMetrics = new BufferedWriter(new FileWriter(queryfile));
+        writerMetrics.write("Metrics considering relevant documents with relevance greater or equal than " + minimumRelevance);
+        writerMetrics.newLine();
+        writerMetrics.newLine();
         writerMetrics.write("Query \t Precision \t Recall \t F-Measure \t Average Precision \t NDCG \t Latency");
         writerMetrics.newLine();
         writerMetrics.write("# \t@10  @20  @50\t@10  @20  @50\t@10  @20  @50\t@10  @20  @50\t@10  @20  @50");
@@ -171,12 +175,12 @@ public class Metrics {
 
         for(Map.Entry<String, Integer> docs:query_Filter.get(queryId).entrySet()) {
             if (retrieved_Docs.containsKey(docs.getKey())) {
-                if (docs.getValue() > 0) //Retrieved and Is Relevant
+                if (docs.getValue() >= minimumRelevance) //Retrieved and Is Relevant
                     tp++;
                 else
                     fp++;
             } else {
-                if (docs.getValue() > 0)  //Not Retrieved and Is Relevant
+                if (docs.getValue() >= minimumRelevance)  //Not Retrieved and Is Relevant
                     fn++;
                 else
                     tn++;
@@ -192,7 +196,7 @@ public class Metrics {
         for(Map.Entry<String, Double> doc:retrieved_Doc.entrySet()){
             countNdocs++;
             if(query_Filter.get(queryId).containsKey(doc.getKey())) {
-                if (query_Filter.get(queryId).get(doc.getKey()) > 0) {
+                if (query_Filter.get(queryId).get(doc.getKey()) >= minimumRelevance) {
                     relevCount++;
                     sumAveragePrecision += (double) relevCount / (double) countNdocs;
                 }
