@@ -284,7 +284,7 @@ public class Indexer {
         if(index.containsKey(term))
             return index.get(term);
         else
-            return new HashSet<Posting>();
+            return new HashSet<>();
     }
 
     public String getDocID(int id){

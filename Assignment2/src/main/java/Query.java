@@ -121,12 +121,7 @@ public class Query {
         // Create a list from elements of HashMap
         List<Map.Entry<Integer, Double> > list = new LinkedList<>(scores.entrySet());
         // Sort the list
-        list.sort(new Comparator<Map.Entry<Integer, Double>>() {
-            public int compare(Map.Entry<Integer, Double> o1, Map.Entry<Integer, Double> o2) {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
-
+        list.sort((o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
         // put data from sorted list to hashmap
         LinkedHashMap<Integer, Double> temp = new LinkedHashMap<>();
         for (Map.Entry<Integer, Double> aa : list) {
