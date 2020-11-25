@@ -16,40 +16,16 @@ public class EfficiencyMetrics {
     Metric precisions;
     Metric recalls;
     Metric fmeasures;
-    int numQueries;
+    Metric averagePrecisions;
+    Metric ndcgs;
 
+    int numQueries;
     int tp; //Retrieved -> Relevant
     int fp; //Retrieved -> NonRelevant
     int tn; //Not Retrieved -> NonRelevant
     int fn; //Not Retrieved -> Relevant
-    int countRelevants;
 
     BufferedWriter writerMetrics;
-
-    //a) Mean Precision
-    //b) Mean Recall
-    //c) Mean F-measure
-    //d) Mean Average Precision (MAP) -> média de todas as query dos valores da precision com base nos documentos relevantes (top 1 prec 0.12 para a query 1, top 1 prec 0.82 para a query 2. map = 0.12+0.82/2  )
-    //e) Mean Normalized Discounted Cumulative Gain (NDCG)
-    //f) Query throughput
-    //g) Median query latency
-
-    /*
-    	Precision	Recall	F-measure	Average Precision	NDCG	Latency
-Query #	@10	@20	@50	@10	@20	@50	@10	@20	@50	@10	@20	@50	@10	@20	@50
-1
-2
-3
-4
-...
-49
-50
-Mean
-
-// doc
-O ficheiro queries.relevance.txt tem o seguinte formato: query_id, cord_ui, relevance
-Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 0 (não relevante), 1 (pouco relevante), 2 (relevante).
-     */
 
     public EfficiencyMetrics(String relevancesFilename, String metricsFilename) throws IOException {
         query_Filter = new HashMap<>();
@@ -57,6 +33,8 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         this.fmeasures = new Metric();
         this.precisions = new Metric();
         this.recalls = new Metric();
+        this.averagePrecisions = new Metric();
+        this.ndcgs = new Metric();
         this.numQueries = 0;
         initializeMetricsFile(metricsFilename);
     }
@@ -91,6 +69,8 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         writerMetrics.write(queryId + "\t" + round(precisions.getLastValue(10),2) + " " + round(precisions.getLastValue(20),2) + " " + round(precisions.getLastValue(50),2));
         writerMetrics.write("\t" + round(recalls.getLastValue(10),2) + " " + round(recalls.getLastValue(20),2) + " " + round(recalls.getLastValue(50),2));
         writerMetrics.write("\t" + round(fmeasures.getLastValue(10),2) + " " + round(fmeasures.getLastValue(20),2) + " " + round(fmeasures.getLastValue(50),2));
+        writerMetrics.write("\t" + round(averagePrecisions.getLastValue(10),2) + " " + round(averagePrecisions.getLastValue(20),2) + " " + round(averagePrecisions.getLastValue(50),2));
+        writerMetrics.write("\t" + round(ndcgs.getLastValue(10),2) + " " + round(ndcgs.getLastValue(20),2) + " " + round(ndcgs.getLastValue(50),2));
         writerMetrics.flush();
     }
 
@@ -99,6 +79,8 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         writerMetrics.write("Mean\t" + round(precisions.getSumMetric(10)/(double)numQueries,2) + " " + round(precisions.getSumMetric(20)/(double)numQueries,2) + " " + round(precisions.getSumMetric(50)/(double)numQueries,2));
         writerMetrics.write(" " + round(recalls.getSumMetric(10)/(double)numQueries,2) + " " + round(recalls.getSumMetric(20)/(double)numQueries,2) + " " + round(recalls.getSumMetric(50)/(double)numQueries,2));
         writerMetrics.write(" " + round(fmeasures.getSumMetric(10)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(20)/(double)numQueries,2) + " " + round(fmeasures.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write(" " + round(averagePrecisions.getSumMetric(10)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(20)/(double)numQueries,2) + " " + round(averagePrecisions.getSumMetric(50)/(double)numQueries,2));
+        writerMetrics.write(" " + round(ndcgs.getSumMetric(10)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(20)/(double)numQueries,2) + " " + round(ndcgs.getSumMetric(50)/(double)numQueries,2));
         writerMetrics.flush();
         writerMetrics.close();
     }
@@ -134,7 +116,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
     }
 
     public void calculateMetrics(LinkedHashMap<String, Double> retrieved_Docs, int queryId) throws IOException {
-        ArrayList<LinkedHashMap<String, Double>> tops = new ArrayList<>();
         int counter = 0;
         LinkedHashMap<String, Double> top = new LinkedHashMap<>();
         for (Map.Entry<String,Double> entry:retrieved_Docs.entrySet()) {
@@ -156,9 +137,13 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         double precision = calculatePrecision(tp,fp);
         double recall = calculateRecall(tp,fn);
         double fmeasure = calculateFmeasure(precision, recall);
+        double ap = calculateAveragePrecision(retrieved_Docs,queryId);
+        double ndcg = calculateNDCG(retrieved_Docs,queryId);
         precisions.addNewValue(numTop, precision);
         recalls.addNewValue(numTop, recall);
         fmeasures.addNewValue(numTop, fmeasure);
+        averagePrecisions.addNewValue(numTop,ap);
+        ndcgs.addNewValue(numTop,ndcg);
     }
 
     public void calculateDatatoUseOnPrecisionAndRecall(LinkedHashMap<String, Double> retrieved_Docs, int queryId) //dados query.relevance e linkedhashmap da query
@@ -167,7 +152,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         fp = 0; //Retrieved -> NonRelevant
         tn = 0; //Not Retrieved -> NonRelevant
         fn = 0; //Not Retrieved -> Relevant
-        countRelevants = 0;
 
         for(Map.Entry<String, Integer> docs:query_Filter.get(queryId).entrySet()) {
             if (retrieved_Docs.containsKey(docs.getKey())) {
@@ -175,7 +159,6 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
                     tp++;
                 else
                     fp++;
-                countRelevants++;
             } else {
                 if (docs.getValue() > 0)  //Not Retrieved and Is Relevant
                     fn++;
@@ -185,17 +168,77 @@ Para cada query (1..50) existe uma lista de documentos e respetiva relevância: 
         }
     }
 
-    public void MAP(HashMap<String, Double> prec)
-    {
-        HashMap<String, Double> Maprecision = new HashMap<>();
-        String aux;
-        double sumPrec = 0;
-        for (String p:prec.keySet())
-        {
-            //verificacion if query is the same
-
-                sumPrec += prec.get(p);
+    public double calculateAveragePrecision(LinkedHashMap<String, Double> retrieved_Doc,int queryId) {
+        int countNdocs = 0; //count documents
+        int relevCount = 0; //gives a number of documents relevants
+        double sumAveragePrecision = 0.0;
+        double ap = 0.0;
+        for(Map.Entry<String, Double> doc:retrieved_Doc.entrySet()){
+            countNdocs++;
+            if(query_Filter.get(queryId).containsKey(doc.getKey())) {
+                if (query_Filter.get(queryId).get(doc.getKey()) > 0) {
+                    relevCount++;
+                    sumAveragePrecision += (double) relevCount / (double) countNdocs;
+                }
+            }
         }
+        if(relevCount > 0)
+            ap = sumAveragePrecision/(double)relevCount;
+        return ap;
+    }
+
+    public ArrayList<Double> calculateIdealDCG(ArrayList<Integer> relevanceOrdered){
+        ArrayList<Double> idealDCG = new ArrayList<>();
+        int countNdocs = 0;
+        double sum = 0;
+        for (Integer i:relevanceOrdered) {
+            countNdocs++;
+            if(countNdocs == 1){
+                sum = (double)i;
+            } else {
+                sum+=(double)i/log2(countNdocs) ;
+            }
+            idealDCG.add((sum));
+        }
+        return idealDCG;
+    }
+
+    public double calculateNDCG(LinkedHashMap<String, Double> retrieved_Doc, int queryId)
+    {
+        int countNdocs = 0;
+        double sum = 0.0;
+        ArrayList<Double> realDCG = new ArrayList<>();
+        ArrayList<Double> idealDCG;
+        ArrayList<Integer> relevanceOrdered = new ArrayList<>();
+
+        for(Map.Entry<String, Double> doc:retrieved_Doc.entrySet()) {
+            countNdocs++;
+            if(query_Filter.get(queryId).containsKey(doc.getKey())) {
+                relevanceOrdered.add(query_Filter.get(queryId).get(doc.getKey())); //Checks relevance
+                if (countNdocs == 1) {
+                    sum=(double)query_Filter.get(queryId).get(doc.getKey()); //first doc
+                } else {
+                    sum += (double) query_Filter.get(queryId).get(doc.getKey())/log2(countNdocs);
+                }
+            } else{
+                relevanceOrdered.add(0); //If not on relevance doc, then it's not relevant
+            }
+            realDCG.add(sum);
+        }
+        relevanceOrdered.sort(Collections.reverseOrder());
+        idealDCG = calculateIdealDCG(relevanceOrdered);
+        sum = 0;
+        for(int i = 0; i<realDCG.size();i++){
+            if(idealDCG.get(i) > 0)
+                sum+= realDCG.get(i) / idealDCG.get(i);
+        }
+        if(countNdocs > 0)
+            return sum/(double)countNdocs;
+        return 0.0;
+    }
+
+    public double log2(double x) {
+        return (Math.log(x) / Math.log(2));
     }
 
     public static double round(double value, int places) {
