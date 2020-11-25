@@ -29,7 +29,7 @@ public class Query {
         HashMap <String, Double> weightQuery = new HashMap<>();
         for (String termos : terms.keySet())
         {
-            idf = index.getIdf(termos);
+            idf = index.getDf(termos);
             wtdf = ((1+Math.log(terms.get(termos)))*idf);
             sumWeightQ += Math.pow(wtdf,2);
         }
