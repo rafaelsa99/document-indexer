@@ -95,6 +95,20 @@ public class Tokenizer {
         return tokens;
     }
 
+    public List<String> improvedTokenizerforQueryBM25(String query){
+        //Set queryterm with lowercase
+        String termQuery = query.toLowerCase();
+        //Tokenizer Decisions
+        termQuery = replaceNonAlphaBySpace(termQuery);
+        //Split title and abstract on whitespace
+        List<String> queryTokens = splitOnWhitespace(termQuery);
+        //Stemming
+        queryTokens = applyStemming(queryTokens);
+        //Remove the stop words from the tokens list
+        queryTokens.removeIf(entry -> stopWords.contains(entry));
+        return queryTokens;
+    }
+
     //Apply Stemming to the list of tokens
     public List<String> applyStemming(List<String> tokens){
         List<String> stemmedTokens = new ArrayList<>();

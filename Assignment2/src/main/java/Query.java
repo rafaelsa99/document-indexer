@@ -29,7 +29,7 @@ public class Query {
         HashMap <String, Double> weightQuery = new HashMap<>();
         for (String termos : terms.keySet())
         {
-            idf = index.getDf(termos);
+            idf = index.getIdf(termos);
             wtdf = ((1+Math.log(terms.get(termos)))*idf);
             sumWeightQ += Math.pow(wtdf,2);
         }
@@ -54,7 +54,7 @@ public class Query {
 
     }
 
-    public void readQueryFile(String queryFilename, String resultsFilename) throws IOException
+    public void readQueryFileVSM(String queryFilename, String resultsFilename) throws IOException
     {
         File queryfile = new File(resultsFilename);
         File myObj = new File(queryFilename);
@@ -73,6 +73,27 @@ public class Query {
             idQ++;
         }
         efficiencyMetrics.calculateMeansAndWriteOnFile();
+        myReader.close();
+        writerTopDocs.close();
+    }
+
+    public void readQueryFileBM25(String queryFilename, String resultsFilename, double k1, double b) throws IOException
+    {
+        File queryfile = new File(resultsFilename);
+        File myObj = new File(queryFilename);
+        Scanner myReader = new Scanner(myObj);
+        List<String> terms;
+        writerTopDocs = new BufferedWriter(new FileWriter(queryfile));
+        int idQ = 1;
+        while (myReader.hasNextLine()) {
+            String data = myReader.nextLine();
+            terms = tokenizer.improvedTokenizerforQueryBM25(data);
+            topDocs = getRSVBM25(terms, 50, k1, b);
+            writeTopDocs(topDocs, data, idQ);
+            efficiencyMetrics.calculateMetrics(topDocs, idQ); //Método Diferente consoante o ranking method!
+            idQ++;
+        }
+        efficiencyMetrics.calculateMeansAndWriteOnFile(); //Método Diferente consoante o ranking method! (???)
         myReader.close();
         writerTopDocs.close();
     }
@@ -107,6 +128,27 @@ public class Query {
                 else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermValue());
             }
         }
+        return getTopDocs(scores, numTopDocs);
+    }
+
+    public LinkedHashMap<String, Double> getRSVBM25(List<String> termsQuery, int numTopDocs, double k1, double b)
+    {
+        double score, numerator, denominator;
+        HashMap<Integer,Double> scores = new HashMap<>(); //save scores
+        for (String term:termsQuery){
+            for(Posting posting:index.getPostingList(term)){
+                numerator = (k1 + 1) * posting.getTermValue();
+                denominator = (k1 * ((1 - b) + b * ((double)index.getDl(posting.getDocID()) / index.getAvdlBM25())) + posting.getTermValue());
+                score = index.getIdf(term) * (numerator / denominator);
+                if(scores.containsKey(posting.getDocID()))
+                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + score);
+                else scores.put(posting.getDocID(),score);
+            }
+        }
+        return getTopDocs(scores, numTopDocs);
+    }
+
+    public LinkedHashMap<String, Double> getTopDocs(HashMap<Integer,Double> scores, int numTopDocs){
         int count = 0;
         LinkedHashMap<Integer, Double> orderedScores = ordenateHashMap(scores);
         LinkedHashMap<String, Double> topDocs = new LinkedHashMap<>();

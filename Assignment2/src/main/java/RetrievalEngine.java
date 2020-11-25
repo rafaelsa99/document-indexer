@@ -16,6 +16,8 @@ public class RetrievalEngine {
     private static final String index_docIDs_vsm_filename = "indexFiles/index_doc_ids_vsm.txt";
     private static final String index_bm25_filename = "indexFiles/index_bm25.txt";
     private static final String index_docIDs_bm25_filename = "indexFiles/index_doc_ids_bm25.txt";
+    private static final double bm25_k1 = 1.2;
+    private static final double bm25_b = 0.75;
 
     private static Indexer index;
 
@@ -43,12 +45,12 @@ public class RetrievalEngine {
 
             if(rankingMethod.equals("vsm")){
                 Query query = new Query(args[0], index, args[2], metrics_vsm_filename);
-                query.readQueryFile(args[1], results_vsm_filename);
+                query.readQueryFileVSM(args[1], results_vsm_filename);
                 System.out.println("Queries results saved on file \"" + results_vsm_filename + "\"");
                 System.out.println("Metrics saved on file \"" + metrics_vsm_filename + "\"");
             } else {
                 Query query = new Query(args[0], index, args[2], metrics_bm25_filename);
-                query.readQueryFile(args[1], results_bm25_filename);
+                query.readQueryFileBM25(args[1], results_bm25_filename, bm25_k1, bm25_b);
                 System.out.println("Queries results saved on file \"" + results_bm25_filename + "\"");
                 System.out.println("Metrics saved on file \"" + metrics_bm25_filename + "\"");
             }
