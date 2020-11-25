@@ -38,16 +38,21 @@ public class Indexer {
         this.avdlBM25 = 0.0;
     }
 
-    public void loadIndexFromFiles(String indexFilename, String indexDocIDsFilename) throws FileNotFoundException {
-        readIndexFromFile(indexFilename);
-        readDocIDsFromFile(indexDocIDsFilename);
+    public void loadIndexFromFiles(String rankingMethod, String indexFilename, String indexDocIDsFilename) throws FileNotFoundException {
+        readIndexFromFile(rankingMethod, indexFilename);
+        readDocIDsFromFile(rankingMethod, indexDocIDsFilename);
     }
 
-    public void readIndexFromFile(String filename) throws FileNotFoundException {
+    public void readIndexFromFile(String rankingMethod, String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line, term;
         String[] fields, data;
+        if(rankingMethod.equals("bm25")) {
+            line = sc.nextLine();
+            fields = line.split(";");
+            avdlBM25 = Double.parseDouble(fields[0]);
+        }
         while(sc.hasNextLine()){
             line = sc.nextLine();
             fields = line.split(";");
@@ -63,7 +68,7 @@ public class Indexer {
         sc.close();
     }
 
-    public void readDocIDsFromFile(String filename) throws FileNotFoundException {
+    public void readDocIDsFromFile(String rankingMethod, String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line;
@@ -73,6 +78,8 @@ public class Indexer {
             fields = line.split(";");
             data = fields[0].split(":");
             docIDs.put(Integer.parseInt(data[0]), data[1]);
+            if(rankingMethod.equals("bm25"))
+                dlsBM25.put(Integer.parseInt(data[0]), Integer.parseInt(data[2]));
         }
         sc.close();
     }

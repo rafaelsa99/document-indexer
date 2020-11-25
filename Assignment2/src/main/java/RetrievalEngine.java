@@ -99,9 +99,9 @@ public class RetrievalEngine {
         long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
         if(rankingMethod.equals("vsm")) //Vector Space Model
-            index.loadIndexFromFiles(index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
+            index.loadIndexFromFiles(rankingMethod, index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
         else //BM25
-            index.loadIndexFromFiles(index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
+            index.loadIndexFromFiles(rankingMethod, index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
         long endTime = System.nanoTime();
         long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         if(rankingMethod.equals("vsm")) //Vector Space Model
