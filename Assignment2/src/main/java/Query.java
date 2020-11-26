@@ -75,9 +75,9 @@ public class Query {
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
             topDocs = getCosineScores(weightQuery, 50);
+            writeTopDocs(topDocs, data, idQ);
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
-            writeTopDocs(topDocs, data, idQ);
             metrics_rel_1_2.calculateMetrics(topDocs, idQ, latency);
             metrics_rel_2.calculateMetrics(topDocs, idQ, latency);
             idQ++;
@@ -89,7 +89,7 @@ public class Query {
         writerTopDocs.close();
     }
 
-    public void readQueryFileBM25(String queryFilename, String resultsFilename, double k1, double b) throws IOException
+    public void readQueryFileBM25(String queryFilename, String resultsFilename) throws IOException
     {
         File queryfile = new File(resultsFilename);
         File myObj = new File(queryFilename);
@@ -103,10 +103,10 @@ public class Query {
             String data = myReader.nextLine();
             startTime = System.nanoTime();
             terms = tokenizer.improvedTokenizerforQueryBM25(data);
-            topDocs = getRSVBM25(terms, 50, k1, b);
+            topDocs = getRSVBM25(terms, 50);
+            writeTopDocs(topDocs, data, idQ);
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
-            writeTopDocs(topDocs, data, idQ);
             metrics_rel_1_2.calculateMetrics(topDocs, idQ, latency);
             metrics_rel_2.calculateMetrics(topDocs, idQ, latency);
             idQ++;
@@ -150,18 +150,14 @@ public class Query {
         return getTopDocs(scores, numTopDocs);
     }
 
-    public LinkedHashMap<String, Double> getRSVBM25(List<String> termsQuery, int numTopDocs, double k1, double b)
+    public LinkedHashMap<String, Double> getRSVBM25(List<String> termsQuery, int numTopDocs)
     {
-        double score, numerator, denominator;
         HashMap<Integer,Double> scores = new HashMap<>(); //save scores
         for (String term:termsQuery){
             for(Posting posting:index.getPostingList(term)){
-                numerator = (k1 + 1) * posting.getTermValue();
-                denominator = (k1 * ((1 - b) + b * ((double)index.getDl(posting.getDocID()) / index.getAvdlBM25())) + posting.getTermValue());
-                score = index.getIdf(term) * (numerator / denominator);
                 if(scores.containsKey(posting.getDocID()))
-                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + score);
-                else scores.put(posting.getDocID(),score);
+                    scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + posting.getTermValue());
+                else scores.put(posting.getDocID(), posting.getTermValue());
             }
         }
         return getTopDocs(scores, numTopDocs);

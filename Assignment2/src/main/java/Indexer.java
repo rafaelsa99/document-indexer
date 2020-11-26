@@ -15,7 +15,7 @@ public class Indexer {
     private final HashMap<Integer, String> docIDs;        // Mapping between the generated ID and the document hash
     private final HashMap<String, HashSet<Posting>> index;// Inverted Index
     private final HashMap<String, Double> idfs;       // Mapping of the idf for each term
-    private HashMap<Integer, Integer> dlsBM25;      // Mapping the document length for each document (BM25)
+    private final HashMap<Integer, Integer> dlsBM25;      // Mapping the document length for each document (BM25)
     private double avdlBM25;                           // Average Document Length (BM25)
     private int lastID;                             // Last generated ID
 
@@ -30,29 +30,24 @@ public class Indexer {
     }
 
     public Indexer() {
-        tokenizer = null;
+        this.tokenizer = null;
         this.docIDs = new HashMap<>();
         this.index = new HashMap<>();
         this.idfs = new HashMap<>();
-        this.dlsBM25 = new HashMap<>();
+        this.dlsBM25 = null;
         this.avdlBM25 = 0.0;
     }
 
-    public void loadIndexFromFiles(String rankingMethod, String indexFilename, String indexDocIDsFilename) throws FileNotFoundException {
-        readIndexFromFile(rankingMethod, indexFilename);
-        readDocIDsFromFile(rankingMethod, indexDocIDsFilename);
+    public void loadIndexFromFiles(String indexFilename, String indexDocIDsFilename) throws FileNotFoundException {
+        readIndexFromFile(indexFilename);
+        readDocIDsFromFile(indexDocIDsFilename);
     }
 
-    public void readIndexFromFile(String rankingMethod, String filename) throws FileNotFoundException {
+    public void readIndexFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line, term;
         String[] fields, data;
-        if(rankingMethod.equals("bm25")) {
-            line = sc.nextLine();
-            fields = line.split(";");
-            avdlBM25 = Double.parseDouble(fields[0]);
-        }
         while(sc.hasNextLine()){
             line = sc.nextLine();
             fields = line.split(";");
@@ -68,7 +63,7 @@ public class Indexer {
         sc.close();
     }
 
-    public void readDocIDsFromFile(String rankingMethod, String filename) throws FileNotFoundException {
+    public void readDocIDsFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line;
@@ -78,8 +73,6 @@ public class Indexer {
             fields = line.split(";");
             data = fields[0].split(":");
             docIDs.put(Integer.parseInt(data[0]), data[1]);
-            if(rankingMethod.equals("bm25"))
-                dlsBM25.put(Integer.parseInt(data[0]), Integer.parseInt(data[2]));
         }
         sc.close();
     }
@@ -92,42 +85,47 @@ public class Indexer {
             //Verifies if the abstract is not empty
             if(line[8].length() > 0) {
                 Document doc = new Document(line[0], line[3], line[8]);
-                if(rankingMethod.equals("vsm"))
-                    addDocToIndexVSM(doc);
-                else
-                    addDocToIndexBM25(doc);
+                addDocToIndex(doc, rankingMethod);
             }
         }
         reader.close();
-        if(rankingMethod.equals("vsm")) {
-            writeIndexVSMToFile(indexFilename);
-            writeDocIDsVSMToFile(docsIDsFilename);
-        } else {
-            writeIndexBM25ToFile(indexFilename);
-            writeDocIDsBM25ToFile(docsIDsFilename);
+        writeIndexToFile(indexFilename);
+        writeDocIDsToFile(docsIDsFilename);
+    }
+
+    public void corpusReader(String corpus, String rankingMethod, String indexFilename, String docsIDsFilename, double k1, double b) throws IOException {
+        CSVReader reader = new CSVReader(new FileReader(corpus));
+        String[] line = reader.readNext(); //Ignores the first line
+        //Iterate over the collection of documents (each line is a document)
+        while((line = reader.readNext()) != null){
+            //Verifies if the abstract is not empty
+            if(line[8].length() > 0) {
+                Document doc = new Document(line[0], line[3], line[8]);
+                addDocToIndex(doc, rankingMethod);
+            }
         }
+        reader.close();
+        if(rankingMethod.equals("bm25"))
+            calculateBM25Ci(k1, b);
+        writeIndexToFile(indexFilename);
+        writeDocIDsToFile(docsIDsFilename);
     }
 
-    public void addDocToIndexVSM(Document doc){
+    public void addDocToIndex(Document doc, String rankingMethod){
         //Create and map the new ID for the document
         addDocID(doc.getId());
         //Get terms of the document using the tokenizer
         //HashSet<String> terms = tokenizer.simpleTokenizer(doc);
         HashMap<String, Integer> terms = tokenizer.improvedTokenizer(doc);
-        //Calculate Normalized Weights
-        HashMap<String, Double> normTerms = calculateNormalizedWeights(terms);
-        //Index the terms of the document
-        indexTermsVSM(normTerms);
-    }
-
-    public void addDocToIndexBM25(Document doc){
-        //Create and map the new ID for the document
-        addDocID(doc.getId());
-        //Get terms of the document using the tokenizer
-        //HashSet<String> terms = tokenizer.simpleTokenizer(doc);
-        HashMap<String, Integer> terms = tokenizer.improvedTokenizer(doc);
-        //Index the terms of the document
-        indexTermsBM25(terms);
+        if(rankingMethod.equals("vsm")) {
+            //Calculate Normalized Weights
+            HashMap<String, Double> normTerms = calculateNormalizedWeights(terms);
+            //Index the terms of the document
+            indexTermsVSM(normTerms);
+        } else {
+            //Index the terms of the document
+            indexTermsBM25(terms);
+        }
     }
 
     private HashMap<String, Double> calculateNormalizedWeights(HashMap<String, Integer> terms) {
@@ -197,7 +195,20 @@ public class Indexer {
         avdlBM25 += dl;
     }
 
-    public void writeIndexVSMToFile(String filename) throws IOException {
+    public void calculateBM25Ci(double k1, double b){
+        avdlBM25 = round(avdlBM25 / (double)dlsBM25.size(),3);
+        double score, numerator, denominator;
+        for (Map.Entry<String, HashSet<Posting>> entry:index.entrySet()) {
+            for(Posting posting:entry.getValue()) {
+                numerator = (k1 + 1) * posting.getTermValue();
+                denominator = (k1 * ((1 - b) + b * ((double) dlsBM25.get(posting.getDocID()) / avdlBM25)) + posting.getTermValue());
+                score = calculateIdf(entry.getKey()) * (numerator / denominator);
+                posting.setTermValue(round(score, 3));
+            }
+        }
+    }
+
+    public void writeIndexToFile(String filename) throws IOException {
         File file = new File(filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         double idf;
@@ -214,50 +225,11 @@ public class Indexer {
         writer.close();
     }
 
-    public void writeIndexBM25ToFile(String filename) throws IOException {
-        File file = new File(filename);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        double idf;
-        avdlBM25 = round(avdlBM25 / (double)dlsBM25.size(),3);
-        writer.write(avdlBM25 + ";");
-        writer.newLine();
-        for(Map.Entry<String, HashSet<Posting>> entry:index.entrySet()){
-            idf = round(calculateIdf(entry.getKey()), 3);
-            writer.write(entry.getKey() + ":" + idf + ";" );
-            idfs.replace(entry.getKey(), idf);
-            for(Posting posting:entry.getValue()){
-                writer.write(posting.getDocID() + ":" + (int)posting.getTermValue() + ";");
-            }
-            writer.newLine();
-        }
-        writer.flush();
-        writer.close();
-    }
-
-    public double getAvdlBM25() {
-        return avdlBM25;
-    }
-
-    public int getDl(int docID){
-        return dlsBM25.get(docID);
-    }
-
-    public void writeDocIDsVSMToFile(String filename) throws IOException {
+    public void writeDocIDsToFile(String filename) throws IOException {
         File file = new File(filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         for(Map.Entry<Integer, String> entry:docIDs.entrySet()){
             writer.write(entry.getKey() + ":" + entry.getValue() + ";" );
-            writer.newLine();
-        }
-        writer.flush();
-        writer.close();
-    }
-
-    public void writeDocIDsBM25ToFile(String filename) throws IOException {
-        File file = new File(filename);
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        for(Map.Entry<Integer, String> entry:docIDs.entrySet()){
-            writer.write(entry.getKey() + ":" + entry.getValue() + ":" + dlsBM25.get(entry.getKey()) + ";" );
             writer.newLine();
         }
         writer.flush();

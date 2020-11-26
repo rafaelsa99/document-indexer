@@ -21,4 +21,8 @@ public class Posting {
     public double getTermValue() {
         return termValue;
     }
+
+    public void setTermValue(double termValue) {
+        this.termValue = termValue;
+    }
 }
