@@ -18,7 +18,7 @@ public class DocumentIndexer {
 
     public static void main(String[] args) {
         if (((args.length != 3) && (args.length != 5)) || !(args[2].toLowerCase().equals("vsm") || args[2].toLowerCase().equals("bm25"))) {
-            System.out.println("Error! Parameters: corpusFilename stopWordsList rankingMethod[\"vsm\" OR \"bm25\"] (Opcional: k1 b)");
+            System.out.println("Error! Parameters: corpusFilename stopWordsList rankingMethod[\"vsm\" OR \"bm25\"] (Optional: k1 b)");
             return;
         }
         try {

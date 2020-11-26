@@ -14,10 +14,10 @@ public class Indexer {
     private final Tokenizer tokenizer;                    // Class that includes the two tokenizers
     private final HashMap<Integer, String> docIDs;        // Mapping between the generated ID and the document hash
     private final HashMap<String, HashSet<Posting>> index;// Inverted Index
-    private final HashMap<String, Double> idfs;       // Mapping of the idf for each term
-    private final HashMap<Integer, Integer> dlsBM25;      // Mapping the document length for each document (BM25)
-    private double avdlBM25;                           // Average Document Length (BM25)
-    private int lastID;                             // Last generated ID
+    private final HashMap<String, Double> idfs;      // Mapping of the idf for each term
+    private final HashMap<Integer, Integer> dlsBM25; // Mapping the document length for each document (used only to create index BM25)
+    private double avdlBM25;                         // Average Document Length (used only to create index BM25)
+    private int lastID;                              // Last generated ID
 
     public Indexer(String stopWordsFilename) throws IOException {
         this.tokenizer = new Tokenizer(stopWordsFilename);
@@ -89,7 +89,7 @@ public class Indexer {
             }
         }
         reader.close();
-        writeIndexToFile(indexFilename);
+        writeIndexVSMToFile(indexFilename);
         writeDocIDsToFile(docsIDsFilename);
     }
 
@@ -105,9 +105,11 @@ public class Indexer {
             }
         }
         reader.close();
-        if(rankingMethod.equals("bm25"))
+        if(rankingMethod.equals("bm25")) {
             calculateBM25Ci(k1, b);
-        writeIndexToFile(indexFilename);
+            writeIndexBM25ToFile(indexFilename);
+        } else
+            writeIndexVSMToFile(indexFilename);
         writeDocIDsToFile(docsIDsFilename);
     }
 
@@ -197,18 +199,20 @@ public class Indexer {
 
     public void calculateBM25Ci(double k1, double b){
         avdlBM25 = round(avdlBM25 / (double)dlsBM25.size(),3);
-        double score, numerator, denominator;
+        double score, numerator, denominator, idf;
         for (Map.Entry<String, HashSet<Posting>> entry:index.entrySet()) {
+            idf = calculateIdf(entry.getKey());
             for(Posting posting:entry.getValue()) {
                 numerator = (k1 + 1) * posting.getTermValue();
                 denominator = (k1 * ((1 - b) + b * ((double) dlsBM25.get(posting.getDocID()) / avdlBM25)) + posting.getTermValue());
-                score = calculateIdf(entry.getKey()) * (numerator / denominator);
+                score = idf * (numerator / denominator);
                 posting.setTermValue(round(score, 3));
             }
+            idfs.replace(entry.getKey(), round(idf, 3));
         }
     }
 
-    public void writeIndexToFile(String filename) throws IOException {
+    public void writeIndexVSMToFile(String filename) throws IOException {
         File file = new File(filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         double idf;
@@ -216,6 +220,20 @@ public class Indexer {
             idf = round(calculateIdf(entry.getKey()), 3);
             writer.write(entry.getKey() + ":" + idf + ";" );
             idfs.replace(entry.getKey(), idf);
+            for(Posting posting:entry.getValue()){
+                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ";");
+            }
+            writer.newLine();
+        }
+        writer.flush();
+        writer.close();
+    }
+
+    public void writeIndexBM25ToFile(String filename) throws IOException {
+        File file = new File(filename);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        for(Map.Entry<String, HashSet<Posting>> entry:index.entrySet()){
+            writer.write(entry.getKey() + ":" + idfs.get(entry.getKey()) + ";" );
             for(Posting posting:entry.getValue()){
                 writer.write(posting.getDocID() + ":" + posting.getTermValue() + ";");
             }
