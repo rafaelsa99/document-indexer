@@ -2,8 +2,8 @@
 
 ## Assignment 3
 
-Continuation of the extension of the indexing and retrieval methods.
-Using the latest dataset available here: ai2-semanticscholar-cord-19/historical_releases.html
+Continuation of the extension of the indexing and retrieval methods.<br>
+Using the latest dataset available here: ai2-semanticscholar-cord-19.s3-us-west-2.amazonaws.com/historical_releases.html
 
 The program contains:
 - Implementation of the SPIMI approach in the indexing method.
