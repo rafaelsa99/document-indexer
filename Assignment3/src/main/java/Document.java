@@ -17,7 +17,7 @@ public class Document {
 
     public String getId() { return id; }
 
-    public String getTitle() { return title; }
-
-    public String getAbstrct() { return abstrct; }
+    public String getText(){
+        return title + " " + abstrct;
+    }
 }

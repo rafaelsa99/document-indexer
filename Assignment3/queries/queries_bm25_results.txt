@@ -68,7 +68,7 @@ Top 15 -> Document ID: 3svnvozz ; Score: 4.921
 Top 16 -> Document ID: r9scxa76 ; Score: 4.757
 Top 17 -> Document ID: 8ozauxlk ; Score: 4.749
 Top 18 -> Document ID: zytu7wue ; Score: 4.746
-Top 19 -> Document ID: b32zmfru ; Score: 4.719
+Top 19 -> Document ID: b32zmfru ; Score: 4.718
 Top 20 -> Document ID: xzps65et ; Score: 4.544
 Top 21 -> Document ID: k260c04b ; Score: 4.487
 Top 22 -> Document ID: 3p542sqs ; Score: 4.374
@@ -234,7 +234,7 @@ Top 28 -> Document ID: a0pf12jo ; Score: 4.015
 Top 29 -> Document ID: mrsjhjh4 ; Score: 3.979
 Top 30 -> Document ID: v6wt9mhh ; Score: 3.975
 Top 31 -> Document ID: ssa5rzd5 ; Score: 3.969
-Top 32 -> Document ID: gs4r9j7o ; Score: 3.964
+Top 32 -> Document ID: gs4r9j7o ; Score: 3.963
 Top 33 -> Document ID: tuas2tgd ; Score: 3.962
 Top 34 -> Document ID: u6b8iwr0 ; Score: 3.954
 Top 35 -> Document ID: 1y0pl31i ; Score: 3.954
@@ -319,7 +319,7 @@ Top 11 -> Document ID: cxt9oq0j ; Score: 4.93
 Top 12 -> Document ID: 7bgerq3r ; Score: 4.816
 Top 13 -> Document ID: 9595vm0k ; Score: 4.814
 Top 14 -> Document ID: 4xcxajlq ; Score: 4.79
-Top 15 -> Document ID: 5jtzt8um ; Score: 4.783
+Top 15 -> Document ID: 5jtzt8um ; Score: 4.782
 Top 16 -> Document ID: gnoqoh3w ; Score: 4.768
 Top 17 -> Document ID: yfjme53q ; Score: 4.76
 Top 18 -> Document ID: ikq73ipk ; Score: 4.734
@@ -334,7 +334,7 @@ Top 26 -> Document ID: 4fzyu8z7 ; Score: 4.535
 Top 27 -> Document ID: g693adjd ; Score: 4.531
 Top 28 -> Document ID: ohqo54r6 ; Score: 4.506
 Top 29 -> Document ID: fknwxxkc ; Score: 4.487
-Top 30 -> Document ID: wmxlu3l1 ; Score: 4.475
+Top 30 -> Document ID: wmxlu3l1 ; Score: 4.474
 Top 31 -> Document ID: gsr8crk9 ; Score: 4.47
 Top 32 -> Document ID: oywidlvp ; Score: 4.44
 Top 33 -> Document ID: 4aps0kvp ; Score: 4.432
@@ -485,8 +485,8 @@ Top 24 -> Document ID: y39choxg ; Score: 5.705
 Top 25 -> Document ID: lioj0tkn ; Score: 5.582
 Top 26 -> Document ID: e4uyh2zb ; Score: 5.582
 Top 27 -> Document ID: bjwkibz8 ; Score: 5.404
-Top 28 -> Document ID: 6kuigenh ; Score: 5.348
-Top 29 -> Document ID: 36dhfptw ; Score: 5.348
+Top 28 -> Document ID: 36dhfptw ; Score: 5.348
+Top 29 -> Document ID: 6kuigenh ; Score: 5.347
 Top 30 -> Document ID: 030bc0h3 ; Score: 5.304
 Top 31 -> Document ID: 517gka4h ; Score: 5.226
 Top 32 -> Document ID: 7mcfehzc ; Score: 5.221
@@ -524,7 +524,7 @@ Top 12 -> Document ID: 62s0ttgc ; Score: 3.631
 Top 13 -> Document ID: k5leys8j ; Score: 3.556
 Top 14 -> Document ID: k84rcpav ; Score: 3.506
 Top 15 -> Document ID: 99123nrx ; Score: 3.46
-Top 16 -> Document ID: n2tckfjq ; Score: 3.415
+Top 16 -> Document ID: n2tckfjq ; Score: 3.414
 Top 17 -> Document ID: wn9ggdes ; Score: 3.399
 Top 18 -> Document ID: 4dkif94k ; Score: 3.389
 Top 19 -> Document ID: 8mvsqh6t ; Score: 3.367
@@ -674,7 +674,7 @@ Top 9 -> Document ID: q9lfnu6s ; Score: 8.357
 Top 10 -> Document ID: bnh65bqg ; Score: 8.192
 Top 11 -> Document ID: xgp2vx6o ; Score: 7.969
 Top 12 -> Document ID: mz5gdb59 ; Score: 7.641
-Top 13 -> Document ID: oen0ycsr ; Score: 7.434
+Top 13 -> Document ID: oen0ycsr ; Score: 7.433
 Top 14 -> Document ID: 901m6zw0 ; Score: 7.145
 Top 15 -> Document ID: yp38t4yb ; Score: 6.959
 Top 16 -> Document ID: 75pu449b ; Score: 6.73
@@ -685,13 +685,13 @@ Top 20 -> Document ID: 6imw1l2e ; Score: 6.165
 Top 21 -> Document ID: cwcnov7s ; Score: 6.145
 Top 22 -> Document ID: a12708qd ; Score: 6.088
 Top 23 -> Document ID: nu98xedb ; Score: 5.971
-Top 24 -> Document ID: gmpsniqt ; Score: 5.904
+Top 24 -> Document ID: gmpsniqt ; Score: 5.903
 Top 25 -> Document ID: msgan1mk ; Score: 5.814
 Top 26 -> Document ID: g381rbsq ; Score: 5.747
 Top 27 -> Document ID: 82d0s6po ; Score: 5.688
 Top 28 -> Document ID: c1a957ef ; Score: 5.519
-Top 29 -> Document ID: 7gd3hjc3 ; Score: 5.442
-Top 30 -> Document ID: bjx5td52 ; Score: 4.957
+Top 29 -> Document ID: 7gd3hjc3 ; Score: 5.441
+Top 30 -> Document ID: bjx5td52 ; Score: 4.956
 Top 31 -> Document ID: 69xjc5yq ; Score: 4.914
 Top 32 -> Document ID: clrwsgni ; Score: 4.682
 Top 33 -> Document ID: etl9uwt7 ; Score: 4.285
@@ -779,7 +779,7 @@ Top 12 -> Document ID: xxvf635w ; Score: 4.799
 Top 13 -> Document ID: pxvdx7p2 ; Score: 4.793
 Top 14 -> Document ID: 9pl7mta8 ; Score: 4.781
 Top 15 -> Document ID: ke5967zx ; Score: 4.781
-Top 16 -> Document ID: 1hcp36cw ; Score: 4.766
+Top 16 -> Document ID: 1hcp36cw ; Score: 4.765
 Top 17 -> Document ID: d66lwylf ; Score: 4.684
 Top 18 -> Document ID: nx8pjaba ; Score: 4.563
 Top 19 -> Document ID: 0e1qn4yv ; Score: 4.555
@@ -803,7 +803,7 @@ Top 36 -> Document ID: gvnylnen ; Score: 4.179
 Top 37 -> Document ID: onen3aw3 ; Score: 4.177
 Top 38 -> Document ID: 8n2s0bl1 ; Score: 4.134
 Top 39 -> Document ID: fvrhzc7x ; Score: 4.132
-Top 40 -> Document ID: 94713fz6 ; Score: 4.12
+Top 40 -> Document ID: 94713fz6 ; Score: 4.119
 Top 41 -> Document ID: y96x8x3h ; Score: 4.101
 Top 42 -> Document ID: udsydngy ; Score: 4.094
 Top 43 -> Document ID: rl483cg9 ; Score: 4.08
@@ -812,13 +812,13 @@ Top 45 -> Document ID: bfedhrao ; Score: 4.068
 Top 46 -> Document ID: p7ifetgw ; Score: 4.028
 Top 47 -> Document ID: yylu7jpf ; Score: 4.027
 Top 48 -> Document ID: 50gce6f1 ; Score: 4.025
-Top 49 -> Document ID: h64oq6a4 ; Score: 4.008
+Top 49 -> Document ID: h64oq6a4 ; Score: 4.007
 Top 50 -> Document ID: 11l93rgz ; Score: 4.001
 Query ID: 17 ; Query: coronavirus clinical trials
 Top 1 -> Document ID: 61ytvjrb ; Score: 5.44
 Top 2 -> Document ID: t1wpujpm ; Score: 5.293
 Top 3 -> Document ID: iwsa760n ; Score: 5.275
-Top 4 -> Document ID: wm0forsu ; Score: 5.181
+Top 4 -> Document ID: wm0forsu ; Score: 5.18
 Top 5 -> Document ID: ufcvecwo ; Score: 5.005
 Top 6 -> Document ID: 1a0fj900 ; Score: 4.911
 Top 7 -> Document ID: ce8hrh5e ; Score: 4.906
@@ -834,7 +834,7 @@ Top 16 -> Document ID: wicc796j ; Score: 4.296
 Top 17 -> Document ID: 8gncbgot ; Score: 4.218
 Top 18 -> Document ID: o8383rfh ; Score: 4.215
 Top 19 -> Document ID: fuljgago ; Score: 4.189
-Top 20 -> Document ID: h10o18ss ; Score: 4.187
+Top 20 -> Document ID: h10o18ss ; Score: 4.186
 Top 21 -> Document ID: 9a1fckvh ; Score: 4.162
 Top 22 -> Document ID: 79v0hdi9 ; Score: 4.15
 Top 23 -> Document ID: g0iwfpkg ; Score: 4.148
@@ -897,7 +897,7 @@ Top 28 -> Document ID: 7z7zxcm2 ; Score: 4.781
 Top 29 -> Document ID: r3in76wm ; Score: 4.773
 Top 30 -> Document ID: 5rb5stty ; Score: 4.719
 Top 31 -> Document ID: ncot7tvn ; Score: 4.694
-Top 32 -> Document ID: 578oxkpf ; Score: 4.646
+Top 32 -> Document ID: 578oxkpf ; Score: 4.645
 Top 33 -> Document ID: xfjexm5b ; Score: 4.641
 Top 34 -> Document ID: gy1rwgop ; Score: 4.636
 Top 35 -> Document ID: 7zngkwoh ; Score: 4.598
@@ -915,7 +915,7 @@ Top 46 -> Document ID: 9ezhwvv9 ; Score: 4.387
 Top 47 -> Document ID: 480bzpi1 ; Score: 4.384
 Top 48 -> Document ID: nyhn2cme ; Score: 4.382
 Top 49 -> Document ID: wrjoxgcc ; Score: 4.364
-Top 50 -> Document ID: mcmazu1v ; Score: 4.363
+Top 50 -> Document ID: mcmazu1v ; Score: 4.362
 Query ID: 19 ; Query: what alcohol sanitizer kills coronavirus
 Top 1 -> Document ID: mcmazu1v ; Score: 8.855
 Top 2 -> Document ID: lyewg2c9 ; Score: 7.869
@@ -961,7 +961,7 @@ Top 41 -> Document ID: 0pujch9v ; Score: 4.183
 Top 42 -> Document ID: s949v118 ; Score: 4.176
 Top 43 -> Document ID: 07bl9d00 ; Score: 4.153
 Top 44 -> Document ID: 54oaze7w ; Score: 4.064
-Top 45 -> Document ID: cza4qsv5 ; Score: 4.001
+Top 45 -> Document ID: cza4qsv5 ; Score: 4.0
 Top 46 -> Document ID: lbmxfhiv ; Score: 3.998
 Top 47 -> Document ID: w4sr6zhr ; Score: 3.973
 Top 48 -> Document ID: mm2o6kr1 ; Score: 3.948
@@ -1075,7 +1075,7 @@ Top 2 -> Document ID: wjcpvg0o ; Score: 4.788
 Top 3 -> Document ID: 1d8yzau5 ; Score: 4.755
 Top 4 -> Document ID: 6shr9ler ; Score: 4.65
 Top 5 -> Document ID: n4najc74 ; Score: 4.638
-Top 6 -> Document ID: qg44ymyt ; Score: 4.386
+Top 6 -> Document ID: qg44ymyt ; Score: 4.385
 Top 7 -> Document ID: 7ambsarg ; Score: 4.231
 Top 8 -> Document ID: jyc1e5yh ; Score: 4.23
 Top 9 -> Document ID: chpxl0uw ; Score: 4.13
@@ -1087,7 +1087,7 @@ Top 14 -> Document ID: iw5xmpoq ; Score: 3.932
 Top 15 -> Document ID: dxyrpfea ; Score: 3.91
 Top 16 -> Document ID: vb5qxq3u ; Score: 3.862
 Top 17 -> Document ID: xdh86nh5 ; Score: 3.851
-Top 18 -> Document ID: zpt31c6r ; Score: 3.833
+Top 18 -> Document ID: zpt31c6r ; Score: 3.832
 Top 19 -> Document ID: e8sl0qa0 ; Score: 3.821
 Top 20 -> Document ID: 8kl5wyms ; Score: 3.81
 Top 21 -> Document ID: 3rlu77kt ; Score: 3.788
@@ -1096,7 +1096,7 @@ Top 23 -> Document ID: 2c4xf55j ; Score: 3.759
 Top 24 -> Document ID: dk4snw9r ; Score: 3.745
 Top 25 -> Document ID: sdjqth8d ; Score: 3.739
 Top 26 -> Document ID: 4ep7nf3q ; Score: 3.735
-Top 27 -> Document ID: 6nwbc2nr ; Score: 3.733
+Top 27 -> Document ID: 6nwbc2nr ; Score: 3.732
 Top 28 -> Document ID: qlorz1yi ; Score: 3.724
 Top 29 -> Document ID: caxz025z ; Score: 3.722
 Top 30 -> Document ID: 9eeyegvt ; Score: 3.696
@@ -1152,7 +1152,7 @@ Top 28 -> Document ID: 934gyprl ; Score: 3.532
 Top 29 -> Document ID: lhbkt4te ; Score: 3.507
 Top 30 -> Document ID: vof63qat ; Score: 3.5
 Top 31 -> Document ID: i3ydg93k ; Score: 3.495
-Top 32 -> Document ID: w9szhxgo ; Score: 3.46
+Top 32 -> Document ID: w9szhxgo ; Score: 3.459
 Top 33 -> Document ID: gx9urpdo ; Score: 3.454
 Top 34 -> Document ID: iu0k7rqc ; Score: 3.419
 Top 35 -> Document ID: g1kr7s11 ; Score: 3.415
@@ -1191,7 +1191,7 @@ Top 16 -> Document ID: kg4dtyzk ; Score: 4.059
 Top 17 -> Document ID: 66eqa43k ; Score: 4.058
 Top 18 -> Document ID: u9z8x4v9 ; Score: 4.04
 Top 19 -> Document ID: 6bgjzq7y ; Score: 4.018
-Top 20 -> Document ID: 841nb490 ; Score: 4.008
+Top 20 -> Document ID: 841nb490 ; Score: 4.007
 Top 21 -> Document ID: 6duc06et ; Score: 3.964
 Top 22 -> Document ID: 3meiks6o ; Score: 3.96
 Top 23 -> Document ID: vcnbb9pe ; Score: 3.954
@@ -1233,7 +1233,7 @@ Top 7 -> Document ID: 9pqf0m0e ; Score: 3.775
 Top 8 -> Document ID: 8comwpr5 ; Score: 3.766
 Top 9 -> Document ID: yx1fc3xx ; Score: 3.761
 Top 10 -> Document ID: 4twsg9t8 ; Score: 3.691
-Top 11 -> Document ID: 6vw5mrqk ; Score: 3.672
+Top 11 -> Document ID: 6vw5mrqk ; Score: 3.671
 Top 12 -> Document ID: fse9npzf ; Score: 3.662
 Top 13 -> Document ID: i6bs536s ; Score: 3.637
 Top 14 -> Document ID: 8glsl2ka ; Score: 3.623
@@ -1322,7 +1322,7 @@ Top 45 -> Document ID: ytlb8p6w ; Score: 3.468
 Top 46 -> Document ID: a66sszp2 ; Score: 3.464
 Top 47 -> Document ID: nqxo3f45 ; Score: 3.463
 Top 48 -> Document ID: hrs7e1ys ; Score: 3.457
-Top 49 -> Document ID: 0xzsa21a ; Score: 3.453
+Top 49 -> Document ID: 0xzsa21a ; Score: 3.452
 Top 50 -> Document ID: fcvstps9 ; Score: 3.447
 Query ID: 27 ; Query: coronavirus asymptomatic
 Top 1 -> Document ID: pgn7tm8f ; Score: 4.576
@@ -1428,7 +1428,7 @@ Top 49 -> Document ID: a3groawt ; Score: 1.323
 Top 50 -> Document ID: utn21ce1 ; Score: 1.322
 Query ID: 29 ; Query: coronavirus drug repurposing
 Top 1 -> Document ID: b4mdiont ; Score: 7.753
-Top 2 -> Document ID: 4yuw7jo3 ; Score: 7.569
+Top 2 -> Document ID: 4yuw7jo3 ; Score: 7.568
 Top 3 -> Document ID: r4snyxr9 ; Score: 7.541
 Top 4 -> Document ID: w3045qsc ; Score: 7.048
 Top 5 -> Document ID: r5p5helx ; Score: 6.929
@@ -1498,8 +1498,8 @@ Top 17 -> Document ID: 69toerzi ; Score: 4.095
 Top 18 -> Document ID: u8i3kbl4 ; Score: 3.939
 Top 19 -> Document ID: a66sszp2 ; Score: 3.85
 Top 20 -> Document ID: 31y378jx ; Score: 3.812
-Top 21 -> Document ID: ol0bj3hs ; Score: 3.693
-Top 22 -> Document ID: gizxnw4n ; Score: 3.678
+Top 21 -> Document ID: ol0bj3hs ; Score: 3.692
+Top 22 -> Document ID: gizxnw4n ; Score: 3.677
 Top 23 -> Document ID: 8xuwaban ; Score: 3.55
 Top 24 -> Document ID: v9h4rlln ; Score: 2.857
 Top 25 -> Document ID: 5tb29n9s ; Score: 1.366
@@ -1532,8 +1532,8 @@ Query ID: 31 ; Query: difference between coronavirus and flu
 Top 1 -> Document ID: i7v9l6ii ; Score: 4.921
 Top 2 -> Document ID: 0ln9r2nq ; Score: 4.847
 Top 3 -> Document ID: 0oqcx0az ; Score: 4.757
-Top 4 -> Document ID: 46qcxs4j ; Score: 4.667
-Top 5 -> Document ID: nvyknvc7 ; Score: 4.667
+Top 4 -> Document ID: nvyknvc7 ; Score: 4.667
+Top 5 -> Document ID: 46qcxs4j ; Score: 4.666
 Top 6 -> Document ID: 0ybn2igj ; Score: 4.562
 Top 7 -> Document ID: ktet18wl ; Score: 4.459
 Top 8 -> Document ID: 2rhcz41w ; Score: 4.457
@@ -1706,7 +1706,7 @@ Top 21 -> Document ID: ey4dsila ; Score: 3.341
 Top 22 -> Document ID: kaip0d1i ; Score: 3.318
 Top 23 -> Document ID: enzfpvlx ; Score: 3.316
 Top 24 -> Document ID: 7jnw66gk ; Score: 3.29
-Top 25 -> Document ID: ma4fcqva ; Score: 3.286
+Top 25 -> Document ID: ma4fcqva ; Score: 3.285
 Top 26 -> Document ID: l5phd2bp ; Score: 3.284
 Top 27 -> Document ID: ckay4ufw ; Score: 3.284
 Top 28 -> Document ID: qhvj3cmx ; Score: 3.276
@@ -1723,7 +1723,7 @@ Top 38 -> Document ID: 8y1a3tu0 ; Score: 3.191
 Top 39 -> Document ID: w30tkiff ; Score: 3.188
 Top 40 -> Document ID: 7kwkla73 ; Score: 3.187
 Top 41 -> Document ID: 1mjaycee ; Score: 3.18
-Top 42 -> Document ID: yq7ie643 ; Score: 3.179
+Top 42 -> Document ID: yq7ie643 ; Score: 3.178
 Top 43 -> Document ID: e7svuq7d ; Score: 3.174
 Top 44 -> Document ID: 2c4xf55j ; Score: 3.173
 Top 45 -> Document ID: qrtdjtxj ; Score: 3.169
@@ -1758,7 +1758,7 @@ Top 22 -> Document ID: f71dvsfe ; Score: 3.972
 Top 23 -> Document ID: fcvstps9 ; Score: 3.934
 Top 24 -> Document ID: qaqvg453 ; Score: 3.932
 Top 25 -> Document ID: s5w8rf6t ; Score: 3.931
-Top 26 -> Document ID: 03uonbrv ; Score: 3.923
+Top 26 -> Document ID: 03uonbrv ; Score: 3.922
 Top 27 -> Document ID: p7ifetgw ; Score: 3.886
 Top 28 -> Document ID: csokkcqq ; Score: 3.859
 Top 29 -> Document ID: wbhji81g ; Score: 3.857
@@ -1811,7 +1811,7 @@ Top 24 -> Document ID: erdity4m ; Score: 6.837
 Top 25 -> Document ID: 2o8u4eny ; Score: 6.822
 Top 26 -> Document ID: wynyrumi ; Score: 6.792
 Top 27 -> Document ID: 78gc7w01 ; Score: 6.755
-Top 28 -> Document ID: vduk4asq ; Score: 6.752
+Top 28 -> Document ID: vduk4asq ; Score: 6.751
 Top 29 -> Document ID: vp96izcs ; Score: 6.736
 Top 30 -> Document ID: gwq4vev6 ; Score: 6.71
 Top 31 -> Document ID: prqeufwg ; Score: 6.666
@@ -1837,7 +1837,7 @@ Top 50 -> Document ID: ids74oez ; Score: 6.448
 Query ID: 37 ; Query: SARS-CoV-2 phylogenetic analysis
 Top 1 -> Document ID: t5ar9pp0 ; Score: 7.423
 Top 2 -> Document ID: d0imcmcl ; Score: 7.19
-Top 3 -> Document ID: b5mvqb4p ; Score: 6.732
+Top 3 -> Document ID: b5mvqb4p ; Score: 6.731
 Top 4 -> Document ID: fw4pmaoc ; Score: 6.585
 Top 5 -> Document ID: kzavc4ez ; Score: 6.499
 Top 6 -> Document ID: iowyb7xs ; Score: 6.419
@@ -1857,7 +1857,7 @@ Top 19 -> Document ID: 9z8kdpp1 ; Score: 6.072
 Top 20 -> Document ID: i936ad8e ; Score: 5.99
 Top 21 -> Document ID: 3zvjyl3g ; Score: 5.974
 Top 22 -> Document ID: fnj57b0l ; Score: 5.969
-Top 23 -> Document ID: 0t9ok1jb ; Score: 5.926
+Top 23 -> Document ID: 0t9ok1jb ; Score: 5.925
 Top 24 -> Document ID: x8yl605n ; Score: 5.918
 Top 25 -> Document ID: 5bad8qn7 ; Score: 5.894
 Top 26 -> Document ID: szg12wfa ; Score: 5.883
@@ -1866,7 +1866,7 @@ Top 28 -> Document ID: tboc6zyd ; Score: 5.852
 Top 29 -> Document ID: 1mjaycee ; Score: 5.819
 Top 30 -> Document ID: sxbmd0df ; Score: 5.818
 Top 31 -> Document ID: 41ogljo8 ; Score: 5.813
-Top 32 -> Document ID: fqxjzavm ; Score: 5.8
+Top 32 -> Document ID: fqxjzavm ; Score: 5.799
 Top 33 -> Document ID: d1mxoche ; Score: 5.796
 Top 34 -> Document ID: 0zeppske ; Score: 5.794
 Top 35 -> Document ID: qqe99lx5 ; Score: 5.747
@@ -1961,7 +1961,7 @@ Top 21 -> Document ID: 73gxq2w6 ; Score: 6.416
 Top 22 -> Document ID: cctxez4h ; Score: 6.377
 Top 23 -> Document ID: 68193u0a ; Score: 6.343
 Top 24 -> Document ID: msohf5oa ; Score: 5.97
-Top 25 -> Document ID: xvs6dag9 ; Score: 5.935
+Top 25 -> Document ID: xvs6dag9 ; Score: 5.934
 Top 26 -> Document ID: 1ji6lnfc ; Score: 5.854
 Top 27 -> Document ID: l1ykm6sw ; Score: 5.712
 Top 28 -> Document ID: fcmzdcuh ; Score: 5.606
@@ -2017,7 +2017,7 @@ Top 26 -> Document ID: l8vjtrjq ; Score: 3.082
 Top 27 -> Document ID: 4ju9ft8q ; Score: 3.077
 Top 28 -> Document ID: wk63bmgn ; Score: 3.072
 Top 29 -> Document ID: s2dq2257 ; Score: 3.065
-Top 30 -> Document ID: nazl2e97 ; Score: 3.063
+Top 30 -> Document ID: nazl2e97 ; Score: 3.062
 Top 31 -> Document ID: c4q5gtw2 ; Score: 3.061
 Top 32 -> Document ID: 7kwkla73 ; Score: 3.054
 Top 33 -> Document ID: gkm7i62s ; Score: 3.052
@@ -2039,7 +2039,7 @@ Top 48 -> Document ID: xstzq5um ; Score: 3.012
 Top 49 -> Document ID: t52cryyz ; Score: 3.012
 Top 50 -> Document ID: 8htyhgmg ; Score: 3.009
 Query ID: 41 ; Query: COVID-19 in African-Americans
-Top 1 -> Document ID: atsa7lif ; Score: 6.469
+Top 1 -> Document ID: atsa7lif ; Score: 6.468
 Top 2 -> Document ID: 8pptsdrs ; Score: 6.257
 Top 3 -> Document ID: 4ipimv1a ; Score: 6.033
 Top 4 -> Document ID: rc6ge2zv ; Score: 5.818
@@ -2118,7 +2118,7 @@ Top 25 -> Document ID: vvs512q6 ; Score: 5.071
 Top 26 -> Document ID: 6x74mj3m ; Score: 5.042
 Top 27 -> Document ID: tv9xsned ; Score: 5.029
 Top 28 -> Document ID: 00bjha6b ; Score: 4.972
-Top 29 -> Document ID: 2ba4cgb5 ; Score: 4.935
+Top 29 -> Document ID: 2ba4cgb5 ; Score: 4.934
 Top 30 -> Document ID: pkxf85n6 ; Score: 4.921
 Top 31 -> Document ID: bzlc0mag ; Score: 4.811
 Top 32 -> Document ID: jkqcnbml ; Score: 4.784
@@ -2199,12 +2199,12 @@ Top 4 -> Document ID: iu1d9i57 ; Score: 5.817
 Top 5 -> Document ID: gdr1dhbd ; Score: 5.717
 Top 6 -> Document ID: 53e1dyuz ; Score: 5.573
 Top 7 -> Document ID: gt1y2wo5 ; Score: 5.563
-Top 8 -> Document ID: mcmazu1v ; Score: 5.488
+Top 8 -> Document ID: mcmazu1v ; Score: 5.487
 Top 9 -> Document ID: mqeg0oub ; Score: 5.477
 Top 10 -> Document ID: y43prnko ; Score: 5.421
 Top 11 -> Document ID: nvq8gsq9 ; Score: 5.361
 Top 12 -> Document ID: xfjexm5b ; Score: 5.306
-Top 13 -> Document ID: fim1ceko ; Score: 5.289
+Top 13 -> Document ID: fim1ceko ; Score: 5.288
 Top 14 -> Document ID: 4sitkqkm ; Score: 5.265
 Top 15 -> Document ID: wzmfmcpt ; Score: 5.185
 Top 16 -> Document ID: rh873oik ; Score: 5.147
@@ -2225,13 +2225,13 @@ Top 30 -> Document ID: zccd1mq5 ; Score: 4.801
 Top 31 -> Document ID: 1atoairy ; Score: 4.747
 Top 32 -> Document ID: kvghlazi ; Score: 4.742
 Top 33 -> Document ID: 3v1bid02 ; Score: 4.713
-Top 34 -> Document ID: 578oxkpf ; Score: 4.695
+Top 34 -> Document ID: 578oxkpf ; Score: 4.694
 Top 35 -> Document ID: ytsqfqvh ; Score: 4.671
 Top 36 -> Document ID: o7lxoose ; Score: 4.659
 Top 37 -> Document ID: jsttsnqz ; Score: 4.651
 Top 38 -> Document ID: pmrxt30r ; Score: 4.625
 Top 39 -> Document ID: zglari8b ; Score: 4.605
-Top 40 -> Document ID: pnpaqchs ; Score: 4.576
+Top 40 -> Document ID: pnpaqchs ; Score: 4.575
 Top 41 -> Document ID: n8kgsz2e ; Score: 4.553
 Top 42 -> Document ID: 81knkem4 ; Score: 4.543
 Top 43 -> Document ID: j062t993 ; Score: 4.533
@@ -2273,7 +2273,7 @@ Top 27 -> Document ID: afwxps4b ; Score: 5.669
 Top 28 -> Document ID: goemluvd ; Score: 5.642
 Top 29 -> Document ID: hbpk850a ; Score: 5.592
 Top 30 -> Document ID: 8lh0373f ; Score: 5.436
-Top 31 -> Document ID: 6b1y7yxg ; Score: 5.432
+Top 31 -> Document ID: 6b1y7yxg ; Score: 5.431
 Top 32 -> Document ID: rxdw553c ; Score: 5.416
 Top 33 -> Document ID: 35c6mak0 ; Score: 5.373
 Top 34 -> Document ID: q0ijsoqk ; Score: 5.357
@@ -2303,7 +2303,7 @@ Top 6 -> Document ID: hctygq0i ; Score: 4.371
 Top 7 -> Document ID: wbyw2lrq ; Score: 4.261
 Top 8 -> Document ID: ksbha7kz ; Score: 4.224
 Top 9 -> Document ID: z1lvq0iv ; Score: 4.219
-Top 10 -> Document ID: 7wthyc3z ; Score: 4.024
+Top 10 -> Document ID: 7wthyc3z ; Score: 4.023
 Top 11 -> Document ID: x35bqsym ; Score: 3.922
 Top 12 -> Document ID: 2528jrn6 ; Score: 3.914
 Top 13 -> Document ID: caalt5cq ; Score: 3.876
@@ -2394,7 +2394,7 @@ Top 46 -> Document ID: jof8lij8 ; Score: 4.245
 Top 47 -> Document ID: 9lissxsy ; Score: 4.242
 Top 48 -> Document ID: imj1lcy9 ; Score: 4.238
 Top 49 -> Document ID: ua500pfa ; Score: 4.236
-Top 50 -> Document ID: xuczplaf ; Score: 4.224
+Top 50 -> Document ID: xuczplaf ; Score: 4.223
 Query ID: 48 ; Query: school reopening coronavirus
 Top 1 -> Document ID: 36rnb6et ; Score: 7.256
 Top 2 -> Document ID: vc1ljugn ; Score: 5.619
@@ -2424,7 +2424,7 @@ Top 25 -> Document ID: xv3k0irk ; Score: 3.925
 Top 26 -> Document ID: gkvmjozy ; Score: 3.9
 Top 27 -> Document ID: 03cx1t6w ; Score: 3.897
 Top 28 -> Document ID: j0qlwmkn ; Score: 3.819
-Top 29 -> Document ID: w7l3a8ww ; Score: 3.815
+Top 29 -> Document ID: w7l3a8ww ; Score: 3.814
 Top 30 -> Document ID: 6fkp62ba ; Score: 3.782
 Top 31 -> Document ID: oafg4a4u ; Score: 3.779
 Top 32 -> Document ID: yjgjte2s ; Score: 3.777
@@ -2515,14 +2515,14 @@ Top 14 -> Document ID: rfu0bkag ; Score: 3.696
 Top 15 -> Document ID: gkhdfd4h ; Score: 3.692
 Top 16 -> Document ID: t1nfyzf5 ; Score: 3.68
 Top 17 -> Document ID: gtuvx7zb ; Score: 3.677
-Top 18 -> Document ID: 62izhj8d ; Score: 3.663
+Top 18 -> Document ID: 62izhj8d ; Score: 3.662
 Top 19 -> Document ID: 7bn49rgs ; Score: 3.658
 Top 20 -> Document ID: tjvjlyn9 ; Score: 3.654
 Top 21 -> Document ID: cjbmki8i ; Score: 3.647
 Top 22 -> Document ID: 0nhwmqfo ; Score: 3.638
 Top 23 -> Document ID: u95cvh2f ; Score: 3.607
 Top 24 -> Document ID: z5uhrta5 ; Score: 3.606
-Top 25 -> Document ID: wsdda43u ; Score: 3.6
+Top 25 -> Document ID: wsdda43u ; Score: 3.599
 Top 26 -> Document ID: jaue41mv ; Score: 3.598
 Top 27 -> Document ID: aea67d8f ; Score: 3.584
 Top 28 -> Document ID: kh2t0kfz ; Score: 3.571

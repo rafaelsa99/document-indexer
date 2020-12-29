@@ -117,8 +117,8 @@ public class Indexer {
         //Create and map the new ID for the document
         addDocID(doc.getId());
         //Get terms of the document using the tokenizer
-        //HashSet<String> terms = tokenizer.simpleTokenizer(doc);
-        HashMap<String, Integer> terms = tokenizer.improvedTokenizer(doc);
+        //HashSet<String> terms = tokenizer.simpleTokenizer(doc.getText());
+        HashMap<String, Integer> terms = tokenizer.improvedTokenizer(doc.getText());
         if(rankingMethod.equals("vsm")) {
             //Calculate Normalized Weights
             HashMap<String, Double> normTerms = calculateNormalizedWeights(terms);

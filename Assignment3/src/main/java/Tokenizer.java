@@ -38,42 +38,31 @@ public class Tokenizer {
         return Arrays.asList(str.trim().split("\\s+"));
     }
 
-    public HashMap<String, Integer> simpleTokenizer(Document doc){
-        String title = doc.getTitle();
-        String abs = doc.getAbstrct();
-        //Set title and abstract with lowercase
-        title = title.toLowerCase();
-        abs = abs.toLowerCase();
+    public HashMap<String, Integer> simpleTokenizer(String text){
+        //Set text with lowercase
+        text = text.toLowerCase();
         //Replace all non-alphabetic characters by a space
-        title = replaceNonAlphaBySpace(title);
-        abs = replaceNonAlphaBySpace(abs);
-        //Split title and abstract on whitespace
-        List<String> titleTokens = splitOnWhitespace(title);
-        List<String> abstractTokens = splitOnWhitespace(abs);
+        text = replaceNonAlphaBySpace(text);
+        //Split text on whitespace
+        List<String> textTokens = splitOnWhitespace(text);
         //Add all tokens to Map and counts the frequency
-        HashMap<String, Integer> tokens = countTokensFrequencies(titleTokens, abstractTokens);
+        HashMap<String, Integer> tokens = countTokensFrequencies(textTokens);
         //Remove tokens with less than 3 characters
         tokens.entrySet().removeIf(entry -> entry.getKey().length() < 3);
         return tokens;
     }
 
-    public HashMap<String, Integer> improvedTokenizer(Document doc){
-        String title = doc.getTitle();
-        String abs = doc.getAbstrct();
-        //Set title and abstract with lowercase
-        title = title.toLowerCase();
-        abs = abs.toLowerCase();
+    public HashMap<String, Integer> improvedTokenizer(String text){
+        //Set text with lowercase
+        text = text.toLowerCase();
         //Tokenizer Decisions
-        title = replaceNonAlphaBySpace(title);
-        abs = replaceNonAlphaBySpace(abs);
-        //Split title and abstract on whitespace
-        List<String> titleTokens = splitOnWhitespace(title);
-        List<String> abstractTokens = splitOnWhitespace(abs);
+        text = replaceNonAlphaBySpace(text);
+        //Split text on whitespace
+        List<String> textTokens = splitOnWhitespace(text);
         //Stemming
-        titleTokens = applyStemming(titleTokens);
-        abstractTokens = applyStemming(abstractTokens);
+        textTokens = applyStemming(textTokens);
         //Add all tokens to Map and count Frequency
-        HashMap<String, Integer> tokens = countTokensFrequencies(titleTokens, abstractTokens);
+        HashMap<String, Integer> tokens = countTokensFrequencies(textTokens);
         //Remove the stop words from the tokens set
         tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
         return tokens;
@@ -121,19 +110,13 @@ public class Tokenizer {
     }
 
     //Add tokens to HashMap while counting frequency
-    public HashMap<String, Integer> countTokensFrequencies(List<String> titleTokens, List<String> abstractTokens){
+    public HashMap<String, Integer> countTokensFrequencies(List<String> listTokens){
         HashMap<String, Integer> tokens = new HashMap<>();
-        for (String titleToken:titleTokens) {
+        for (String titleToken:listTokens) {
             if(tokens.containsKey(titleToken))
                 tokens.replace(titleToken, (tokens.get(titleToken) + 1));
             else
                 tokens.put(titleToken, 1);
-        }
-        for (String abstractToken:abstractTokens) {
-            if(tokens.containsKey(abstractToken))
-                tokens.replace(abstractToken, (tokens.get(abstractToken) + 1));
-            else
-                tokens.put(abstractToken, 1);
         }
         return tokens;
     }

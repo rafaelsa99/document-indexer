@@ -9,8 +9,8 @@ import java.io.IOException;
 public class RetrievalEngine {
 
     private static final String results_vsm_filename = "queries/queries_vsm_results.txt";
-    private static final String metrics_rel_1_2_vsm_filename = "queries/metrics_rel_1_2_vsm_results_.txt";
-    private static final String metrics_rel_2_vsm_filename = "queries/metrics_rel_2_vsm_results_.txt";
+    private static final String metrics_rel_1_2_vsm_filename = "queries/metrics_rel_1_2_vsm_results.txt";
+    private static final String metrics_rel_2_vsm_filename = "queries/metrics_rel_2_vsm_results.txt";
     private static final String results_bm25_filename = "queries/queries_bm25_results.txt";
     private static final String metrics_rel_1_2_bm25_filename = "queries/metrics_rel_1_2_bm25_results.txt";
     private static final String metrics_rel_2_bm25_filename = "queries/metrics_rel_2_bm25_results.txt";
