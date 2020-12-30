@@ -47,7 +47,7 @@ public class Indexer {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line, term;
-        String[] fields, data;
+        String[] fields, data, pos;
         while(sc.hasNextLine()){
             line = sc.nextLine();
             fields = line.split(";");
@@ -57,7 +57,12 @@ public class Indexer {
             idfs.put(term, Double.parseDouble(data[1]));
             for (int i = 1; i < fields.length; i++) {
                 data = fields[i].split(":");
-                index.get(term).add(new Posting(Integer.parseInt(data[0]), Double.parseDouble(data[1])));
+                List<Integer> positions = new ArrayList<>();
+                pos = data[2].split(",");
+                for(String p:pos) {
+                    positions.add(Integer.parseInt(p));
+                }
+                index.get(term).add(new Posting(Integer.parseInt(data[0]), Double.parseDouble(data[1]), positions));
             }
         }
         sc.close();
@@ -118,10 +123,10 @@ public class Indexer {
         addDocID(doc.getId());
         //Get terms of the document using the tokenizer
         //HashSet<String> terms = tokenizer.simpleTokenizer(doc.getText());
-        HashMap<String, Integer> terms = tokenizer.improvedTokenizer(doc.getText());
+        List<Term> terms = tokenizer.improvedTokenizer(doc.getText());
         if(rankingMethod.equals("vsm")) {
             //Calculate Normalized Weights
-            HashMap<String, Double> normTerms = calculateNormalizedWeights(terms);
+            List<Term> normTerms = calculateNormalizedWeights(terms);
             //Index the terms of the document
             indexTermsVSM(normTerms);
         } else {
@@ -130,23 +135,18 @@ public class Indexer {
         }
     }
 
-    private HashMap<String, Double> calculateNormalizedWeights(HashMap<String, Integer> terms) {
-        HashMap<String, Double> doclength = new HashMap<>();
+    private List<Term> calculateNormalizedWeights(List<Term> terms) {
         double sumDocLength = 0;
-        for (Map.Entry<String, Integer> term:terms.entrySet())
-        {
-            doclength.put(term.getKey(),(1+Math.log(term.getValue())));
-            sumDocLength += Math.pow((1+Math.log(term.getValue())),2);
+        for (Term term:terms) {
+            term.setTermValue(1+Math.log(term.getTermValue()));
+            sumDocLength += Math.pow((1+Math.log(term.getTermValue())),2);
         }
-
         double squareDocLength = Math.sqrt(sumDocLength);
-
-        for (String s:doclength.keySet())
-        {
-            double normalizeWeight = round(doclength.get(s)/squareDocLength, 3);
-            doclength.replace(s,normalizeWeight);
+        for (Term term:terms) {
+            double normalizeWeight = round(term.getTermValue()/squareDocLength, 3);
+            term.setTermValue(normalizeWeight);
         }
-        return doclength;
+        return terms;
     }
 
     private int nextID(){
@@ -158,38 +158,38 @@ public class Indexer {
     }
 
     //Insert terms and postings in index
-    public void indexTermsVSM(HashMap<String, Double> terms){
-        for (Map.Entry<String, Double> term:terms.entrySet()) {
-            Posting posting = new Posting(lastID, term.getValue());
+    public void indexTermsVSM(List<Term> terms){
+        for(Term term:terms) {
+            Posting posting = new Posting(lastID, term.getTermValue(), term.getPositions());
             //Checks if the term already exists
-            if(index.containsKey(term.getKey())){
+            if(index.containsKey(term.getTerm())){
                 //Increment frequency of the existing term, and add new posting to set
-                index.get(term.getKey()).add(posting);
-                idfs.replace(term.getKey(), (idfs.get(term.getKey()) + 1.0));
+                index.get(term.getTerm()).add(posting);
+                idfs.replace(term.getTerm(), (idfs.get(term.getTerm()) + 1.0));
             } else {
                 //Insert the new term in the index with the only posting
-                index.put(term.getKey(), new HashSet<>(Arrays.asList(posting)));
-                idfs.put(term.getKey(), 1.0);
+                index.put(term.getTerm(), new HashSet<>(Arrays.asList(posting)));
+                idfs.put(term.getTerm(), 1.0);
             }
         }
     }
 
     //Insert terms and postings in index
-    public void indexTermsBM25(HashMap<String, Integer> terms){
+    public void indexTermsBM25(List<Term> terms){
         int dl = 0;
-        for (Map.Entry<String, Integer> term:terms.entrySet()) {
-            dl += term.getValue();
-            Posting posting = new Posting(lastID, term.getValue());
+        for (Term term:terms) {
+            dl += term.getTermValue();
+            Posting posting = new Posting(lastID, term.getTermValue(), term.getPositions());
             //Checks if the term already exists
-            if(index.containsKey(term.getKey())){
+            if(index.containsKey(term.getTerm())){
                 //Increment frequency of the existing term, and add new posting to set
-                index.get(term.getKey()).add(posting);
-                idfs.replace(term.getKey(), (idfs.get(term.getKey()) + 1.0));
+                index.get(term.getTerm()).add(posting);
+                idfs.replace(term.getTerm(), (idfs.get(term.getTerm()) + 1.0));
 
             } else {
                 //Insert the new term in the index with the only posting
-                index.put(term.getKey(), new HashSet<>(Arrays.asList(posting)));
-                idfs.put(term.getKey(), 1.0);
+                index.put(term.getTerm(), new HashSet<>(Arrays.asList(posting)));
+                idfs.put(term.getTerm(), 1.0);
             }
         }
         //Insert Document length
@@ -221,7 +221,17 @@ public class Indexer {
             writer.write(entry.getKey() + ":" + idf + ";" );
             idfs.replace(entry.getKey(), idf);
             for(Posting posting:entry.getValue()){
-                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ";");
+                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ":");
+                boolean isFirst = true;
+                for(Integer position: posting.getPositions()){
+                    if(!isFirst)
+                        writer.write(",");
+                    else
+                        isFirst = false;
+                    String pos = String.valueOf(position);
+                    writer.write(pos);
+                }
+                writer.write(";");
             }
             writer.newLine();
         }
@@ -235,7 +245,17 @@ public class Indexer {
         for(Map.Entry<String, HashSet<Posting>> entry:index.entrySet()){
             writer.write(entry.getKey() + ":" + idfs.get(entry.getKey()) + ";" );
             for(Posting posting:entry.getValue()){
-                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ";");
+                writer.write(posting.getDocID() + ":" + posting.getTermValue() + ":");
+                boolean isFirst = true;
+                for(Integer position: posting.getPositions()){
+                    if(!isFirst)
+                        writer.write(",");
+                    else
+                        isFirst = false;
+                    String pos = String.valueOf(position);
+                    writer.write(pos);
+                }
+                writer.write(";");
             }
             writer.newLine();
         }

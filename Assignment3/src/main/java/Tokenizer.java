@@ -34,37 +34,37 @@ public class Tokenizer {
     }
 
     //Split string on whitespace
-    public List<String> splitOnWhitespace(String str) {
-        return Arrays.asList(str.trim().split("\\s+"));
+    public ArrayList<String> splitOnWhitespace(String str) {
+        return new ArrayList<>(Arrays.asList(str.trim().split("\\s+")));
     }
 
-    public HashMap<String, Integer> simpleTokenizer(String text){
+    public List<Term> simpleTokenizer(String text){
         //Set text with lowercase
         text = text.toLowerCase();
         //Replace all non-alphabetic characters by a space
         text = replaceNonAlphaBySpace(text);
         //Split text on whitespace
-        List<String> textTokens = splitOnWhitespace(text);
-        //Add all tokens to Map and counts the frequency
-        HashMap<String, Integer> tokens = countTokensFrequencies(textTokens);
+        ArrayList<String> textTokens = splitOnWhitespace(text);
         //Remove tokens with less than 3 characters
-        tokens.entrySet().removeIf(entry -> entry.getKey().length() < 3);
+        textTokens.removeIf(entry -> entry.length() < 3);
+        //Add all tokens to list with frequencies and positions
+        List<Term> tokens = getFrequenciesAndPositions(textTokens);
         return tokens;
     }
 
-    public HashMap<String, Integer> improvedTokenizer(String text){
+    public List<Term> improvedTokenizer(String text){
         //Set text with lowercase
         text = text.toLowerCase();
         //Tokenizer Decisions
         text = replaceNonAlphaBySpace(text);
         //Split text on whitespace
-        List<String> textTokens = splitOnWhitespace(text);
+        ArrayList<String> textTokens = splitOnWhitespace(text);
+        //Remove the stop words from the tokens set
+        textTokens.removeIf(entry -> stopWords.contains(entry));
         //Stemming
         textTokens = applyStemming(textTokens);
-        //Add all tokens to Map and count Frequency
-        HashMap<String, Integer> tokens = countTokensFrequencies(textTokens);
-        //Remove the stop words from the tokens set
-        tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
+        //Add all tokens to list with frequencies and positions
+        List<Term> tokens = getFrequenciesAndPositions(textTokens);
         return tokens;
     }
 
@@ -74,7 +74,7 @@ public class Tokenizer {
         //Tokenizer Decisions
         termQuery = replaceNonAlphaBySpace(termQuery);
         //Split title and abstract on whitespace
-        List<String> queryTokens = splitOnWhitespace(termQuery);
+        ArrayList<String> queryTokens = splitOnWhitespace(termQuery);
         //Stemming
         queryTokens = applyStemming(queryTokens);
         //Add all tokens to Map
@@ -90,7 +90,7 @@ public class Tokenizer {
         //Tokenizer Decisions
         termQuery = replaceNonAlphaBySpace(termQuery);
         //Split title and abstract on whitespace
-        List<String> queryTokens = splitOnWhitespace(termQuery);
+        ArrayList<String> queryTokens = splitOnWhitespace(termQuery);
         //Stemming
         queryTokens = applyStemming(queryTokens);
         //Remove the stop words from the tokens list
@@ -99,8 +99,8 @@ public class Tokenizer {
     }
 
     //Apply Stemming to the list of tokens
-    public List<String> applyStemming(List<String> tokens){
-        List<String> stemmedTokens = new ArrayList<>();
+    public ArrayList<String> applyStemming(ArrayList<String> tokens){
+        ArrayList<String> stemmedTokens = new ArrayList<>();
         for (String token:tokens) {
             stemmer.setCurrent(token);
             stemmer.stem();
@@ -109,16 +109,19 @@ public class Tokenizer {
         return stemmedTokens;
     }
 
-    //Add tokens to HashMap while counting frequency
-    public HashMap<String, Integer> countTokensFrequencies(List<String> listTokens){
-        HashMap<String, Integer> tokens = new HashMap<>();
-        for (String titleToken:listTokens) {
-            if(tokens.containsKey(titleToken))
-                tokens.replace(titleToken, (tokens.get(titleToken) + 1));
-            else
-                tokens.put(titleToken, 1);
+    //Add tokens to List with frequencies and positions
+    public List<Term> getFrequenciesAndPositions(List<String> listTokens){
+        HashMap<String, Term> tokens = new HashMap<>();
+        for(int i = 0; i < listTokens.size(); i++) {
+            String token = listTokens.get(i);
+            if(tokens.containsKey(token)) {
+                tokens.get(token).incrementFrequency();
+                tokens.get(token).addPosition(i);
+            } else
+                tokens.put(token, new Term(token, i));
         }
-        return tokens;
+
+        return new ArrayList<>(tokens.values());
     }
 
     //Add tokens to HashMap while counting frequency

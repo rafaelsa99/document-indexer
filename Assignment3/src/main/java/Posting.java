@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Rafael Sá 104552 and António Ramos 101193
@@ -8,10 +11,12 @@ public class Posting {
 
     private int docID; //Document ID
     private double termValue; //Term Weight OR Term Frequency
+    private List<Integer> positions;
 
-    public Posting(int docID, double termValue) {
+    public Posting(int docID, double termValue, List<Integer> positions) {
         this.docID = docID;
         this.termValue = termValue;
+        this.positions = new ArrayList<>(positions);
     }
 
     public int getDocID() {
@@ -24,5 +29,9 @@ public class Posting {
 
     public void setTermValue(double termValue) {
         this.termValue = termValue;
+    }
+
+    public List<Integer> getPositions() {
+        return positions;
     }
 }
