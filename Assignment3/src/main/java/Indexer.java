@@ -82,23 +82,7 @@ public class Indexer {
         sc.close();
     }
 
-    public void corpusReader(String corpus, String rankingMethod, String indexFilename, String docsIDsFilename) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(corpus));
-        String[] line = reader.readNext(); //Ignores the first line
-        //Iterate over the collection of documents (each line is a document)
-        while((line = reader.readNext()) != null){
-            //Verifies if the abstract is not empty
-            if(line[8].length() > 0) {
-                Document doc = new Document(line[0], line[3], line[8]);
-                addDocToIndex(doc, rankingMethod);
-            }
-        }
-        reader.close();
-        writeIndexVSMToFile(indexFilename);
-        writeDocIDsToFile(docsIDsFilename);
-    }
-
-    public void corpusReader(String corpus, String rankingMethod, String indexFilename, String docsIDsFilename, double k1, double b) throws IOException {
+    public void corpusReader(String corpus, String rankingMethod, String indexFilename, String docsIDsFilename, double ... bm25Parameters) throws IOException {
         CSVReader reader = new CSVReader(new FileReader(corpus));
         String[] line = reader.readNext(); //Ignores the first line
         //Iterate over the collection of documents (each line is a document)
@@ -111,7 +95,7 @@ public class Indexer {
         }
         reader.close();
         if(rankingMethod.equals("bm25")) {
-            calculateBM25Ci(k1, b);
+            calculateBM25Ci(bm25Parameters[0], bm25Parameters[1]);
             writeIndexBM25ToFile(indexFilename);
         } else
             writeIndexVSMToFile(indexFilename);
