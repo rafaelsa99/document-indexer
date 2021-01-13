@@ -46,13 +46,15 @@ public class RetrievalEngine {
             if(!indexExists(rankingMethod)) {
                 System.out.println("Indexing corpus...");
                 createIndex(args[0], args[4], rankingMethod);
+                System.out.println("Loading index...");
+                loadIndex(rankingMethod, true);
             }
             else {
                 if(rankingMethod.equals("vsm")) //Vector Space Model
                     System.out.println("Loading index from files \"" + index_vsm_filename + "\" and \"" + index_docIDs_vsm_filename + "\"...");
                 else //BM25
                     System.out.println("Loading index from files \"" + index_bm25_filename + "\" and \"" + index_docIDs_bm25_filename + "\"...");
-                loadIndex(rankingMethod);
+                loadIndex(rankingMethod, false);
             }
 
             if(rankingMethod.equals("vsm")){
@@ -106,18 +108,23 @@ public class RetrievalEngine {
         System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
         //Calculate Memory Usage
         System.out.println("Memory used for indexing (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
-        //Vocabulary Size
-        System.out.println("Vocabulary Size: " + index.getVocabularySize() + " terms");
     }
 
-    public static void loadIndex(String rankingMethod) throws IOException {
+    public static void loadIndex(String rankingMethod, boolean createdNow) throws IOException {
         index = new Indexer();
         long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
-        if(rankingMethod.equals("vsm")) //Vector Space Model
-            index.loadIndexFromFiles(index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
-        else //BM25
-            index.loadIndexFromFiles(index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
+        if(createdNow){
+            if (rankingMethod.equals("vsm")) //Vector Space Model
+                index.loadIndexFromFiles(index_vsm_filename);  //Entry point
+            else //BM25
+                index.loadIndexFromFiles(index_bm25_filename);  //Entry point
+        } else {
+            if (rankingMethod.equals("vsm")) //Vector Space Model
+                index.loadIndexFromFiles(index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
+            else //BM25
+                index.loadIndexFromFiles(index_bm25_filename, index_docIDs_bm25_filename);  //Entry point
+        }
         long endTime = System.nanoTime();
         long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         //Calculate indexing time
