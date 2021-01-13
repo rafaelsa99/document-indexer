@@ -50,11 +50,6 @@ public class Indexer {
         readDocIDsFromFile(indexDocIDsFilename);
     }
 
-    public void loadIndexFromFiles(String indexFilename) throws FileNotFoundException {
-        readIndexFromFile(indexFilename);
-        loadTermsFromSubindexes();
-    }
-
     public void loadTermsFromSubindexes() throws FileNotFoundException {
         for(Subindex subindex:subindexes){
             readTermsFromSubindexFile(subindex.getFilename());
@@ -155,6 +150,7 @@ public class Indexer {
         mergeAllBlocks(indexFilename, rankingMethod, bm25Parameters[0], bm25Parameters[1]);
         writeDocIDsToFile(docsIDsFilename);
         this.idfs.clear();
+        this.docIDs.clear();
         System.gc();
     }
 
