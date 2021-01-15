@@ -188,7 +188,11 @@ public class Indexer {
         reader.close();
         writeBlockToFile();
         this.index.clear();
-        mergeAllBlocks(indexFilename, rankingMethod, bm25Parameters[0], bm25Parameters[1]);
+        if(rankingMethod.equals("bm25")) {
+            mergeAllBlocks(indexFilename, rankingMethod, bm25Parameters[0], bm25Parameters[1]);
+        } else {
+            mergeAllBlocks(indexFilename, rankingMethod);
+        }
         writeDocIDsToFile(docsIDsFilename);
         this.idfs.clear();
         this.docIDs.clear();
@@ -325,15 +329,16 @@ public class Indexer {
         String[] fields, data, pos;
         int countEOFs = 0, countSubindex = 1;
         String minTerm = "", subindex_filename = "indexFiles/subindexes_" + rankingMethod + "/subindex_" + rankingMethod + "_" + countSubindex + ".txt";
-        StringBuilder currentLetter = new StringBuilder("aa");
-        String lastLetterFile = "aa";
-        String startLetter = "aa";
+        StringBuilder currentLetter = new StringBuilder("a");
+        String lastLetterFile = "a";
+        String startLetter = "a";
         boolean newFile = false;
         File file = new File(subindex_filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         File fileMainFile = new File(fileName);
         BufferedWriter writerMainFile = new BufferedWriter(new FileWriter(fileMainFile));
-        avdlBM25 = round(avdlBM25 / (double)dlsBM25.size(),3);
+        if(rankingMethod.equals("bm25"))
+            avdlBM25 = round(avdlBM25 / (double)dlsBM25.size(),3);
         double sumDFs;
         for (int i = 0, j = 1; i < blockCounter ; i++, j++) {
             String filename = "indexFiles/index_block_" + j + ".txt";
