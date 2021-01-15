@@ -21,7 +21,7 @@ public class Tokenizer {
 
     //Load stop words from file to data structure
     public void loadStopWords(String filename) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File(filename)));
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
         String line;
         while((line = reader.readLine()) != null)
             stopWords.add(line);
@@ -48,8 +48,7 @@ public class Tokenizer {
         //Remove tokens with less than 3 characters
         textTokens.removeIf(entry -> entry.length() < 3);
         //Add all tokens to list with frequencies and positions
-        List<Term> tokens = getFrequenciesAndPositions(textTokens);
-        return tokens;
+        return getFrequenciesAndPositions(textTokens);
     }
 
     public List<Term> improvedTokenizer(String text){
@@ -64,8 +63,7 @@ public class Tokenizer {
         //Stemming
         textTokens = applyStemming(textTokens);
         //Add all tokens to list with frequencies and positions
-        List<Term> tokens = getFrequenciesAndPositions(textTokens);
-        return tokens;
+        return getFrequenciesAndPositions(textTokens);
     }
 
     public HashMap<String, Integer> improvedTokenizerforQuery(String query){
@@ -75,12 +73,12 @@ public class Tokenizer {
         termQuery = replaceNonAlphaBySpace(termQuery);
         //Split title and abstract on whitespace
         ArrayList<String> queryTokens = splitOnWhitespace(termQuery);
+        //Remove the stop words from the tokens set
+        queryTokens.removeIf(entry -> stopWords.contains(entry));
         //Stemming
         queryTokens = applyStemming(queryTokens);
         //Add all tokens to Map
         HashMap<String, Integer> tokens = countTokensFrequenciesDoc(queryTokens);
-        //Remove the stop words from the tokens set
-        tokens.entrySet().removeIf(entry -> stopWords.contains(entry.getKey()));
         return tokens;
     }
 
@@ -91,10 +89,10 @@ public class Tokenizer {
         termQuery = replaceNonAlphaBySpace(termQuery);
         //Split title and abstract on whitespace
         ArrayList<String> queryTokens = splitOnWhitespace(termQuery);
-        //Stemming
-        queryTokens = applyStemming(queryTokens);
         //Remove the stop words from the tokens list
         queryTokens.removeIf(entry -> stopWords.contains(entry));
+        //Stemming
+        queryTokens = applyStemming(queryTokens);
         return queryTokens;
     }
 

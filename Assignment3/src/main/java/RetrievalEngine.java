@@ -24,7 +24,7 @@ public class RetrievalEngine {
     private static Indexer index;
 
     public static void main(String[] args) {
-        if (((args.length) != 5 && (args.length) != 4 && (args.length) != 7) || !(args[3].toLowerCase().equals("vsm") || args[3].toLowerCase().equals("bm25"))) {
+        if (((args.length) != 5 && (args.length) != 4 && (args.length) != 7) || !(args[3].equalsIgnoreCase("vsm") || args[3].equalsIgnoreCase("bm25"))) {
             System.out.println("Error! Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] (Optional: corpusFilename k1 b)");
             return;
         }
@@ -83,30 +83,23 @@ public class RetrievalEngine {
             indexFile = new File(index_bm25_filename);
             indexDocsFile = new File(index_docIDs_bm25_filename);
         }
-        if (indexFile.exists() && indexFile.isFile() && indexDocsFile.exists() && indexDocsFile.isFile())
-            return true;
-        else
-            return false;
+        return indexFile.exists() && indexFile.isFile() && indexDocsFile.exists() && indexDocsFile.isFile();
     }
 
     public static void createIndex(String stopWordsList, String corpusFile, String rankingMethod) throws IOException {
         index = new Indexer(stopWordsList);
-        long usedMemoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         long startTime = System.nanoTime();
         if(rankingMethod.equals("vsm")) //Vector Space Model
             index.corpusReader(corpusFile, rankingMethod, index_vsm_filename, index_docIDs_vsm_filename);  //Entry point
         else //BM25
             index.corpusReader(corpusFile, rankingMethod, index_bm25_filename, index_docIDs_bm25_filename, bm25_k1, bm25_b);  //Entry point
         long endTime = System.nanoTime();
-        long usedMemoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         if(rankingMethod.equals("vsm")) //Vector Space Model
             System.out.println("Index saved on files \"" + index_vsm_filename + "\" and \"" + index_docIDs_vsm_filename + "\"");
         else //BM25
             System.out.println("Index saved on files \"" + index_bm25_filename + "\" and \"" + index_docIDs_bm25_filename + "\"");
         //Calculate indexing time
         System.out.println("Indexing Time: " + (endTime - startTime) / 1000000000 + " seconds");
-        //Calculate Memory Usage
-        System.out.println("Memory used for indexing (roughly): " + (usedMemoryAfter-usedMemoryBefore)/(1024*1024) + " MB");
     }
 
     public static void loadIndex(String rankingMethod) throws IOException {

@@ -9,9 +9,8 @@ import java.util.*;
  */
 
 public class Indexer {
-    public static final int MAX_USAGE = 75; // Max percentage of allocated memory while indexing
     public static final int MAX_USED_MEMORY = 90; // Max percentage of used memory
-    public static final int MAX_SUBINDEX_SIZE = 5; // Max size of subindex file (in MB)
+    public static final int MAX_SUBINDEX_SIZE = 1; // Max size of subindex file (in MB)
 
     private final Tokenizer tokenizer;                    // Class that includes the two tokenizers
     private HashSet<Subindex> subindexes;           // List of subindexes
@@ -48,13 +47,55 @@ public class Indexer {
         readIndexFromFile(indexFilename);
         loadTermsFromSubindexes();
         readDocIDsFromFile(indexDocIDsFilename);
+        loadMaxPostingsLists();
+    }
+
+    public void loadMaxPostingsLists() throws FileNotFoundException {
+        for(Subindex subindex:subindexes){
+            if(maxMemoryReached())
+                break;
+            readAllPostingListsFromSubindexFile(subindex.getFilename());
+        }
+    }
+
+    public void readAllPostingListsFromSubindexFile(String filename) throws FileNotFoundException {
+        File file = new File(filename);
+        Scanner sc = new Scanner(file);
+        String line, term;
+        String[] fields, data, pos;
+        while(sc.hasNextLine()){
+            line = sc.nextLine();
+            fields = line.split(";");
+            data = fields[0].split(":");
+            term = data[0];
+            for (int i = 1; i < fields.length; i++) {
+                data = fields[i].split(":");
+                List<Integer> positions = new ArrayList<>();
+                pos = data[2].split(",");
+                for (String p : pos) {
+                    positions.add(Integer.parseInt(p));
+                }
+                index.get(term).add(new Posting(Integer.parseInt(data[0]), Double.parseDouble(data[1]), positions));
+            }
+        }
+        sc.close();
+    }
+
+    public boolean maxMemoryReached() {
+        if(getPercentageUsedMemory() > MAX_USED_MEMORY) {
+            System.gc();
+            return getPercentageUsedMemory() > (MAX_USED_MEMORY * 0.9);
+        }
+        return false;
     }
 
     public void loadTermsFromSubindexes() throws FileNotFoundException {
         for(Subindex subindex:subindexes){
+            System.gc();
             readTermsFromSubindexFile(subindex.getFilename());
         }
     }
+
 
     public void readIndexFromFile(String filename) throws FileNotFoundException {
         File file = new File(filename);
@@ -74,7 +115,7 @@ public class Indexer {
         File file = new File(filename);
         Scanner sc = new Scanner(file);
         String line, term;
-        String[] fields, data, pos;
+        String[] fields, data;
         while(sc.hasNextLine()){
             line = sc.nextLine();
             fields = line.split(";");
@@ -138,7 +179,7 @@ public class Indexer {
                     addDocToIndex(doc, rankingMethod);
                 }
             }
-            if(getPercentageAllocatedMemory() > MAX_USAGE){
+            if(getPercentageAllocatedMemory() > MAX_USED_MEMORY){
                 writeBlockToFile();
                 this.index.clear();
                 System.gc();
@@ -204,7 +245,7 @@ public class Indexer {
                 idfs.replace(term.getTerm(), (idfs.get(term.getTerm()) + 1.0));
             } else {
                 //Insert the new term in the index with the only posting
-                index.put(term.getTerm(), new HashSet<>(Arrays.asList(posting)));
+                index.put(term.getTerm(), new HashSet<>(Collections.singletonList(posting)));
                 idfs.put(term.getTerm(), 1.0);
             }
         }
@@ -224,7 +265,7 @@ public class Indexer {
 
             } else {
                 //Insert the new term in the index with the only posting
-                index.put(term.getTerm(), new HashSet<>(Arrays.asList(posting)));
+                index.put(term.getTerm(), new HashSet<>(Collections.singletonList(posting)));
                 idfs.put(term.getTerm(), 1.0);
             }
         }
@@ -283,8 +324,10 @@ public class Indexer {
         boolean[] EOFs = new boolean[blockCounter];
         String[] fields, data, pos;
         int countEOFs = 0, countSubindex = 1;
-        String minTerm = "", subindex_filename = "indexFiles/subindex_" + rankingMethod + "_" + countSubindex + ".txt";
-        char currentLetter = 'a', lastLetterFile = 'a', startLetter = 'a';
+        String minTerm = "", subindex_filename = "indexFiles/subindexes_" + rankingMethod + "/subindex_" + rankingMethod + "_" + countSubindex + ".txt";
+        StringBuilder currentLetter = new StringBuilder("aa");
+        String lastLetterFile = "aa";
+        String startLetter = "aa";
         boolean newFile = false;
         File file = new File(subindex_filename);
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -306,12 +349,14 @@ public class Indexer {
         while (countEOFs < blockCounter){
             if((file.length() / (1024 * 1024)) >= MAX_SUBINDEX_SIZE && !newFile) {
                 newFile = true;
-                lastLetterFile = currentLetter;
+                lastLetterFile = currentLetter.toString();
             }
             for (int i = 0; i < blockCounter; i++) {
                 if(!EOFs[i]) {
                     minTerm = getTermOfFileLine(currentLines[i]);
-                    currentLetter = minTerm.charAt(0);
+                    currentLetter = new StringBuilder();
+                    for (int j = 0; j < 3 && j < minTerm.length(); j++)
+                        currentLetter.append(minTerm.charAt(j));
                     break;
                 }
             }
@@ -319,19 +364,21 @@ public class Indexer {
                 if(!EOFs[i]) {
                     if (getTermOfFileLine(currentLines[i]).compareTo(minTerm) < 0) {
                         minTerm = getTermOfFileLine(currentLines[i]);
-                        currentLetter = minTerm.charAt(0);
+                        currentLetter = new StringBuilder();
+                        for (int j = 0; j < 3 && j < minTerm.length(); j++)
+                            currentLetter.append(minTerm.charAt(j));
                     }
                 }
             }
-            if(lastLetterFile != currentLetter && newFile){
+            if(!lastLetterFile.equals(currentLetter.toString()) && newFile){
                 newFile = false;
                 countSubindex++;
                 writer.flush();
                 writer.close();
                 writerMainFile.write(startLetter + "," + lastLetterFile + "," + subindex_filename);
                 writerMainFile.newLine();
-                startLetter = currentLetter;
-                subindex_filename = "indexFiles/subindex_" + rankingMethod + "_" + countSubindex + ".txt";
+                startLetter = currentLetter.toString();
+                subindex_filename = "indexFiles/subindexes_" + rankingMethod + "/subindex_" + rankingMethod + "_" + countSubindex + ".txt";
                 file = new File(subindex_filename);
                 writer = new BufferedWriter(new FileWriter(file));
             }
@@ -424,22 +471,18 @@ public class Indexer {
 
     public HashSet<Posting> getPostingList(String term){
         if(index.containsKey(term)) {
-            if(index.get(term).size() > 0)
-                return index.get(term);
-            else{
+            if (index.get(term).size() <= 0) {
                 putPostingListInMemory(term);
-                return index.get(term);
             }
+            return index.get(term);
         }else
             return new HashSet<>();
     }
 
     public void putPostingListInMemory(String term) {
-        while (getPercentageUsedMemory() > MAX_USED_MEMORY){
-            System.gc();
+        while (maxMemoryReached()){
             for (String t:index.keySet()) {
                 index.replace(t, new HashSet<>());
-                System.out.println("Deleting Posting List From Memory...");
                 break;
             }
         }
@@ -482,8 +525,9 @@ public class Indexer {
 
     public double getPercentageUsedMemory(){
         long FREE_RAM = Runtime.getRuntime().freeMemory();
+        long MAX_RAM = Runtime.getRuntime().maxMemory();
         long TOTAL_RAM = Runtime.getRuntime().totalMemory();
         long USED_RAM = TOTAL_RAM - FREE_RAM;
-        return ((USED_RAM * 1.0) / TOTAL_RAM) * 100;
+        return ((USED_RAM * 1.0) / MAX_RAM) * 100;
     }
 }
