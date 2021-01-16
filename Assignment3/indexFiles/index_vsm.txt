@@ -124,8 +124,8 @@ lil,lip,indexFiles/subindexes_vsm/subindex_vsm_123.txt
 liq,loa,indexFiles/subindexes_vsm/subindex_vsm_124.txt
 lob,lon,indexFiles/subindexes_vsm/subindex_vsm_125.txt
 loo,low,indexFiles/subindexes_vsm/subindex_vsm_126.txt
-lox,mab,indexFiles/subindexes_vsm/subindex_vsm_127.txt
-mac,mai,indexFiles/subindexes_vsm/subindex_vsm_128.txt
+lox,ma,indexFiles/subindexes_vsm/subindex_vsm_127.txt
+maa,mai,indexFiles/subindexes_vsm/subindex_vsm_128.txt
 maj,mal,indexFiles/subindexes_vsm/subindex_vsm_129.txt
 mam,man,indexFiles/subindexes_vsm/subindex_vsm_130.txt
 mao,mas,indexFiles/subindexes_vsm/subindex_vsm_131.txt

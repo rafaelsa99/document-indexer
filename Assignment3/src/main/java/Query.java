@@ -260,6 +260,7 @@ public class Query {
                     max = 0;
                     isFirst = true;
                 }
+                if(minWindow == 0) minWindow = 1;
                 double boost = ((pos.getValue().size() - 1) * 1.0) / (minWindow * 1.0);
                 boost = boost * ((pos.getValue().size() * 1.0) / (numTermsQuery * 1.0));
                 boosts.put(pos.getKey(), boost);
