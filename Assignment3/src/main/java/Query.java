@@ -58,7 +58,7 @@ public class Query {
         writerTopDocs.flush();
     }
 
-    public void readQueryFileVSM(String queryFilename, String resultsFilename) throws IOException
+    public void readQueryFileVSM(String queryFilename, String resultsFilename, boolean boost) throws IOException
     {
         File queryfile = new File(resultsFilename);
         File myObj = new File(queryFilename);
@@ -74,7 +74,7 @@ public class Query {
             startTime = System.nanoTime();
             terms = tokenizer.improvedTokenizerforQuery(data);
             weightQuery = getQueryWeights(terms);
-            topDocs = getCosineScores(weightQuery, 50);
+            topDocs = getCosineScores(weightQuery, 50, boost);
             writeTopDocs(topDocs, data, idQ);
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
@@ -89,7 +89,7 @@ public class Query {
         writerTopDocs.close();
     }
 
-    public void readQueryFileBM25(String queryFilename, String resultsFilename) throws IOException
+    public void readQueryFileBM25(String queryFilename, String resultsFilename, boolean boost) throws IOException
     {
         File queryfile = new File(resultsFilename);
         File myObj = new File(queryFilename);
@@ -103,7 +103,7 @@ public class Query {
             String data = myReader.nextLine();
             startTime = System.nanoTime();
             terms = tokenizer.improvedTokenizerforQueryBM25(data);
-            topDocs = getRSVBM25(terms, 50);
+            topDocs = getRSVBM25(terms, 50, boost);
             writeTopDocs(topDocs, data, idQ);
             endTime = System.nanoTime();
             latency = (int)((endTime - startTime) / 1000000); //In milliseconds
@@ -136,28 +136,58 @@ public class Query {
         return temp;
     }
 
-    public LinkedHashMap<String, Double> getCosineScores(HashMap<String, Double> weightQuery, int numTopDocs)
+    public LinkedHashMap<String, Double> getCosineScores(HashMap<String, Double> weightQuery, int numTopDocs,boolean boost)
     {
         HashMap<Integer,Double> scores = new HashMap<>(); //save scores
+        HashMap<Integer, List<Window>> positions = new HashMap<>();
         for(String q:weightQuery.keySet()) //iterate over terms on the query
         {
             for(Posting posting:index.getPostingList(q)){
                 if(scores.containsKey(posting.getDocID()))
                     scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + (weightQuery.get(q)*posting.getTermValue()));
                 else scores.put(posting.getDocID(),weightQuery.get(q)*posting.getTermValue());
+                if(boost) {
+                    if (!positions.containsKey(posting.getDocID()))
+                        positions.put(posting.getDocID(), new ArrayList<>());
+                    positions.get(posting.getDocID()).add(new Window(q, posting.getPositions()));
+                }
+            }
+        }
+        if(boost) {
+            HashMap<Integer, Double> boosts = getBoosts(positions, weightQuery.size());
+            for (Map.Entry<Integer, Double> sc : scores.entrySet()) {
+                if (boosts.get(sc.getKey()) != null) {
+                    double score_boost = boosts.get(sc.getKey());
+                    sc.setValue(sc.getValue() + score_boost);
+                }
             }
         }
         return getTopDocs(scores, numTopDocs);
     }
 
-    public LinkedHashMap<String, Double> getRSVBM25(List<String> termsQuery, int numTopDocs)
+    public LinkedHashMap<String, Double> getRSVBM25(List<String> termsQuery, int numTopDocs, boolean boost)
     {
         HashMap<Integer,Double> scores = new HashMap<>(); //save scores
+        HashMap<Integer, List<Window>> positions = new HashMap<>();
         for (String term:termsQuery){
             for(Posting posting:index.getPostingList(term)){
                 if(scores.containsKey(posting.getDocID()))
                     scores.replace(posting.getDocID(), scores.get(posting.getDocID()) + posting.getTermValue());
                 else scores.put(posting.getDocID(), posting.getTermValue());
+                if(boost) {
+                    if (!positions.containsKey(posting.getDocID()))
+                        positions.put(posting.getDocID(), new ArrayList<>());
+                    positions.get(posting.getDocID()).add(new Window(term, posting.getPositions()));
+                }
+            }
+        }
+        if(boost) {
+            HashMap<Integer, Double> boosts = getBoosts(positions, termsQuery.size());
+            for (Map.Entry<Integer, Double> sc : scores.entrySet()) {
+                if (boosts.get(sc.getKey()) != null) {
+                    double score_boost = boosts.get(sc.getKey());
+                    sc.setValue(sc.getValue() + score_boost);
+                }
             }
         }
         return getTopDocs(scores, numTopDocs);
@@ -174,6 +204,69 @@ public class Query {
                 break;
         }
         return topDocs;
+    }
+
+    public HashMap<Integer, Double> getBoosts(HashMap<Integer, List<Window>> mapPos, int numTermsQuery){
+        HashMap<Integer, Double> boosts = new HashMap<>();
+        for (Map.Entry<Integer, List<Window>> pos: mapPos.entrySet()) {
+            if(pos.getValue().size() > 1) {
+                int[] indices = new int[pos.getValue().size()];
+                int minWindow = 0, min = 0, max = 0;
+                boolean isFirstWindow = true, isFirst = true;
+                int currentIndex = indices.length - 1;
+                outerLoop: while (true) {
+                    for (int i = 0; i < pos.getValue().size(); i++) {
+                        if (isFirst) {
+                            isFirst = false;
+                            min = pos.getValue().get(i).getPosition(indices[i]);
+                            max = pos.getValue().get(i).getPosition(indices[i]);
+                        } else {
+                            if (pos.getValue().get(i).getPosition(indices[i]) < min)
+                                min = pos.getValue().get(i).getPosition(indices[i]);
+                            if (pos.getValue().get(i).getPosition(indices[i]) > max)
+                                max = pos.getValue().get(i).getPosition(indices[i]);
+                        }
+                    }
+                    if(isFirstWindow){
+                        isFirstWindow = false;
+                        minWindow = max - min;
+                    } else {
+                        if((max - min) < minWindow){
+                            minWindow = max - min;
+                        }
+                    }
+                    while (true) {
+                        // Increase current index
+                        indices[currentIndex]++;
+                        // If index too big, set itself and everything right of it to 0 and move left
+                        if (indices[currentIndex] >= pos.getValue().get(currentIndex).getPositionsSize()) {
+                            for (int j = currentIndex; j < indices.length; j++) {
+                                indices[j] = 0;
+                            }
+                            currentIndex--;
+                        } else {
+                            // If index is allowed, move as far right as possible and process next combination
+                            while (currentIndex < indices.length - 1) {
+                                currentIndex++;
+                            }
+                            break;
+                        }
+                        // If we cannot move left anymore, it's done
+                        if (currentIndex == -1) {
+                            break outerLoop;
+                        }
+                    }
+                    min = 0;
+                    max = 0;
+                    isFirst = true;
+                }
+                double boost = ((pos.getValue().size() - 1) * 1.0) / (minWindow * 1.0);
+                boost = boost * ((pos.getValue().size() * 1.0) / (numTermsQuery * 1.0));
+                boosts.put(pos.getKey(), boost);
+
+            }
+        }
+        return boosts;
     }
 
     public static double round(double value, int places) {

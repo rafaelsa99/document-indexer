@@ -9,11 +9,17 @@ import java.io.IOException;
 public class RetrievalEngine {
 
     private static final String results_vsm_filename = "queries/queries_vsm_results.txt";
+    private static final String results_vsm_boost_filename = "queries/queries_vsm_boost_results.txt";
     private static final String metrics_rel_1_2_vsm_filename = "queries/metrics_rel_1_2_vsm_results.txt";
     private static final String metrics_rel_2_vsm_filename = "queries/metrics_rel_2_vsm_results.txt";
+    private static final String metrics_rel_1_2_vsm_boost_filename = "queries/metrics_rel_1_2_vsm_boost_results.txt";
+    private static final String metrics_rel_2_vsm_boost_filename = "queries/metrics_rel_2_vsm_boost_results.txt";
     private static final String results_bm25_filename = "queries/queries_bm25_results.txt";
     private static final String metrics_rel_1_2_bm25_filename = "queries/metrics_rel_1_2_bm25_results.txt";
     private static final String metrics_rel_2_bm25_filename = "queries/metrics_rel_2_bm25_results.txt";
+    private static final String results_bm25_boost_filename = "queries/queries_bm25_boost_results.txt";
+    private static final String metrics_rel_1_2_bm25_boost_filename = "queries/metrics_rel_1_2_bm25_boost_results.txt";
+    private static final String metrics_rel_2_bm25_boost_filename = "queries/metrics_rel_2_bm25_boost_results.txt";
     private static final String index_vsm_filename = "indexFiles/index_vsm.txt";
     private static final String index_docIDs_vsm_filename = "indexFiles/index_doc_ids_vsm.txt";
     private static final String index_bm25_filename = "indexFiles/index_bm25.txt";
@@ -24,28 +30,31 @@ public class RetrievalEngine {
     private static Indexer index;
 
     public static void main(String[] args) {
-        if (((args.length) != 5 && (args.length) != 4 && (args.length) != 7) || !(args[3].equalsIgnoreCase("vsm") || args[3].equalsIgnoreCase("bm25"))) {
-            System.out.println("Error! Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] (Optional: corpusFilename k1 b)");
+        if (((args.length) != 6 && (args.length) != 5 && (args.length) != 8) || !(args[3].equalsIgnoreCase("vsm") || args[3].equalsIgnoreCase("bm25")) || !(args[4].equalsIgnoreCase("boost") || args[4].equalsIgnoreCase("noBoost"))) {
+            System.out.println("Error! Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] proximityBoost[\"boost\" OR \"noBoost\"] (Optional: corpusFilename k1 b)");
             return;
         }
         try {
             String rankingMethod = args[3].toLowerCase();
-            if(((args.length) == 4) && !indexExists(rankingMethod)){ //No index and corpus
+            boolean boost = false;
+            if(args[4].equalsIgnoreCase("boost"))
+                boost = true;
+            if(((args.length) == 5) && !indexExists(rankingMethod)){ //No index and corpus
                 System.out.println("Error! There is no index already created, and no corpus was indicated to create the index.");
-                System.out.println("Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] (Optional: corpusFilename k1 b)");
+                System.out.println("Parameters: stopWordsList queriesFilename queriesRelevanceFilename rankingMethod[\"vsm\" OR \"bm25\"] proximityBoost[\"boost\" OR \"noBoost\"] (Optional: corpusFilename k1 b)");
                 return;
             }
 
-            if(args.length == 7){
-                if(Double.parseDouble(args[5]) >= 0)
-                    bm25_k1 = Double.parseDouble(args[5]);
-                if(Double.parseDouble(args[6]) >= 0 && Double.parseDouble(args[6]) <= 2)
-                    bm25_b = Double.parseDouble(args[6]);
+            if(args.length == 8){
+                if(Double.parseDouble(args[6]) >= 0)
+                    bm25_k1 = Double.parseDouble(args[6]);
+                if(Double.parseDouble(args[7]) >= 0 && Double.parseDouble(args[7]) <= 2)
+                    bm25_b = Double.parseDouble(args[7]);
             }
 
             if(!indexExists(rankingMethod)) {
                 System.out.println("Indexing corpus...");
-                createIndex(args[0], args[4], rankingMethod);
+                createIndex(args[0], args[5], rankingMethod);
                 System.out.println("Loading index...");
             }
             else {
@@ -57,17 +66,33 @@ public class RetrievalEngine {
             loadIndex(rankingMethod);
 
             if(rankingMethod.equals("vsm")){
-                Query query = new Query(args[0], index, args[2], metrics_rel_1_2_vsm_filename, metrics_rel_2_vsm_filename);
-                query.readQueryFileVSM(args[1], results_vsm_filename);
-                System.out.println("Queries results saved on file \"" + results_vsm_filename + "\"");
-                System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_vsm_filename + "\"");
-                System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_vsm_filename + "\"");
+                if(boost){
+                    Query query = new Query(args[0], index, args[2], metrics_rel_1_2_vsm_boost_filename, metrics_rel_2_vsm_boost_filename);
+                    query.readQueryFileVSM(args[1], results_vsm_boost_filename, true);
+                    System.out.println("Queries results saved on file \"" + results_vsm_boost_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_vsm_boost_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_vsm_boost_filename + "\"");
+                } else {
+                    Query query = new Query(args[0], index, args[2], metrics_rel_1_2_vsm_filename, metrics_rel_2_vsm_filename);
+                    query.readQueryFileVSM(args[1], results_vsm_filename, false);
+                    System.out.println("Queries results saved on file \"" + results_vsm_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_vsm_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_vsm_filename + "\"");
+                }
             } else {
-                Query query = new Query(args[0], index, args[2], metrics_rel_1_2_bm25_filename, metrics_rel_2_bm25_filename);
-                query.readQueryFileBM25(args[1], results_bm25_filename);
-                System.out.println("Queries results saved on file \"" + results_bm25_filename + "\"");
-                System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_bm25_filename + "\"");
-                System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_bm25_filename + "\"");
+                if(boost){
+                    Query query = new Query(args[0], index, args[2], metrics_rel_1_2_bm25_boost_filename, metrics_rel_2_bm25_boost_filename);
+                    query.readQueryFileBM25(args[1], results_bm25_boost_filename, true);
+                    System.out.println("Queries results saved on file \"" + results_bm25_boost_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_bm25_boost_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_bm25_boost_filename + "\"");
+                } else {
+                    Query query = new Query(args[0], index, args[2], metrics_rel_1_2_bm25_filename, metrics_rel_2_bm25_filename);
+                    query.readQueryFileBM25(args[1], results_bm25_filename, false);
+                    System.out.println("Queries results saved on file \"" + results_bm25_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 1 and 2) saved on file \"" + metrics_rel_1_2_bm25_filename + "\"");
+                    System.out.println("Metrics (considering relevant documents with relevance 2) saved on file \"" + metrics_rel_2_bm25_filename + "\"");
+                }
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
